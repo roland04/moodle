@@ -9,7 +9,7 @@
   box-shadow: $toast-box-shadow;
   backdrop-filter: blur(10px);
   opacity: 0;
-  @include border-radius($toast-border-radius);
+  border-radius: $toast-border-radius;
 
   &:not(:last-child) {
     margin-bottom: $toast-padding-x;
@@ -26,6 +26,38 @@
 
   &.hide {
     display: none;
+  }
+
+  &.toast-success {
+    @include toast-variant('success');
+    .toast-body:before {
+      @include toast-icon("\f058");
+    }
+  }
+
+  &.toast-danger {
+    @include toast-variant('danger');
+    .toast-body:before {
+      @include toast-icon("\f057");
+    }
+  }
+
+  &.toast-info {
+    @include toast-variant('info');
+    .toast-body:before {
+      @include toast-icon("\f05a");
+    }
+  }
+
+  &.toast-warning {
+    @include toast-variant('warning');
+    .toast-body:before {
+      @include toast-icon("\f06a");
+    }
+  }
+
+  .close {
+    color: inherit;
   }
 }
 
