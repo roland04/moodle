@@ -31,7 +31,8 @@ Feature: Configure access to reports based on intended audience
     And I should see "Add an audience to this report"
     Then I click on "Add audience 'Manually added users'" "link"
     And I set the field "Add users manually" to "User 1,User 3"
-    And I press "Save changes"
+    # It would be better to reference the report table directly, but we can't because of MDL-73011.
+    And I click on "Save changes" "button" in the "[role=tabpanel].active" "css_element"
     And I should see "User 1"
     And I should not see "User 2"
     And I should see "User 3"
@@ -54,7 +55,8 @@ Feature: Configure access to reports based on intended audience
     And I click on the "Audience" dynamic tab
     Then I click on "Add audience 'Assigned system role'" "link"
     And I set the field "Select a role" to "Test role"
-    And I press "Save changes"
+    # It would be better to reference the report table directly, but we can't because of MDL-73011.
+    And I click on "Save changes" "button" in the "[role=tabpanel].active" "css_element"
     And I should see "Test role"
     And I log out
 
@@ -67,7 +69,8 @@ Feature: Configure access to reports based on intended audience
     And I click on the "Audience" dynamic tab
     Then I click on "Add audience 'Member of cohort'" "link"
     And I set the field "Select members from cohort" to "Cohort1"
-    And I press "Save changes"
+    # It would be better to reference the report table directly, but we can't because of MDL-73011.
+    And I click on "Save changes" "button" in the "[role=tabpanel].active" "css_element"
     And I should see "Cohort1"
     And I log out
 
@@ -108,7 +111,8 @@ Feature: Configure access to reports based on intended audience
     And I should see "Add an audience to this report"
     Then I click on "Add audience 'Manually added users'" "link"
     And I set the field "Add users manually" to "User 1"
-    And I press "Save changes"
+    # It would be better to reference the report table directly, but we can't because of MDL-73011.
+    And I click on "Save changes" "button" in the "[role=tabpanel].active" "css_element"
     And I log out
     And I log in as "user1"
     And I navigate to "Reports > Report builder > Custom reports" in site administration
@@ -153,7 +157,8 @@ Feature: Configure access to reports based on intended audience
     And I should see "Add an audience to this report"
     Then I click on "Add audience 'Manually added users'" "link"
     And I set the field "Add users manually" to "User 1"
-    And I press "Save changes"
+    # It would be better to reference the report table directly, but we can't because of MDL-73011.
+    And I click on "Save changes" "button" in the "[role=tabpanel].active" "css_element"
     And I log out
     And I log in as "user1"
     And I navigate to "Reports > Report builder > Custom reports" in site administration
