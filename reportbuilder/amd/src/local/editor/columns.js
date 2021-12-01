@@ -138,7 +138,10 @@ export const init = (initialized) => {
                 .then(() => getString('columnmoved', 'core_reportbuilder', columnName))
                 .then(addToast)
                 .then(() => {
-                    dispatchEvent(reportEvents.tableReload, {preservePagination: true}, reportElement);
+                    // Pass preserveTriggerElement parameter so sortColumnlink will be focused after the report reload.
+                    const sortColumnlink = `[data-region="column-header"][data-columnid="${columnId}"] [data-drag-type="move"]`;
+                    const reloadDetails = {preservePagination: true, preserveTriggerElement: sortColumnlink};
+                    dispatchEvent(reportEvents.tableReload, reloadDetails, reportElement);
                     return pendingPromise.resolve();
                 })
                 .catch(Notification.exception);
