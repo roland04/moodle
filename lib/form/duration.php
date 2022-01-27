@@ -124,6 +124,8 @@ class MoodleQuickForm_duration extends MoodleQuickForm_group {
     public function get_units() {
         if (is_null($this->_units)) {
             $this->_units = [
+                'year' => get_string('years'),
+                'month' => get_string('months'),
                 WEEKSECS => get_string('weeks'),
                 DAYSECS => get_string('days'),
                 HOURSECS => get_string('hours'),
@@ -212,6 +214,7 @@ class MoodleQuickForm_duration extends MoodleQuickForm_group {
         $this->setMoodleForm($caller);
         switch ($event) {
             case 'updateValue':
+                // TODO: Here we need to check "month" and "year" to load data.
                 // constant values override both default and submitted ones
                 // default values are overriden by submitted
                 $value = $this->_findValue($caller->_constantValues);
@@ -300,7 +303,15 @@ class MoodleQuickForm_duration extends MoodleQuickForm_group {
         if ($this->_options['optional'] && empty($valuearray['enabled'])) {
             return $this->_prepareValue(0, $assoc);
         }
+        if (in_array($valuearray['timeunit'], ['year', 'month'])) {
+            // For month and year units, rely on DateTimeImmutable;
+            $dateperiod =(new DateTimeImmutable())->modify('+ ' . $valuearray['number'] . ' ' . $valuearray['timeunit']);
+            $reference = new DateTimeImmutable();
+            $duration = $dateperiod->getTimestamp() - $reference->getTimestamp();
+        } else {
+            $duration = $valuearray['number'] * $valuearray['timeunit'];
+        }
         return $this->_prepareValue(
-                (int) round($valuearray['number'] * $valuearray['timeunit']), $assoc);
+                (int) round($duration), $assoc);
     }
 }
