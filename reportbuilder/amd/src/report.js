@@ -103,5 +103,8 @@ export const init = () => {
         }
     });
 
+    // Modify "region-main" overflow for big filter forms and action-menus.
+    document.querySelector('#region-main').style.overflowX = "visible";
+
     initialized = true;
 };

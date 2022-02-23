@@ -104,7 +104,4 @@ export const init = (reportId, contextId) => {
             })
             .catch(Notification.exception);
     });
-
-    // Modify "region-main" overflow for big filter forms.
-    document.querySelector('#region-main').style.overflowX = "visible";
 };
