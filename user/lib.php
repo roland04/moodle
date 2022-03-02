@@ -863,8 +863,18 @@ function user_get_user_navigation_info($user, $page, $options = array()) {
         }
     }
 
-    if ($custommenucount > 0) {
-        // Only add a divider if we have customusermenuitems.
+    // Links: Reports.
+    if (\core_reportbuilder\permission::can_view_reports_list()) {
+        $reports = new stdClass();
+        $reports->itemtype = 'link';
+        $reports->url = new moodle_url('/reportbuilder/index.php');
+        $reports->title = get_string('reports');
+        $reports->titleidentifier = 'reports,moodle';
+        $returnobject->navitems[] = $reports;
+    }
+
+    if ($custommenucount > 0 || isset($reports)) {
+        // Only add a divider if we have customusermenuitems or reports.
         $divider = new stdClass();
         $divider->itemtype = 'divider';
         $returnobject->navitems[] = $divider;
