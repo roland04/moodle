@@ -1,0 +1,17 @@
+/* Bootstrap 5 bridge classes */
+
+/* These classes are used to bridge the gap between Bootstrap 4 and Bootstrap 5. */
+/* They are not needed if you are using Bootstrap 5. */
+.fw-bold {
+    @extend .font-weight-bold;
+}
+.visually-hidden {
+    @extend .sr-only;
+}
+.float-end {
+    @extend .float-right;
+}
+.float-start {
+    @extend .float-left;
+}
+// ... and so on.

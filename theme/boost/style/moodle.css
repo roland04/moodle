@@ -13160,7 +13160,7 @@ readers do not read off random characters that represent icons */
   content: "\f3bf";
 }
 
-.sr-only,
+.sr-only, .visually-hidden,
 .fa-sr-only {
   position: absolute;
   width: 1px;
@@ -20206,11 +20206,11 @@ button.bg-dark:focus {
     align-self: stretch !important;
   }
 }
-.float-left {
+.float-left, .float-start {
   float: left !important;
 }
 
-.float-right {
+.float-right, .float-end {
   float: right !important;
 }
 
@@ -20326,7 +20326,7 @@ button.bg-dark:focus {
   }
 }
 
-.sr-only {
+.sr-only, .visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -22649,7 +22649,7 @@ button.bg-dark:focus {
   font-weight: 400 !important;
 }
 
-.font-weight-bold {
+.font-weight-bold, .fw-bold {
   font-weight: 700 !important;
 }
 
@@ -22866,6 +22866,9 @@ a.text-dark:hover, a.text-dark:focus {
   transform: translateX(-0.9375rem);
 }
 
+/* Bootstrap 5 bridge classes */
+/* These classes are used to bridge the gap between Bootstrap 4 and Bootstrap 5. */
+/* They are not needed if you are using Bootstrap 5. */
 /**
  * Moodle variables
  *
@@ -25360,11 +25363,11 @@ body.h5p-embed .h5pmessages {
   z-index: 1 !important; /* stylelint-disable-line declaration-no-important */
 }
 
-.float-left {
+.float-left, .float-start {
   float: left !important; /* stylelint-disable-line declaration-no-important */
 }
 
-.float-right {
+.float-right, .float-end {
   float: right !important; /* stylelint-disable-line declaration-no-important */
 }
 
@@ -28577,10 +28580,10 @@ span.editinstructions .alert-link {
 #course-category-listings .item-actions .menu-action-text {
   vertical-align: inherit;
 }
-#course-category-listings .listitem > div > .float-left {
+#course-category-listings .listitem > div > .float-left, #course-category-listings .listitem > div > .float-start {
   float: left;
 }
-#course-category-listings .listitem > div > .float-right {
+#course-category-listings .listitem > div > .float-right, #course-category-listings .listitem > div > .float-end {
   float: right;
   text-align: right;
 }
@@ -31317,7 +31320,7 @@ a.ygtvspacer:hover {
 body.path-question-type {
   /* Hacks to display the labels within a form group. */
 }
-body.path-question-type .form-group .col-form-label.sr-only:not(legend):not([for=id_category]) {
+body.path-question-type .form-group .col-form-label.sr-only:not(legend):not([for=id_category]), body.path-question-type .form-group .col-form-label.visually-hidden:not(legend):not([for=id_category]) {
   position: static;
   width: auto;
   height: auto;
@@ -32268,7 +32271,7 @@ input#id_externalurl {
   display: inline;
 }
 
-.form-inline label:not(.sr-only):not(.accesshide) + select {
+.form-inline label:not(.sr-only):not(.visually-hidden):not(.accesshide) + select {
   margin-left: 0.5rem;
 }
 
