@@ -1,0 +1,51 @@
+/* Bootstrap 4 backwards compatibility */
+
+@function theme-color-level($color-name: "primary", $level: 0) {
+    @warn "theme-color-level function is deprecated! use color-level function instead";
+    @return color-level($color-name, $level);
+}
+
+@function color-yiq($background, $color-contrast-dark: $color-contrast-dark, $color-contrast-light: $color-contrast-light) {
+    @warn "theme-color-level function is deprecated! use color-contrast function instead";
+    @return color-contrast($background, $color-contrast-dark, $color-contrast-light);
+}
+
+@mixin sr-only() {
+    @warn "sr-only mixin is deprecated! use visually-hidden mixin instead";
+    @include visually-hidden;
+}
+
+@mixin hover-focus() {
+    @warn "hover-focus mixin is deprecated! Use SCSS styles instead";
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin border-left-radius($radius: $border-radius) {
+    @warn "border-left-radius mixin is deprecated! Use border-start-radius mixin instead";
+    @include border-start-radius($radius);
+}
+
+@mixin border-right-radius($radius: $border-radius) {
+    @warn "border-right-radius mixin is deprecated! Use border-end-radius mixin instead";
+    @include border-end-radius($radius);
+}
+
+@mixin badge-variant($bg) {
+    @warn "badge-variant mixin is deprecated! Use bg-{primary|danger|...} classes instead";
+    color: color-yiq($bg);
+    background-color: $bg;
+    @at-root a#{&} {
+        @include hover-focus() {
+            color: color-yiq($bg);
+            background-color: darken($bg, 10%);
+        }
+        &:focus,
+        &.focus {
+            outline: 0;
+            box-shadow: 0 0 0 .2rem rgba($bg, .5);
+        }
+    }
+}
