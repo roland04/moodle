@@ -50,7 +50,7 @@ input[type="month"] {
     -ms-user-select: none;
 }
 
-@each $value in $user-selects {
+@each $value in all, auto, none {
     .user-select-#{$value} {
         -webkit-user-select: $value !important; /* stylelint-disable-line declaration-no-important */
         -ms-user-select: none;
