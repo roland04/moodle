@@ -6,7 +6,7 @@
 
     th,
     td {
-        padding: $table-cell-padding;
+        padding: $table-cell-padding-y $table-cell-padding-x;
         vertical-align: top;
         border-top: $table-border-width solid $table-border-color;
     }
@@ -27,7 +27,7 @@
     &.table-sm {
         th,
         td {
-            padding: $table-cell-padding-sm;
+            padding: $table-cell-padding-y-sm $table-cell-padding-x-sm;
         }
     }
     tbody tr {

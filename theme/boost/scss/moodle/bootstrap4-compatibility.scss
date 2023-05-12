@@ -15,10 +15,26 @@
     @include visually-hidden;
 }
 
+@mixin plain-hover-focus() {
+    @warn "plain-hover-focus mixin is deprecated! Use SCSS styles instead";
+    &,
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
 @mixin hover-focus() {
     @warn "hover-focus mixin is deprecated! Use SCSS styles instead";
     &:hover,
     &:focus {
+        @content;
+    }
+}
+
+@mixin hover() {
+    @warn "hover mixin is deprecated! Use SCSS styles instead";
+    &:hover {
         @content;
     }
 }

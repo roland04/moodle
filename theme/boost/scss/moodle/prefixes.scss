@@ -28,13 +28,6 @@ input[type="month"] {
     }
 }
 
-.card-columns {
-    @include media-breakpoint-up(sm) {
-        -webkit-column-gap: $card-columns-gap;
-        -moz-column-gap: $card-columns-gap;
-    }
-}
-
 .carousel-item {
     -webkit-backface-visibility: hidden;
 }

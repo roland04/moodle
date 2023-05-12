@@ -19,13 +19,13 @@
         width: 50%;
         display: inline-block;
         float: left;
-        padding: $table-cell-padding-sm;
+        padding: $table-cell-padding-y-sm $table-cell-padding-x-sm;
     }
     .normal_setting {
         width: 50%;
         display: inline-block;
         float: left;
-        padding: $table-cell-padding-sm;
+        padding: $table-cell-padding-y-sm $table-cell-padding-x-sm;
     }
 }
 
