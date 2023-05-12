@@ -5,6 +5,12 @@
  * moodle scss should be placed immediately after the definition of the ltr rule.
  */
 
+// TODO: Is this SCSS still needed?
+
+// These variables were removed in bootstrap 5.2. They are kept here for backwards compatibility.
+$custom-control-indicator-size: 1rem !default;
+$custom-switch-width: $custom-control-indicator-size * 1.75 !default;
+
 .breadcrumb-item {
     + .breadcrumb-item::before {
         content: "#{$breadcrumb-divider-rtl}";
