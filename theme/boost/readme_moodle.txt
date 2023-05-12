@@ -14,12 +14,6 @@ To update to the latest release of twitter bootstrap:
 * download bootstrap to your home folder
 * remove folder theme/boost/scss/bootstrap
 * copy the scss files from ~/bootstrap/scss to theme/boost/scss/bootstrap
-* comment out left: 0; from .popover {} in scss/bootstrap/_popover.scss. In RTL mode this prevents popovers from showing and it is not required in LTR mode.
-* comment out this line in theme/boost/scss/_print.scss
-    @page {
-       size: $print-page-size;
-    }
-  It breaks when compiled with phpscss.
 * update ./thirdpartylibs.xml
 * follow the instructions in admin/tool/component_library/readme_moodle.txt to update the Bootstrap documentation there.
 
