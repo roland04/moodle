@@ -499,7 +499,7 @@ $grading-content-show-content-button-padding-left: calc(#{map-get($spacers, 2) *
         padding-top: $input-padding-y-lg;
         padding-bottom: $input-padding-y-lg;
         @include font-size($input-font-size-lg);
-        line-height: $input-line-height-lg;
+        line-height: $line-height-lg;
         right: 0;
     }
 }
@@ -515,7 +515,7 @@ $grading-content-show-content-button-padding-left: calc(#{map-get($spacers, 2) *
         padding-top: $input-padding-y-lg;
         padding-bottom: $input-padding-y-lg;
         @include font-size($input-font-size-lg);
-        line-height: $input-line-height-lg;
+        line-height: $line-height-lg;
         right: 0;
     }
     to {
