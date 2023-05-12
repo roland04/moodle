@@ -2693,11 +2693,11 @@ $picker-emojis-per-row: 7 !default;
 @each $color, $value in $theme-colors {
     .alert-#{$color} {
         a {
-            color: darken(theme-color-level($color, $alert-color-level), 10%);
+            color: shade-color($value, 30%);
         }
         // Darken the close button text colour inside notification alerts for better contrast.
         .close {
-            color: darken(theme-color-level($color, $alert-color-level), 20%);
+            color: shade-color($value, 40%);
             opacity: 0.6;
         }
     }

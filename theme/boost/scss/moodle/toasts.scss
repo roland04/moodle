@@ -5,10 +5,10 @@
 }
 
 @mixin toast-variant($color) {
-    background-color: rgba(theme-color-level($color, $alert-bg-level), .95);
-    color: theme-color-level($color, $alert-color-level);
+    background-color: rgba(shift-color($color, $alert-bg-scale), .95);
+    color: shift-color($color, $alert-color-scale);
     .toast-header {
-        color: theme-color-level($color, $alert-color-level);
+        color: shift-color($color, $alert-color-scale);
     }
 }
 
@@ -16,28 +16,28 @@
     border-radius: $toast-border-radius;
 
     &.toast-success {
-        @include toast-variant('success');
+        @include toast-variant($success);
         .toast-body:before {
             @include toast-icon($fa-var-check-circle);
         }
     }
 
     &.toast-danger {
-        @include toast-variant('danger');
+        @include toast-variant($danger);
         .toast-body:before {
             @include toast-icon($fa-var-times-circle);
         }
     }
 
     &.toast-info {
-        @include toast-variant('info');
+        @include toast-variant($info);
         .toast-body:before {
             @include toast-icon($fa-var-info-circle);
         }
     }
 
     &.toast-warning {
-        @include toast-variant('warning');
+        @include toast-variant($warning);
         .toast-body:before {
             @include toast-icon($fa-var-exclamation-circle);
         }

@@ -658,9 +658,9 @@ span.editinstructions {
     border: $alert-border-width solid transparent;
 
     @include alert-variant(
-        theme-color-level('info', $alert-bg-level),
-        theme-color-level('info', $alert-border-level),
-        theme-color-level('info', $alert-color-level)
+        shift-color($info, $alert-bg-scale),
+        shift-color($info, $alert-border-scale),
+        shift-color($info, $alert-color-scale),
     );
 }
 
@@ -676,9 +676,9 @@ span.editinstructions {
     border: $alert-border-width solid transparent;
 
     @include alert-variant(
-        theme-color-level('info', $alert-bg-level),
-        theme-color-level('info', $alert-border-level),
-        theme-color-level('info', $alert-color-level)
+        shift-color($info, $alert-bg-scale),
+        shift-color($info, $alert-border-scale),
+        shift-color($info, $alert-color-scale),
     );
 }
 
