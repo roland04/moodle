@@ -29100,6 +29100,9 @@ span.editinstructions .alert-link {
   z-index: 2;
   margin-left: 0.5rem;
 }
+.activity-item .activity-name-area .badge-none {
+  font-weight: 400;
+}
 .activity-item .activity-info {
   grid-area: completion;
   justify-self: end;

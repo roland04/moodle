@@ -1534,6 +1534,9 @@ $activity-add-hover: theme-color-level('primary', -10) !default;
                 margin-left: 0.5rem;
             }
         }
+        .badge-none {
+            font-weight: $font-weight-normal;
+        }
     }
 
     .activity-info {

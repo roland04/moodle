@@ -58,12 +58,28 @@
     <div class="activity-name-area activity-instance d-flex flex-column mr-2 ">
         <div class="activitytitle media {{textclasses}} modtype_{{modname}} position-relative align-self-start">
             <div class="media-body align-self-center">
-                <div class="activityname">
+                <div class="activityname d-flex">
                     {{#activityname}}
                         {{$ core/inplace_editable }}
                             {{> core/inplace_editable }}
                         {{/ core/inplace_editable }}
                     {{/activityname}}
+                    {{#activitybadge}}
+                        <div
+                            {{#badgeelementid}}id="{{.}}"{{/badgeelementid}}
+                            class="ml-2 d-flex align-items-center"
+                            {{#badgeextraattributes}} {{name}}="{{value}}" {{/badgeextraattributes}}
+                        >
+                            <div class="activitybadge badge badge-pill {{badgestyle}}">
+                                {{#badgeurl}}
+                                    <a href="{{.}}">{{badgecontent}}</a>
+                                {{/badgeurl}}
+                                {{^badgeurl}}
+                                    {{badgecontent}}
+                                {{/badgeurl}}
+                            </div>
+                        </div>
+                    {{/activitybadge}}
                 </div>
             </div>
         </div>
