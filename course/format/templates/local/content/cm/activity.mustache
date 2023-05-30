@@ -93,13 +93,26 @@
         {{> core_courseformat/local/content/cm/badges }}
     {{/ core_courseformat/local/content/cm/badges }}
 
+    {{! Group mode }}
+    {{#groupmodeinfo}}
+        {{#showgroupmode}}
+            <div class="activity-groupmode-info align-self-start mr-sm-2">
+                {{$ core_courseformat/local/content/cm/groupmode_info}}
+                    {{> core_courseformat/local/content/cm/groupmode_info}}
+                {{/ core_courseformat/local/content/cm/groupmode_info}}
+            </div>
+        {{/showgroupmode}}
+    {{/groupmodeinfo}}
+
     {{! Completion }}
     {{#activityinfo}}
-        <div class="activity-info align-self-start">
-            {{$ core_courseformat/local/content/cm/activity_info}}
-                {{> core_courseformat/local/content/cm/activity_info}}
-            {{/ core_courseformat/local/content/cm/activity_info}}
-        </div>
+        {{#hascompletion}}
+            <div class="activity-info align-self-start mr-sm-2">
+                {{$ core_courseformat/local/content/cm/activity_info}}
+                    {{> core_courseformat/local/content/cm/activity_info}}
+                {{/ core_courseformat/local/content/cm/activity_info}}
+            </div>
+        {{/hascompletion}}
     {{/activityinfo}}
 
     {{! Action menu }}
