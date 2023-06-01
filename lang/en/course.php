@@ -127,6 +127,7 @@ $string['relativedatessubmissionduedatebefore'] = '{$a->datediffstr} before cour
 $string['searchactivitiesbyname'] = 'Search for activities by name';
 $string['searchresults'] = 'Search results: {$a}';
 $string['sectionlink'] = 'Permalink';
+$string['showactivitytype'] = 'Show activity type';
 $string['submitsearch'] = 'Submit search';
 $string['studentsatriskincourse'] = 'Students at risk in {$a} course';
 $string['studentsatriskinfomessage'] = 'Hi {$a->userfirstname},

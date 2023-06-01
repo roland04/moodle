@@ -28,6 +28,19 @@
         "modname": "resource"
     }
 }}
-<div class="activity-icon activityiconcontainer smaller {{purpose}} courseicon align-self-start mr-2">
-    <img src="{{{icon}}}" class="activityicon {{iconclass}}" alt="{{{modname}}} icon">
-</div>
+{{! Activity icon with tooltip if edit mode is enabled }}
+{{#pluginname}}
+    <button
+        class="activity-icon activityiconcontainer smaller {{purpose}} btn btn-link courseicon align-self-start mr-2"
+        data-toggle="tooltip" title="{{{pluginname}}}" data-placement="top"
+    >
+        <img src="{{{icon}}}" class="activityicon {{iconclass}}" alt="{{{modname}}} icon">
+        <span class="sr-only">{{#str}}showactivitytype, core_course{{/str}}</span>
+    </button>
+{{/pluginname}}
+{{! Activity icon without tooltip }}
+{{^pluginname}}
+    <div class="activity-icon activityiconcontainer smaller {{purpose}} courseicon align-self-start mr-2">
+        <img src="{{{icon}}}" class="activityicon {{iconclass}}" alt="{{{modname}}} icon">
+    </div>
+{{/pluginname}}
