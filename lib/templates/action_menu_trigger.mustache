@@ -121,10 +121,13 @@
                 {{#actionmenufiller}}
                     <div class="dropdown-divider" role="presentation"><span class="filler">&nbsp;</span></div>
                 {{/actionmenufiller}}
+                {{#actionsubmenu}}
+                    {{> core/action_submenu}}
+                {{/actionsubmenu}}
                 {{^actionmenulink}}
-                    {{^actionmenufiller}}
+                    {{^actionmenufiller}}{{^actionsubmenu}}
                         <div class="dropdown-item">{{> core/action_menu_item }}</div>
-                    {{/actionmenufiller}}
+                    {{/actionsubmenu}}{{/actionmenufiller}}
                 {{/actionmenulink}}
             {{/items}}
         </div>

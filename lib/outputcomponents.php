@@ -4518,6 +4518,15 @@ class action_menu implements renderable, templatable {
     }
 
     /**
+     * Adds a submenu to the action menu.
+     *
+     * @param action_submenu $submenu
+     */
+    public function add_submenu($submenu) {
+        $this->secondaryactions[] = $submenu;
+    }
+
+    /**
      * Returns the primary actions ready to be rendered.
      *
      * @param core_renderer $output The renderer to use for getting icons.
@@ -4840,6 +4849,8 @@ class action_menu implements renderable, templatable {
                 $data->actionmenulink = $item->export_for_template($output);
             } else if ($item instanceof action_menu_filler) {
                 $data->actionmenufiller = $item->export_for_template($output);
+            } else if ($item instanceof action_submenu) {
+                    $data->actionsubmenu = $item->export_for_template($output);
             } else if ($item instanceof action_link) {
                 $data->actionlink = $item->export_for_template($output);
             } else if ($item instanceof pix_icon) {
@@ -5014,6 +5025,83 @@ class action_menu_link_secondary extends action_menu_link {
      */
     public function __construct(moodle_url $url, ?pix_icon $icon, $text, array $attributes = array()) {
         parent::__construct($url, $icon, $text, false, $attributes);
+    }
+}
+
+/**
+ * An action menu action
+ *
+ * @package core
+ * @category output
+ * @copyright 2013 Sam Hemelryk
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class action_submenu extends action_link implements renderable {
+
+    /**
+     * The submenu content.
+     * @var string
+     */
+    public $content = '';
+
+    /**
+     * Constructs the object.
+     *
+     * @param moodle_url $url The URL for the action.
+     * @param pix_icon|null $icon The icon to represent the action.
+     * @param string $text The text to represent the action.
+     * @param bool $primary Whether this is a primary action or not.
+     * @param array $attributes Any attribtues associated with the action.
+     */
+    public function __construct(moodle_url $url, ?pix_icon $icon, $text, array $attributes = array(), string $content) {
+        // TODO: Submenu should also have direction (dropright|dropleft).
+        parent::__construct($url, $text, null, $attributes, $icon);
+        $this->content = $content;
+    }
+
+    /**
+     * Export for template.
+     *
+     * @param renderer_base $output The renderer.
+     * @return stdClass
+     */
+    public function export_for_template(renderer_base $output) {
+        $data = parent::export_for_template($output);
+
+        // TODO: This is just a copy-paste from action_menu_link::export_for_template().
+
+        // Ignore what the parent did with the attributes, except for ID and class.
+        $data->attributes = [];
+        $attributes = $this->attributes;
+        unset($attributes['id']);
+        unset($attributes['class']);
+
+        // Handle text being a renderable.
+        if ($this->text instanceof renderable) {
+            $data->text = $this->render($this->text);
+        }
+
+        $data->showtext = true;
+
+        $data->icon = null;
+        if ($this->icon) {
+            $icon = $this->icon;
+            $data->icon = $icon ? $icon->export_for_pix() : null;
+        }
+
+        $data->disabled = !empty($attributes['disabled']);
+        unset($attributes['disabled']);
+
+        $data->attributes = array_map(function($key, $value) {
+            return [
+                'name' => $key,
+                'value' => $value
+            ];
+        }, array_keys($attributes), $attributes);
+
+        $data->content = $this->content;
+
+        return $data;
     }
 }
 

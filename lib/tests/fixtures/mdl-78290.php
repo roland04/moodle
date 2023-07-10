@@ -36,4 +36,27 @@ echo $OUTPUT->heading('Test page for dropdown dialog output component');
 // Basic example.
 echo $OUTPUT->render_from_template('core/mdl-78290', []);
 
+// Example using action menu.
+$actionsmenu = new \action_menu();
+$actionsmenu->add(new \action_menu_link_secondary(
+    new \moodle_url('#'),
+    new \pix_icon('t/play', ''),
+    'Action 1'
+));
+
+$actionsmenu->add_submenu(new \action_submenu(
+    new \moodle_url('#'),
+    new \pix_icon('t/download', ''),
+    'Submenu 1',
+    [],
+    'This is the submenu content'
+));
+
+$actionsmenu->add(new \action_menu_link_secondary(
+    new \moodle_url('#'),
+    new \pix_icon('t/download', ''),
+    'Action 2'
+));
+echo $OUTPUT->render($actionsmenu);
+
 echo $OUTPUT->footer();
