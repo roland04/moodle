@@ -31,6 +31,9 @@ use moodleform;
  *
  * @copyright 2020 David Mudrák <david@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * @deprecated since 4.4 MDL-79496. Table replaced with a report builder system report.
+ * @todo MDL-79909 This will be deleted in Moodle 4.8.
  */
 class token_filter extends moodleform {
 

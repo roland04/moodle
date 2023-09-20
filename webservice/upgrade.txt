@@ -3,6 +3,10 @@ information provided here is intended especially for developers.
 
 This information is intended for authors of webservices, not people writing webservice clients.
 
+=== 4.4 ===
+
+* The `token_table` and `token_filter` classes have been deprecated, in favour of new report builder implementation.
+
 === 4.2 ===
 
 * External function core_webservice_external::get_site_info() does not throw exceptions for missing components anymore.
