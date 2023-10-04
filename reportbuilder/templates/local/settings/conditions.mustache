@@ -44,14 +44,13 @@
             <div>
                 <label for="addconditionselect" class="sr-only">{{#str}} selectacondition, core_reportbuilder {{/str}}</label>
                 <select id="addconditionselect" data-action="report-add-condition" class="w-100 custom-select">
-                    <option value="0">{{#str}} selectacondition, core_reportbuilder {{/str}}&hellip;</option>
+                    <option value="0"></option>
                     {{#availableconditions}}
                         {{#optiongroup}}
-                            <optgroup label="{{text}}">
-                                {{#values}}
-                                    <option value="{{value}}">{{visiblename}}</option>
-                                {{/values}}
-                            </optgroup>
+                            <option disabled>{{text}}</option>
+                            {{#values}}
+                                <option value="{{value}}">{{visiblename}}</option>
+                            {{/values}}
                         {{/optiongroup}}
                     {{/availableconditions}}
                 </select>
