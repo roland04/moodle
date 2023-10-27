@@ -46,63 +46,97 @@ span[data-flexitour="container"] {
         margin: 0;
     }
 
-    div[data-role="arrow"] {
-        border-width: $popover-arrow-width;
-    }
+    // div[data-role="arrow"] {
+    //     border-width: $popover-arrow-width;
+    // }
 
-    div[data-role="arrow"],
-    div[data-role="arrow"]:after {
+    // div[data-role="arrow"],
+    // div[data-role="arrow"]:after {
+    //     position: absolute;
+    //     display: block;
+    //     width: 0;
+    //     height: 0;
+    //     border-color: transparent;
+    //     border-style: solid;
+    //     border-width: #{$popover-arrow-width};
+    // }
+
+    .tooltip-arrow,
+    .tooltip-arrow::before {
         position: absolute;
-        display: block;
-        width: 0;
-        height: 0;
-        border-color: transparent;
-        border-style: solid;
-        border-width: #{$popover-arrow-width};
+        width: 1rem;
+        height: 1rem;
+        background: inherit;
     }
 
-    // We need to know the opposite sides for arrow placement.
-    $opposites:
-        (
-            top: bottom,
-            bottom: top,
-            left: right,
-            right: left,
-        );
-
-    // These are the next leading side and allow for placement half-way along the step dialogue.
-    $sides:
-        (
-            top: left,
-            bottom: left,
-            left: top,
-            right: top,
-        );
-
-    @each $direction in map-keys($opposites) {
-        $opposite: map_get($opposites, $direction);
-        $side: map_get($sides, $direction);
-        $oppositeside: map_get($opposites, $side);
-
-        &[x-placement="#{$direction}"],
-        &[x-placement="#{$direction}-start"] {
-            margin-#{$opposite}: #{$popover-arrow-width};
-            div[data-role="arrow"] {
-                #{$opposite}: -$popover-arrow-width;
-                #{$side}: 50%;
-                margin-#{$side}: -$popover-arrow-width;
-                border-#{$opposite}-width: 0;
-                border-#{$direction}-color: #{$popover-arrow-outer-color};
-            }
-            div[data-role="arrow"]:after {
-                #{$opposite}: 1px;
-                margin-#{$side}: -#{$popover-arrow-width};
-                content: " ";
-                border-#{$opposite}-width: 0;
-                border-#{$direction}-color: #{$popover-arrow-color};
-            }
-        }
+    .tooltip-arrow {
+        visibility: hidden;
     }
+
+    .tooltip-arrow::before {
+        visibility: visible;
+        content: '';
+        transform: rotate(45deg);
+    }
+
+    &[data-popper-placement^='top'] .tooltip-arrow {
+        bottom: -.5rem;
+    }
+
+    &[data-popper-placement^='bottom'] .tooltip-arrow {
+        top: -.5rem;
+    }
+
+    &[data-popper-placement^='left'] .tooltip-arrow {
+        right: -.5rem;
+    }
+
+    &[data-popper-placement^='right'] .tooltip-arrow {
+        left: -.5rem;
+    }
+
+    // // We need to know the opposite sides for arrow placement.
+    // $opposites:
+    //     (
+    //         top: bottom,
+    //         bottom: top,
+    //         left: right,
+    //         right: left,
+    //     );
+
+    // // These are the next leading side and allow for placement half-way along the step dialogue.
+    // $sides:
+    //     (
+    //         top: left,
+    //         bottom: left,
+    //         left: top,
+    //         right: top,
+    //     );
+
+    // @each $direction in map-keys($opposites) {
+    //     $opposite: map_get($opposites, $direction);
+    //     $side: map_get($sides, $direction);
+    //     $oppositeside: map_get($opposites, $side);
+
+    //     &[x-placement="#{$direction}"],
+    //     &[x-placement="#{$direction}-start"] {
+    //         margin-#{$opposite}: #{$popover-arrow-width};
+    //         div[data-role="arrow"] {
+    //             #{$opposite}: -$popover-arrow-width;
+    //             #{$side}: 50%;
+    //             margin-#{$side}: -$popover-arrow-width;
+    //             border-#{$opposite}-width: 0;
+    //             border-#{$direction}-color: #{$popover-arrow-outer-color};
+    //         }
+    //         div[data-role="arrow"]:after {
+    //             #{$opposite}: 1px;
+    //             margin-#{$side}: -#{$popover-arrow-width};
+    //             content: " ";
+    //             border-#{$opposite}-width: 0;
+    //             border-#{$direction}-color: #{$popover-arrow-color};
+    //         }
+    //     }
+    // }
 }
 
 // Hack the bone! Hack the bone!

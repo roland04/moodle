@@ -31,7 +31,7 @@
 
 import $ from 'jquery';
 import * as Aria from 'core/aria';
-import Popper from 'core/popper';
+import {createPopper} from 'core/popper';
 import {dispatchEvent} from 'core/event_dispatcher';
 import {eventTypes} from './events';
 import {getString} from 'core/str';
@@ -854,23 +854,22 @@ const Tour = class {
 
             this.currentStepNode.css('position', 'fixed');
 
-            this.currentStepPopper = new Popper(
-                $('body'),
-                this.currentStepNode[0], {
-                    removeOnDestroy: true,
+            this.currentStepPopper = createPopper(
+                document.querySelector('body'),
+                this.currentStepNode[0],
+                {
                     placement: stepConfig.placement + '-start',
-                    arrowElement: '[data-role="arrow"]',
                     // Empty the modifiers. We've already placed the step and don't want it moved.
-                    modifiers: {
-                        hide: {
-                            enabled: false,
+                    strategy: 'fixed',
+                    modifiers: [
+                        {
+                            name: 'eventListeners',
+                            options: {
+                                scroll: false,
+                            },
                         },
-                        applyStyle: {
-                            onLoad: null,
-                            enabled: false,
-                        },
-                    },
-                    onCreate: () => {
+                    ],
+                    onFirstUpdate: () => {
                         // First, we need to check if the step's content contains any images.
                         const images = this.currentStepNode.find('img');
                         if (images.length) {
@@ -1333,7 +1332,6 @@ const Tour = class {
      */
     positionStep(stepConfig) {
         let content = this.currentStepNode;
-        let thisT = this;
         if (!content || !content.length) {
             // Unable to find the step node.
             return this;
@@ -1362,164 +1360,35 @@ const Tour = class {
         let target = this.getStepTarget(stepConfig);
         var config = {
             placement: stepConfig.placement + '-start',
-            removeOnDestroy: true,
-            modifiers: {
-                flip: {
-                    behaviour: flipBehavior,
+            modifiers: [
+                {
+                    name: 'flip',
+                    options: {
+                      fallbackPlacements: flipBehavior,
+                    },
                 },
-                arrow: {
-                    element: '[data-role="arrow"]',
+                {
+                    name: 'arrow',
+                    options: {
+                        element: '[data-role="arrow"]',
+                        padding: 16,
+                    },
                 },
-            },
-            onCreate: function(data) {
-                recalculateArrowPosition(data);
-                recalculateStepPosition(data);
-            },
-            onUpdate: function(data) {
-                recalculateArrowPosition(data);
-                if (thisT.possitionNeedToBeRecalculated) {
-                    thisT.recalculatedNo++;
-                    thisT.possitionNeedToBeRecalculated = false;
-                    recalculateStepPosition(data);
-                }
-            },
-        };
-
-        let recalculateArrowPosition = function(data) {
-            let placement = data.placement.split('-')[0];
-            const isVertical = ['left', 'right'].indexOf(placement) !== -1;
-            const arrowElement = data.instance.popper.querySelector('[data-role="arrow"]');
-            const stepElement = $(data.instance.popper.querySelector('[data-role="flexitour-step"]'));
-            if (isVertical) {
-                let arrowHeight = parseFloat(window.getComputedStyle(arrowElement).height);
-                let arrowOffset = parseFloat(window.getComputedStyle(arrowElement).top);
-                let popperHeight = parseFloat(window.getComputedStyle(data.instance.popper).height);
-                let popperOffset = parseFloat(window.getComputedStyle(data.instance.popper).top);
-                let popperBorderWidth = parseFloat(stepElement.css('borderTopWidth'));
-                let popperBorderRadiusWidth = parseFloat(stepElement.css('borderTopLeftRadius')) * 2;
-                let arrowPos = arrowOffset + (arrowHeight / 2);
-                let maxPos = popperHeight + popperOffset - popperBorderWidth - popperBorderRadiusWidth;
-                let minPos = popperOffset + popperBorderWidth + popperBorderRadiusWidth;
-                if (arrowPos >= maxPos || arrowPos <= minPos) {
-                    let newArrowPos = 0;
-                    if (arrowPos > (popperHeight / 2)) {
-                        newArrowPos = maxPos - arrowHeight;
-                    } else {
-                        newArrowPos = minPos + arrowHeight;
-                    }
-                    $(arrowElement).css('top', newArrowPos);
-                }
-            } else {
-                let arrowWidth = parseFloat(window.getComputedStyle(arrowElement).width);
-                let arrowOffset = parseFloat(window.getComputedStyle(arrowElement).left);
-                let popperWidth = parseFloat(window.getComputedStyle(data.instance.popper).width);
-                let popperOffset = parseFloat(window.getComputedStyle(data.instance.popper).left);
-                let popperBorderWidth = parseFloat(stepElement.css('borderTopWidth'));
-                let popperBorderRadiusWidth = parseFloat(stepElement.css('borderTopLeftRadius')) * 2;
-                let arrowPos = arrowOffset + (arrowWidth / 2);
-                let maxPos = popperWidth + popperOffset - popperBorderWidth - popperBorderRadiusWidth;
-                let minPos = popperOffset + popperBorderWidth + popperBorderRadiusWidth;
-                if (arrowPos >= maxPos || arrowPos <= minPos) {
-                    let newArrowPos = 0;
-                    if (arrowPos > (popperWidth / 2)) {
-                        newArrowPos = maxPos - arrowWidth;
-                    } else {
-                        newArrowPos = minPos + arrowWidth;
-                    }
-                    $(arrowElement).css('left', newArrowPos);
-                }
-            }
-        };
-
-        const recalculateStepPosition = function(data) {
-            const placement = data.placement.split('-')[0];
-            const isVertical = ['left', 'right'].indexOf(placement) !== -1;
-            const popperElement = $(data.instance.popper);
-            const targetElement = $(data.instance.reference);
-            const arrowElement = popperElement.find('[data-role="arrow"]');
-            const stepElement = popperElement.find('[data-role="flexitour-step"]');
-            const viewportHeight = $(window).height();
-            const viewportWidth = $(window).width();
-            const arrowHeight = parseFloat(arrowElement.outerHeight(true));
-            const popperHeight = parseFloat(popperElement.outerHeight(true));
-            const targetHeight = parseFloat(targetElement.outerHeight(true));
-            const arrowWidth = parseFloat(arrowElement.outerWidth(true));
-            const popperWidth = parseFloat(popperElement.outerWidth(true));
-            const targetWidth = parseFloat(targetElement.outerWidth(true));
-            let maxHeight;
-
-            if (thisT.recalculatedNo > 1) {
-                // The current screen is too small, and cannot fit with the original placement.
-                // We should set the placement to auto so the PopperJS can calculate the perfect placement.
-                thisT.currentStepPopper.options.placement = isVertical ? 'auto-left' : 'auto-bottom';
-            }
-            if (thisT.recalculatedNo > 2) {
-                // Return here to prevent recursive calling.
-                return;
-            }
-
-            if (isVertical) {
-                // Find the best place to put the tour: Left of right.
-                const leftSpace = targetElement.offset().left > 0 ? targetElement.offset().left : 0;
-                const rightSpace = viewportWidth - leftSpace - targetWidth;
-                const remainingSpace = leftSpace >= rightSpace ? leftSpace : rightSpace;
-                maxHeight = viewportHeight - MINSPACING * 2;
-                if (remainingSpace < (popperWidth + arrowWidth)) {
-                    const maxWidth = remainingSpace - MINSPACING - arrowWidth;
-                    if (maxWidth > 0) {
-                        popperElement.css({
-                            'max-width': maxWidth + 'px',
-                        });
-                        // Not enough space, flag true to make Popper to recalculate the position.
-                        thisT.possitionNeedToBeRecalculated = true;
-                    }
-                } else if (maxHeight < popperHeight) {
-                    // Check if the Popper's height can fit the viewport height or not.
-                    // If not, set the correct max-height value for the Popper element.
-                    popperElement.css({
-                        'max-height': maxHeight + 'px',
-                    });
-                }
-            } else {
-                // Find the best place to put the tour: Top of bottom.
-                const topSpace = targetElement.offset().top > 0 ? targetElement.offset().top : 0;
-                const bottomSpace = viewportHeight - topSpace - targetHeight;
-                const remainingSpace = topSpace >= bottomSpace ? topSpace : bottomSpace;
-                maxHeight = remainingSpace - MINSPACING - arrowHeight;
-                if (remainingSpace < (popperHeight + arrowHeight)) {
-                    // Not enough space, flag true to make Popper to recalculate the position.
-                    thisT.possitionNeedToBeRecalculated = true;
-                }
-            }
-
-            // Check if the Popper's height can fit the viewport height or not.
-            // If not, set the correct max-height value for the body.
-            const currentStepBody = stepElement.find('[data-placeholder="body"]').first();
-            const headerEle = stepElement.find('.modal-header').first();
-            const footerEle = stepElement.find('.modal-footer').first();
-            const headerHeight = headerEle.outerHeight(true) ?? 0;
-            const footerHeight = footerEle.outerHeight(true) ?? 0;
-            maxHeight = maxHeight - headerHeight - footerHeight;
-            if (maxHeight > 0) {
-                headerEle.removeClass('minimal');
-                footerEle.removeClass('minimal');
-                currentStepBody.css({
-                    'max-height': maxHeight + 'px',
-                    'overflow': 'auto',
-                });
-            } else {
-                headerEle.addClass('minimal');
-                footerEle.addClass('minimal');
-            }
-            // Call the Popper update method to update the position.
-            thisT.currentStepPopper.update();
+                {
+                    name: 'offset',
+                    options: {
+                      offset: [0, 12],
+                    },
+                },
+            ],
         };
 
         let background = $('[data-flexitour="step-background"]');
         if (background.length) {
             target = background;
         }
-        this.currentStepPopper = new Popper(target, content[0], config);
+
+        this.currentStepPopper = createPopper(target[0], content[0], config);
 
         return this;
     }

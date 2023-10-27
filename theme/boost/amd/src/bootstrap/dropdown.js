@@ -6,7 +6,7 @@
  */
 
 import $ from 'jquery'
-import Popper from 'core/popper'
+import Popper from '../popper'
 import Util from './util'
 
 /**
