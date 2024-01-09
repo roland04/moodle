@@ -6,6 +6,7 @@ $breadcrumb-divider-rtl: "◀" !default;
 
 // Old Moodle stuff from base theme.
 // Massive, needs broken up.
+@import "moodle/bs4-compat";
 @import "moodle/variables";
 @import "moodle/core";
 @import "moodle/action-menu";

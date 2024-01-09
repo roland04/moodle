@@ -22965,6 +22965,18 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 /**
+ * Some backwards compatibility for Bootstrap v4.
+ */
+.media {
+  display: flex;
+  align-items: flex-start;
+}
+
+.media-body {
+  flex: 1;
+}
+
+/**
  * Moodle variables
  *
  * Variables written for Moodle specific components
