@@ -1,0 +1,16 @@
+/**
+ * Some backwards compatibility for Bootstrap v4.
+ */
+
+//
+// '.media' component
+//
+
+.media {
+    display: flex;
+    align-items: flex-start;
+}
+
+.media-body {
+    flex: 1;
+}
