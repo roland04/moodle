@@ -14,3 +14,42 @@
 .media-body {
     flex: 1;
 }
+
+//
+// Badge colours and pills
+//
+
+$badge-focus-width: $input-btn-focus-width !default;
+
+@mixin badge-variant($bg) {
+    color: color-yiq($bg);
+    background-color: $bg;
+
+    @at-root a#{&} {
+        @include hover-focus() {
+            color: color-yiq($bg);
+            background-color: darken($bg, 10%);
+        }
+
+        &:focus,
+        &.focus {
+            outline: 0;
+            box-shadow: 0 0 0 $badge-focus-width rgba($bg, .5);
+        }
+    }
+}
+
+@each $color, $value in $theme-colors {
+    .badge-#{$color} {
+        @include badge-variant($value);
+    }
+}
+
+$badge-pill-padding-x: .6em !default;
+$badge-pill-border-radius: 10rem !default;
+
+.badge-pill {
+    padding-right: $badge-pill-padding-x;
+    padding-left: $badge-pill-padding-x;
+    @include border-radius($badge-pill-border-radius);
+}
