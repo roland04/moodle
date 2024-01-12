@@ -130,3 +130,29 @@ $form-check-input-margin-x: .25rem !default;
         }
     }
 }
+
+//
+// '.card-deck'
+//
+
+$card-deck-margin: 30px * .5 !default;
+
+.card-deck {
+    .card {
+        margin-bottom: $card-deck-margin;
+    }
+
+    @include media-breakpoint-up(sm) {
+        display: flex;
+        flex-flow: row wrap;
+        margin-right: -$card-deck-margin;
+        margin-left: -$card-deck-margin;
+
+        .card {
+            flex: 1 0 0%;
+            margin-right: $card-deck-margin;
+            margin-bottom: 0; // Override the default
+            margin-left: $card-deck-margin;
+        }
+    }
+}
