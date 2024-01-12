@@ -23147,6 +23147,24 @@ a.badge-dark:focus, a.badge-dark.focus {
   }
 }
 
+.card-deck .card {
+  margin-bottom: 0.25rem;
+}
+@media (min-width: 576px) {
+  .card-deck {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -0.25rem;
+    margin-left: -0.25rem;
+  }
+  .card-deck .card {
+    flex: 1 0 0%;
+    margin-right: 0.25rem;
+    margin-bottom: 0;
+    margin-left: 0.25rem;
+  }
+}
+
 /**
  * Moodle variables
  *
