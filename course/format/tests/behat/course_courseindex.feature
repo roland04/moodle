@@ -258,7 +258,7 @@ Feature: Course index depending on role
   Scenario: Adding section should alter the course index
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    When I click on "Add section" "link" in the "Section 4" "section"
+    When I click on "Add section" "link" in the "course-addsection" "region"
     Then I should see "New section" in the "courseindex-content" "region"
 
   @javascript

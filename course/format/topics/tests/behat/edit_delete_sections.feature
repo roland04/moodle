@@ -87,14 +87,15 @@ Feature: Sections can be edited and deleted in custom sections format
   @javascript
   Scenario: Adding sections at the end of a custom sections format
     Given I am on "Course 1" course homepage with editing mode on
-    When I click on "Add section" "link" in the "Section 5" "section"
+    When I click on "Add section" "link" in the "course-addsection" "region"
     Then I should see "New section" in the "New section" "section"
     And I should see "Test choice name" in the "Section 5" "section"
 
   @javascript
   Scenario: Adding sections between in custom sections format
     Given I am on "Course 1" course homepage with editing mode on
-    When I click on "Add section" "link" in the "Section 4" "section"
+    When I hover over the "Add section" "link" in the "Topic 4" "section"
+    And I click on "Add section" "link" in the "Section 4" "section"
     Then I should see "New section" in the "New section" "section"
     And I should see "Test choice name" in the "Section 5" "section"
     And I should not see "Test choice name" in the "New section" "section"
@@ -102,7 +103,7 @@ Feature: Sections can be edited and deleted in custom sections format
   @javascript
   Scenario: Add a section and then add an activity in it
     Given I am on "Course 1" course homepage with editing mode on
-    When I click on "Add section" "link" in the "Section 5" "section"
+    When I click on "Add section" "link" in the "course-addsection" "region"
     And I add an assign activity to course "Course 1" section "6" and I fill the form with:
       | Assignment name | Very new activity |
       | Description     | Test              |
