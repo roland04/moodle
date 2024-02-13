@@ -885,9 +885,8 @@ class file_storage implements H5PFileStorage {
     /**
      * Generate H5P custom styles if any.
      */
-    public static function generate_custom_styles() {
-        $record = self::get_custom_styles_file_record();
-        $cssfile = self::get_custom_styles_file($record);
+    public static function generate_custom_styles(): void {
+        $cssfile = self::get_custom_styles_file();
         if ($cssfile) {
             // The CSS file needs to be updated, so delete and recreate it
             // if there is CSS in the 'h5pcustomcss' setting.
@@ -897,42 +896,8 @@ class file_storage implements H5PFileStorage {
         $css = get_config('core_h5p', 'h5pcustomcss');
         if (!empty($css)) {
             $fs = get_file_storage();
-            $fs->create_file_from_string($record, $css);
+            $fs->create_file_from_string(self::get_custom_styles_file_record(), $css);
         }
-    }
-
-    /**
-     * Get H5P custom styles if any.
-     *
-     * @return array|null If there is CSS then an array with the keys 'cssurl'
-     * and 'cssversion' is returned otherwise null.  'cssurl' is a link to the
-     * generated 'custom_h5p.css' file and 'cssversion' the md5 hash of its contents.
-     */
-    public static function get_custom_styles() {
-        $record = self::get_custom_styles_file_record();
-
-        $css = get_config('core_h5p', 'h5pcustomcss');
-        if (self::get_custom_styles_file($record)) {
-            if (empty($css)) {
-                // The custom CSS file exists and yet the setting 'h5pcustomcss' is empty.
-                // This prevents an invalid content hash.
-                throw new \moodle_exception('noh5pcustomcss', 'core_h5p', '', $record['filename']);
-            }
-            // File exists, so generate the url and version hash.
-            $cssurl = \moodle_url::make_pluginfile_url(
-                $record['contextid'],
-                $record['component'],
-                $record['filearea'],
-                null,
-                $record['filepath'],
-                $record['filename']
-            );
-            return ['cssurl' => $cssurl, 'cssversion' => md5($css)];
-        } else if (!empty($css)) {
-            // The custom CSS file does not exist and yet should do.
-            throw new \moodle_exception('noh5pcustomcssfile', 'core_h5p', '', $record['filename']);
-        }
-        return null;
     }
 
     /**
@@ -940,7 +905,7 @@ class file_storage implements H5PFileStorage {
      *
      * @return array File record for the CSS custom styles.
      */
-    private static function get_custom_styles_file_record() {
+    private static function get_custom_styles_file_record(): array {
         return [
             'contextid' => \context_system::instance()->id,
             'component' => self::COMPONENT,
@@ -954,13 +919,12 @@ class file_storage implements H5PFileStorage {
     /**
      * Get H5P custom styles file.
      *
-     * @param array $record The H5P custom styles file record.
-     *
-     * @return stored_file|bool stored_file instance if exists, false if not.
+     * @return stored_file|null stored_file instance if exists, null if not.
      */
-    private static function get_custom_styles_file($record) {
+    public static function get_custom_styles_file(): ?stored_file {
+        $record = self::get_custom_styles_file_record();
         $fs = get_file_storage();
-        return $fs->get_file(
+        $cssfile = $fs->get_file(
             $record['contextid'],
             $record['component'],
             $record['filearea'],
@@ -968,5 +932,7 @@ class file_storage implements H5PFileStorage {
             $record['filepath'],
             $record['filename']
         );
+
+        return $cssfile ?: null;
     }
 }

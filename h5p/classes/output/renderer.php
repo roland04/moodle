@@ -39,14 +39,25 @@ class renderer extends plugin_renderer_base {
      * @param string $embedtype Possible values: div, iframe, external, editor
      */
     public function h5p_alter_styles(&$styles, array $libraries, string $embedtype) {
-        $customcss = \core_h5p\file_storage::get_custom_styles();
-        if (!empty($customcss)) {
-            // Add the CSS file to the styles array, to load it from the H5P player.
-            $styles[] = (object) [
-                'path' => $customcss['cssurl']->out(),
-                'version' => '?ver='.$customcss['cssversion'],
-            ];
+        $cssfile = \core_h5p\file_storage::get_custom_styles_file();
+        if (!$cssfile) {
+            return;
         }
+
+        // Add the CSS file to the styles array, to load it from the H5P player.
+        $cssurl = \moodle_url::make_pluginfile_url(
+            $cssfile->get_contextid(),
+            $cssfile->get_component(),
+            $cssfile->get_filearea(),
+            null,
+            $cssfile->get_filepath(),
+            $cssfile->get_filename(),
+        );
+
+        $styles[] = (object) [
+            'path' => $cssurl->out(),
+            'version' => '?ver='.$cssfile->get_timemodified(),
+        ];
     }
 
     /**
