@@ -29808,6 +29808,22 @@ span.editinstructions .alert-link {
   .bulkenabled .course-content {
     margin-left: 2rem;
   }
+  .bulkenabled .sticky-footer-content {
+    position: relative;
+  }
+  .bulkenabled .sticky-footer-content .form-check,
+  .bulkenabled .sticky-footer-content .bulkaction-name,
+  .bulkenabled .sticky-footer-content .bulkcount {
+    display: none;
+  }
+  .bulkenabled .sticky-footer-content .actions button {
+    padding: 0 0.5rem;
+  }
+  .bulkenabled .sticky-footer-content .bulkcancel {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 
 /* Activity completion */
