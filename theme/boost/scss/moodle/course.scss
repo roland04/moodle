@@ -1648,22 +1648,25 @@ $divider-hover-color: $primary !default;
         .course-content {
             margin-left: 2rem;
         }
-        // Custom styles for bulk actions in small devices.
-        .sticky-footer-content {
-            position: relative;
-            .form-check,
-            .bulkaction-name,
-            .bulkcount {
-                display: none;
-            }
-            .actions  button {
-                padding: 0 map-get($spacers, 2);
-            }
-            .bulkcancel {
-                position: absolute;
-                top: 0;
-                right: 0;
-            }
+    }
+}
+
+// Custom styles for bulk actions sticky footer in small devices.
+.sticky-footer-content.bulkactions {
+    @include media-breakpoint-down(sm) {
+        position: relative;
+        .form-check,
+        .bulkaction-name,
+        .bulkcount {
+            display: none;
+        }
+        .actions button {
+            padding: 0 map-get($spacers, 2);
+        }
+        .bulkcancel {
+            position: absolute;
+            top: 0;
+            right: 0;
         }
     }
 }

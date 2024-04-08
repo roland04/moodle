@@ -29808,18 +29808,21 @@ span.editinstructions .alert-link {
   .bulkenabled .course-content {
     margin-left: 2rem;
   }
-  .bulkenabled .sticky-footer-content {
+}
+
+@media (max-width: 767.98px) {
+  .sticky-footer-content.bulkactions {
     position: relative;
   }
-  .bulkenabled .sticky-footer-content .form-check,
-  .bulkenabled .sticky-footer-content .bulkaction-name,
-  .bulkenabled .sticky-footer-content .bulkcount {
+  .sticky-footer-content.bulkactions .form-check,
+  .sticky-footer-content.bulkactions .bulkaction-name,
+  .sticky-footer-content.bulkactions .bulkcount {
     display: none;
   }
-  .bulkenabled .sticky-footer-content .actions button {
+  .sticky-footer-content.bulkactions .actions button {
     padding: 0 0.5rem;
   }
-  .bulkenabled .sticky-footer-content .bulkcancel {
+  .sticky-footer-content.bulkactions .bulkcancel {
     position: absolute;
     top: 0;
     right: 0;
