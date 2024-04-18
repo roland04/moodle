@@ -19,9 +19,8 @@ declare(strict_types=1);
 namespace core_webservice\reportbuilder\local\systemreports;
 
 use context_system;
-use core_reportbuilder\local\helpers\database;
 use core_reportbuilder\local\entities\user;
-use core_reportbuilder\local\report\action;
+use core_reportbuilder\local\report\{action, column};
 use core_reportbuilder\system_report;
 use core_webservice\reportbuilder\local\entities\{token, service};
 use lang_string;
@@ -41,6 +40,8 @@ class tokens extends system_report {
      * Initialise report, we need to set the main table, load our entities and set columns/filters
      */
     protected function initialise(): void {
+        global $USER;
+
         $entitytoken = new token();
         $entitytokenalias = $entitytoken->get_table_alias('external_tokens');
 
@@ -60,9 +61,8 @@ class tokens extends system_report {
         ));
 
         $entitycreator = new user();
-        $entitycreatoralias = database::generate_alias();
         $entitycreator->set_entity_name('creator');
-        $entitycreator->set_table_alias('user', $entitycreatoralias);
+        $entitycreatoralias = $entitycreator->get_table_alias('user');
         $this->add_entity($entitycreator->add_join(
             "LEFT JOIN {user} {$entitycreatoralias} ON {$entitycreatoralias}.id = {$entitytokenalias}.creatorid"
         ));
@@ -70,7 +70,12 @@ class tokens extends system_report {
         // Any columns required by actions should be defined here to ensure they're always available.
         $this->add_base_fields("{$entitytokenalias}.id");
 
-        $this->add_columns();
+        // Only show tokens created by the current user for non-manager users.
+        if (!has_capability('moodle/webservice:managealltokens', context_system::instance())) {
+            $this->add_base_condition_simple("{$entitycreatoralias}.userid", $USER->id);
+        }
+
+        $this->add_columns($entityuseralias, $entityservicealias);
         $this->add_filters();
         $this->add_actions();
 
@@ -92,7 +97,7 @@ class tokens extends system_report {
      * They are all provided by the entities we previously added in the {@see initialise} method, referencing each by their
      * unique identifier
      */
-    public function add_columns(): void {
+    public function add_columns($entityuseralias, $entityservicealias): void {
         $columns = [
             'token:name',
             'user:fullnamewithlink',
@@ -110,7 +115,39 @@ class tokens extends system_report {
         $this->get_column('service:name')
             ->set_title(new lang_string('service', 'core_webservice'));
         $this->get_column('creator:fullnamewithlink')
-            ->set_title(new lang_string('tokencreator', 'core_webservice'));
+            ->set_title(new lang_string('tokencreator', 'core_webservice'))
+            ->set_is_available(has_capability('moodle/webservice:managealltokens', context_system::instance()));
+
+        $this->add_column((new column(
+            'missingcapabilities',
+            new lang_string('missingcaps', 'webservice'),
+            'user'
+        ))
+            ->add_joins($this->get_joins())
+            ->set_type(column::TYPE_TEXT)
+            ->add_field("{$entityuseralias}.id", 'userid')
+            ->add_fields(implode(', ', [
+                "{$entityservicealias}.id",
+                "{$entityservicealias}.shortname",
+            ]))
+            ->add_callback(static function(string $value, \stdClass $row): string {
+                global $OUTPUT;
+                $missingcapabilities = self::get_missing_capabilities((int)$row->userid, (int)$row->id, $row->shortname);
+                if (empty($missingcapabilities)) {
+                    return '';
+                }
+                $missingcapabilities = array_map(function($missingcapability) {
+                    return (object)[
+                        'name' => $missingcapability,
+                        'link' => get_capability_docs_link((object)['name' => $missingcapability]),
+                    ];
+                }, $missingcapabilities);
+                return $OUTPUT->render_from_template('core_webservice/missing_capabilities', [
+                    'missingcapabilities' => $missingcapabilities,
+                    'helpicon' => $OUTPUT->help_icon('missingcaps', 'webservice'),
+                ]);
+            })
+        );
     }
 
     /**
@@ -153,5 +190,22 @@ class tokens extends system_report {
             false,
             new lang_string('delete', 'core')
         )));
+    }
+
+    /**
+     * Get the missing capabilities for a user
+     *
+     * @param int $userid
+     * @param int $serviceid
+     * @param string $serviceshortname
+     * @return array
+     */
+    protected static function get_missing_capabilities(int $userid, int $serviceid, string $serviceshortname): array {
+        $webservicemanager = new \webservice();
+        $usermissingcaps = $webservicemanager->get_missing_capabilities_by_users([['id' => $userid]], $serviceid);
+        if ($serviceshortname != MOODLE_OFFICIAL_MOBILE_SERVICE && !is_siteadmin($userid)) {
+            return $usermissingcaps[$userid] ?? [];
+        }
+        return [];
     }
 }

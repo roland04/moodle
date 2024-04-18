@@ -39,9 +39,9 @@ class service extends base {
      *
      * @return array
      */
-    protected function get_default_table_aliases(): array {
+    protected function get_default_tables(): array {
         return [
-            'external_services' => 'es',
+            'external_services'
         ];
     }
 
