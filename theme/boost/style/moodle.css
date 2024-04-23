@@ -34852,6 +34852,16 @@ img.userpicture {
   width: 32px;
   height: 32px;
 }
+.path-mod-feedback .publictemplates .no-overflow {
+  overflow: visible;
+}
+.path-mod-feedback .publictemplates .dropdown-item:hover a.text-danger {
+  color: #fff !important; /* stylelint-disable-line declaration-no-important */
+  text-decoration: none;
+}
+.path-mod-feedback .publictemplates .action-menu .menubar {
+  justify-content: end;
+}
 .path-mod-feedback table.analysis {
   width: 100%;
   border-top: 1px solid #dee2e6;

@@ -1582,6 +1582,20 @@ $popout-header-height: 4rem;
         }
     }
 
+    // Templates page.
+    .publictemplates {
+        .no-overflow {
+            overflow: visible;
+        }
+        .dropdown-item:hover a.text-danger {
+            color: $dropdown-link-hover-color !important;/* stylelint-disable-line declaration-no-important */
+            text-decoration: none;
+        }
+        .action-menu .menubar {
+            justify-content: end;
+        }
+    }
+
     // Analysis page.
     table.analysis {
         width: 100%;

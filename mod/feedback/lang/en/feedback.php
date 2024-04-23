@@ -232,6 +232,7 @@ $string['pluginname'] = 'Feedback';
 $string['position'] = 'Position';
 $string['previous_page'] = 'Previous page';
 $string['previewquestions'] = 'Preview questions';
+$string['previewtemplate'] = 'Template: {$a}';
 $string['privacy:metadata:completed'] = 'A record of the submissions to the feedback';
 $string['privacy:metadata:completed:anonymousresponse'] = 'Whether the submission is to be used anonymously.';
 $string['privacy:metadata:completed:timemodified'] = 'The time when the submission was last modified.';

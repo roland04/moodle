@@ -55,6 +55,7 @@ $actionbar = new \mod_feedback\output\edit_action_bar($cm->id, $url);
 
 $PAGE->set_heading($course->fullname);
 $PAGE->set_title($feedback->name);
+$PAGE->add_body_class('limitedwidth');
 
 // Process template deletion.
 if ($templateid) {
@@ -83,20 +84,11 @@ if (!$mode) {
 }
 echo $OUTPUT->heading(get_string('templates', 'mod_feedback'), 3);
 
-// First we get the course templates.
-$templates = feedback_get_template_list($course, 'own');
-echo $OUTPUT->box_start('coursetemplates');
-echo $OUTPUT->heading(get_string('course'), 4);
-
 $baseurl = new moodle_url('/mod/feedback/use_templ.php', $params);
-$tablecourse = new mod_feedback_templates_table('feedback_template_course_table', $baseurl, $mode);
-$tablecourse->display($templates);
+$templates = feedback_get_template_list($course);
+echo $OUTPUT->box_start('publictemplates');
+$table = new mod_feedback_templates_table('feedback_template_public_table', $baseurl, $mode);
+$table->display($templates);
 echo $OUTPUT->box_end();
 
-$templates = feedback_get_template_list($course, 'public');
-echo $OUTPUT->box_start('publictemplates');
-echo $OUTPUT->heading(get_string('public', 'feedback'), 4);
-$tablepublic = new mod_feedback_templates_table('feedback_template_public_table', $baseurl, $mode);
-$tablepublic->display($templates);
-echo $OUTPUT->box_end();
 echo $OUTPUT->footer();
