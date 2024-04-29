@@ -34808,12 +34808,6 @@ img.userpicture {
   border: 0;
   margin: 0;
 }
-.path-mod-feedback .drag_target_active {
-  opacity: 0.25;
-}
-.path-mod-feedback .drag_item_active {
-  opacity: 0.5;
-}
 .path-mod-feedback .feedback_bar_image {
   height: 10px;
 }
@@ -34826,31 +34820,37 @@ img.userpicture {
 .path-mod-feedback .templateslist th.header.action {
   width: 10%;
 }
-.path-mod-feedback .feedback_form .itemactions {
-  display: inline-block;
-  margin: 0 0.5rem;
-}
-.path-mod-feedback #feedback_edit_form .feedback_itemlist {
+.path-mod-feedback #feedback_edit_form > .feedback_itemlist {
+  min-height: 4rem;
   padding: 1rem;
   border: 1px solid #dee2e6;
+  background-color: #fff;
+  position: relative;
   border-radius: 0.25rem;
 }
-.path-mod-feedback #feedback_edit_form .feedback_itemlist .itemhandle {
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  text-align: center;
-  align-content: center;
+.path-mod-feedback #feedback_edit_form > .feedback_itemlist .itemname {
+  margin-right: 2rem;
 }
-.path-mod-feedback #feedback_edit_form .feedback_itemlist .action-menu {
+.path-mod-feedback #feedback_edit_form > .feedback_itemlist .itemactions {
   position: absolute;
-  top: 0;
   right: 0;
+  top: 0;
 }
-.path-mod-feedback #feedback_edit_form .feedback_itemlist .dropdown-toggle {
+.path-mod-feedback #feedback_edit_form > .feedback_itemlist .itemactions .dropdown-toggle {
   border-radius: 0.5rem;
   width: 32px;
   height: 32px;
+}
+.path-mod-feedback #feedback_edit_form > .feedback_itemlist.sortable-list-current-position {
+  background-color: #f8f9fa;
+}
+.path-mod-feedback #feedback_edit_form > .feedback_itemlist.sortable-list-is-dragged {
+  opacity: 0.85;
+}
+.path-mod-feedback #feedback_edit_form .loading-icon {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 0.5rem);
 }
 .path-mod-feedback .publictemplates .no-overflow {
   overflow: visible;

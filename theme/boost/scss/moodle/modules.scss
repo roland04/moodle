@@ -1527,12 +1527,6 @@ $popout-header-height: 4rem;
         border: 0;
         margin: 0;
     }
-    .drag_target_active {
-        opacity: .25;
-    }
-    .drag_item_active {
-        opacity: .5;
-    }
     .feedback_bar_image {
         height: 10px;
     }
@@ -1549,36 +1543,40 @@ $popout-header-height: 4rem;
             width: 10%;
         }
     }
-    .feedback_form {
-        .itemactions {
-            display: inline-block;
-            margin: 0 map-get($spacers, 2);
-        }
-    }
 
     // Feedback edit form.
     #feedback_edit_form {
-        .feedback_itemlist {
+        > .feedback_itemlist {
+            min-height: 4rem;
             padding: map-get($spacers, 3);
             border: $border-width solid $border-color;
+            background-color: $white;
+            position: relative;
             @include border-radius();
-            .itemhandle {
-                position: absolute;
-                width: 32px;
-                height: 32px;
-                text-align: center;
-                align-content: center;
+            .itemname {
+                margin-right: map-get($spacers, 5);
             }
-            .action-menu {
+            .itemactions {
                 position: absolute;
-                top: 0;
                 right: 0;
+                top: 0;
+                .dropdown-toggle {
+                    border-radius: .5rem;
+                    width: 32px;
+                    height: 32px;
+                }
             }
-            .dropdown-toggle {
-                border-radius: .5rem;
-                width: 32px;
-                height: 32px;
+            &.sortable-list-current-position {
+                background-color: $light;
             }
+            &.sortable-list-is-dragged {
+                opacity: 0.85;
+            }
+        }
+        .loading-icon {
+            position: absolute;
+            left: 50%;
+            top: calc(50% - .5rem);
         }
     }
 

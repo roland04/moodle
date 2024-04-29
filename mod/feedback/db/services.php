@@ -141,4 +141,10 @@ $functions = array(
         'capabilities'  => 'mod/feedback:view',
         'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
     ),
+    'mod_feedback_questions_reorder' => array(
+        'classname'     => 'mod_feedback\external\questions\reorder',
+        'description'   => 'Saves the new order of the questions in the feedback.',
+        'type'          => 'write',
+        'ajax'          => true,
+    ),
 );
