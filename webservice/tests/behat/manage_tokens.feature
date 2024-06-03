@@ -110,3 +110,25 @@ Feature: Manage external services tokens
     And I should see "Site information" in the "Firstname2 Lastname2" "table_row"
     And I should see "Moodle mobile web service" in the "Firstname3 Lastname3" "table_row"
     And I should see "Site information" in the "Firstname4 Lastname4" "table_row"
+
+  @javascript
+  Scenario: Tokens table should display missing capabilities
+    Given the following "core_webservice > Services" exist:
+      | name            | shortname     | enabled |
+      | Test Service 1  | testservice1  | 1       |
+      | Test Service 2  | testservice2  | 1       |
+    And the following "core_webservice > Service functions" exist:
+      | service       | functions                           |
+      | testservice1  | block_accessreview_get_module_data  |
+      | testservice2  | core_block_fetch_addable_blocks     |
+    And the following "core_webservice > Tokens" exist:
+      | user      | service       | name        |
+      | user1     | testservice1  | Token 01    |
+      | user2     | testservice2  | Token 02    |
+    When I log in as "admin"
+    And I navigate to "Server > Web services > Manage tokens" in site administration
+    # Check the missing capabilities.
+    Then I should see "View the accessibility review" in the "Token 01" "table_row"
+    And I should see "block/accessreview:view" in the "Token 01" "table_row"
+    Then I should see "Manage blocks on a page" in the "Token 02" "table_row"
+    And I should see "moodle/site:manageblocks" in the "Token 02" "table_row"
