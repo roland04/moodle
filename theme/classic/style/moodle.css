@@ -25421,6 +25421,38 @@ a.badge-dark:focus, a.badge-dark.focus {
     float: none !important;
   }
 }
+.close {
+  float: right;
+  font-size: 1.40625rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.5;
+}
+@media (max-width: 1200px) {
+  .close {
+    font-size: calc(0.950625rem + 0.6075vw);
+  }
+}
+.close:hover {
+  color: #000;
+  text-decoration: none;
+}
+.close:not(:disabled):not(.disabled):hover, .close:not(:disabled):not(.disabled):focus {
+  opacity: 0.75;
+}
+
+button.close {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+
+a.close.disabled {
+  pointer-events: none;
+}
+
 /**
  * Moodle variables
  *
