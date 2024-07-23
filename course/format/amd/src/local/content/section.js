@@ -45,6 +45,7 @@ export default class extends DndSection {
             HIDESECTION: `[data-action="sectionHide"]`,
             ACTIONTEXT: `.menu-action-text`,
             ICON: `.icon`,
+            HEADERACTIONS: `[data-region="header-actions-container"]`,
         };
         // Most classes will be loaded later by DndCmItem.
         this.classes = {
@@ -239,10 +240,10 @@ export default class extends DndSection {
      * @returns The action menu element.
      */
     _getActionMenu(selector) {
-        if (this.getElement('.section_action_menu')) {
-            return this.getElement(selector);
+        // If the section doesn't have an associated action menu, return the header action menu.
+        if (this.getElement(`${this.selectors.SECTION_ITEM}`).dataset.id === this.id) {
+            return document.querySelector(`${this.selectors.HEADERACTIONS} ${selector}`);
         }
-
-        return document.querySelector(selector);
+        return this.getElement(selector);
     }
 }
