@@ -926,5 +926,9 @@ function prepare_new_moduleinfo_data($course, $modulename, $section, string $suf
         }
     }
 
+    if (plugin_supports('mod', $data->modulename, FEATURE_QUICKCREATE)) {
+        $data->name = get_string("quickcreatename", "mod_{$data->modulename}");
+    }
+
     return array($module, $context, $cw, $cm, $data);
 }

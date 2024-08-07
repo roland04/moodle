@@ -63,7 +63,7 @@ define(
         const componentActions = [
             'moveSection', 'moveCm', 'addSection', 'deleteSection', 'cmDelete', 'cmDuplicate', 'sectionHide', 'sectionShow',
             'cmHide', 'cmShow', 'cmStealth', 'sectionHighlight', 'sectionUnhighlight', 'cmMoveRight', 'cmMoveLeft',
-            'cmNoGroups', 'cmVisibleGroups', 'cmSeparateGroups',
+            'cmNoGroups', 'cmVisibleGroups', 'cmSeparateGroups', 'addModule',
         ];
 
         // The course reactive instance.
