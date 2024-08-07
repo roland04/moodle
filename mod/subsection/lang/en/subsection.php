@@ -23,6 +23,7 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['quickcreatename'] = 'New subsection';
 $string['modulename'] = 'Subsection';
 $string['modulename_help'] = 'Delegated subsections';
 $string['modulenameplural'] = 'Subsections';
