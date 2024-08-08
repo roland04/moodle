@@ -1,0 +1,8 @@
+issueNumber: MDL-81767
+notes:
+  core_course:
+    - message: >-
+        Added new 'activitychooserbutton' output class to display the
+        activitychooser button. New action_links can be added to the button via
+        hooks converting it into a dropdown.
+      type: improved
