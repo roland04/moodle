@@ -1702,4 +1702,49 @@ class stateactions_test extends \advanced_testcase {
         $this->assertArrayNotHasKey($subsection->cmid, $result);
         $this->assertEquals($otheractvityinfo, $result[$otheractvityinfo->id]);
     }
+
+    /**
+     * Test for create_module public method.
+     *
+     * @covers ::create_module
+     */
+    public function test_create_module(): void {
+        $this->resetAfterTest();
+
+        $modname = 'subsection';
+        $manager = \core_plugin_manager::resolve_plugininfo_class('mod');
+        $manager::enable_plugin($modname, 1);
+
+        // Create a course with 1 section and 1 student.
+        $course = $this->getDataGenerator()->create_course(['numsections' => 1]);
+        $student = $this->getDataGenerator()->create_user();
+        $this->getDataGenerator()->enrol_user($student->id, $course->id, 'student');
+        $courseformat = course_get_format($course->id);
+        $targetsection = $courseformat->get_modinfo()->get_section_info(1);
+
+        $this->setAdminUser();
+
+        // Sanity check.
+        $this->assertEmpty($courseformat->get_modinfo()->get_cms());
+
+        // Execute given method.
+        $actions = new stateactions();
+        $updates = new stateupdates($courseformat);
+        $actions->create_module($updates, $course, $modname, $targetsection->id);
+
+        // Validate cm was created and updates were generated.
+        $results = $this->summarize_updates($updates);
+        $cmupdate = reset($results['put']['cm']);
+        $this->assertCount(1, $courseformat->get_modinfo()->get_cms());
+        $this->assertEquals($modname, $cmupdate->module);
+        $this->assertEquals($targetsection->id, $cmupdate->sectionnumber);
+        $this->assertEquals(get_string('quickcreatename', 'mod_' . $modname), $cmupdate->name);
+
+        // Change to a user without permission.
+        $this->setUser($student);
+
+        // Validate that the method throws an exception.
+        $this->expectException(moodle_exception::class);
+        $actions->create_module($updates, $course, $modname, $targetsection->id);
+    }
 }
