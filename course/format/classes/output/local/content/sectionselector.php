@@ -27,6 +27,7 @@ namespace core_courseformat\output\local\content;
 use core\output\named_templatable;
 use core_courseformat\base as course_format;
 use core_courseformat\output\local\courseformat_named_templatable;
+use core_courseformat\sectiondelegate;
 use renderable;
 use stdClass;
 use url_select;
@@ -80,23 +81,73 @@ class sectionselector implements named_templatable, renderable {
 
         // Add the section selector.
         $sectionmenu = [];
+        $disabledoptions = [];
         $sectionmenu[course_get_url($course)->out(false)] = get_string('maincoursepage');
-        $section = 1;
-        $numsections = $format->get_last_section_number();
-        while ($section <= $numsections) {
-            $thissection = $modinfo->get_section_info($section);
-            $url = course_get_url($course, $section, ['navigation' => true]);
-            if ($thissection->uservisible && $url && $section != $data->currentsection) {
-                $sectionmenu[$url->out(false)] = get_section_name($course, $section);
+        $allsections = $modinfo->get_section_info_all();
+        $sectionwithchildren = [];
+        // First get any section with chidren (easier to process later in a regular loop).
+        foreach ($allsections as $section) {
+            if (!$section->uservisible) {
+                continue;
             }
-            $section++;
+            if ($section->is_delegated()) {
+                $sectiondelegated = sectiondelegate::instance($section);
+                $parentsection = $sectiondelegated->get_parent_section();
+                // If the section is delegated we need to get the parent section and add the section to the parent section array.
+                if ($parentsection) {
+                    $sectionwithchildren[$parentsection->sectionnum][] = $section;
+                }
+            }
         }
 
-        $select = new url_select($sectionmenu, '', ['' => get_string('jumpto')]);
+        foreach ($allsections as $section) {
+            // Ignore delegated section as they are inserted after the parent section in the menu.
+            if (!$section->uservisible || $section->is_delegated()) {
+                continue;
+            }
+            $this->add_section_menu($section, $data->currentsection, $sectionmenu, $disabledoptions);
+            if (isset($sectionwithchildren[$section->sectionnum])) {
+                foreach ($sectionwithchildren[$section->sectionnum] as $section) {
+                    if ($section->uservisible) {
+                        $this->add_section_menu($section, $data->currentsection, $sectionmenu, $disabledoptions, true);
+                    }
+                }
+            }
+        }
+
+        $select = new url_select($sectionmenu, '', ['' => get_string('jumpto')], null, null, $disabledoptions);
         $select->class = 'jumpmenu';
         $select->formid = 'sectionmenu';
 
         $data->selector = $output->render($select);
         return $data;
+    }
+
+    /**
+     * Create a new section menu
+     *
+     * @param \section_info $section
+     * @param int $currentsectionnum
+     * @param array $sectionmenu
+     * @param array $disabledoptions
+     * @param bool $shouldindent should indent the section (this is used for delegated sections)
+     * @return void
+     */
+    private function add_section_menu(
+        \section_info $section,
+        int $currentsectionnum,
+        array &$sectionmenu,
+        array &$disabledoptions,
+        bool $shouldindent = false,
+    ) {
+        $indenter = '&nbsp;&nbsp;&nbsp;&nbsp;';
+        $format = $this->format;
+        $course = $format->get_course();
+        $url = course_get_url($course, $section, ['navigation' => true]);
+        $urlkey = $url->out(false);
+        $sectionmenu[$urlkey] = ($shouldindent ? $indenter : '') . $format->get_section_name($section);
+        if ($section->sectionnum == $currentsectionnum) {
+            $disabledoptions[] = $urlkey;
+        }
     }
 }
