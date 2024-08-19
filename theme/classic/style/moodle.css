@@ -38524,21 +38524,23 @@ div.editor_atto_toolbar button .icon {
 .courseindex .courseindex-item.restrictions .courseindex-locked {
   display: block;
 }
-.courseindex .courseindex-item.pageitem {
+.courseindex .courseindex-item.pageitem:not(.has-delegated-section), .courseindex .courseindex-item.pageitem.has-delegated-section .courseindex-section > .courseindex-item {
   background-color: #0f6cbf;
   color: #fff;
   scroll-margin: 6rem;
 }
-.courseindex .courseindex-item.pageitem a {
+.courseindex .courseindex-item.pageitem:not(.has-delegated-section) a, .courseindex .courseindex-item.pageitem.has-delegated-section .courseindex-section > .courseindex-item a {
   color: #fff;
 }
-.courseindex .courseindex-item.pageitem:hover, .courseindex .courseindex-item.pageitem:focus {
+.courseindex .courseindex-item.pageitem:not(.has-delegated-section):hover, .courseindex .courseindex-item.pageitem:not(.has-delegated-section):focus, .courseindex .courseindex-item.pageitem.has-delegated-section .courseindex-section > .courseindex-item:hover, .courseindex .courseindex-item.pageitem.has-delegated-section .courseindex-section > .courseindex-item:focus {
   background-color: #0c589c;
   color: #e6e6e6;
 }
-.courseindex .courseindex-item.pageitem:hover .courseindex-link,
-.courseindex .courseindex-item.pageitem:hover .courseindex-chevron, .courseindex .courseindex-item.pageitem:focus .courseindex-link,
-.courseindex .courseindex-item.pageitem:focus .courseindex-chevron {
+.courseindex .courseindex-item.pageitem:not(.has-delegated-section):hover .courseindex-link,
+.courseindex .courseindex-item.pageitem:not(.has-delegated-section):hover .courseindex-chevron, .courseindex .courseindex-item.pageitem:not(.has-delegated-section):focus .courseindex-link,
+.courseindex .courseindex-item.pageitem:not(.has-delegated-section):focus .courseindex-chevron, .courseindex .courseindex-item.pageitem.has-delegated-section .courseindex-section > .courseindex-item:hover .courseindex-link,
+.courseindex .courseindex-item.pageitem.has-delegated-section .courseindex-section > .courseindex-item:hover .courseindex-chevron, .courseindex .courseindex-item.pageitem.has-delegated-section .courseindex-section > .courseindex-item:focus .courseindex-link,
+.courseindex .courseindex-item.pageitem.has-delegated-section .courseindex-section > .courseindex-item:focus .courseindex-chevron {
   color: #e6e6e6;
 }
 .courseindex .courseindex-item .completioninfo {

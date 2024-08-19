@@ -107,7 +107,8 @@ $courseindex-item-current: $primary !default;
         }
 
         // Current page item.
-        &.pageitem {
+        &.pageitem:not(.has-delegated-section),
+        &.pageitem.has-delegated-section .courseindex-section > .courseindex-item {
             background-color: $courseindex-item-page-bg;
             color: $courseindex-link-color-selected;
             scroll-margin: 6rem;
