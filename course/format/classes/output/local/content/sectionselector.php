@@ -81,36 +81,35 @@ class sectionselector implements named_templatable, renderable {
 
         // Add the section selector.
         $sectionmenu = [];
-        $disabledoptions = [];
         $sectionmenu[course_get_url($course)->out(false)] = get_string('maincoursepage');
         $allsections = $modinfo->get_section_info_all();
-        $sectionwithchildren = [];
+        $disabledoptions[] = course_get_url($course, $allsections[$data->currentsection], ['navigation' => true])->out(false);
+        $sectionswithparent = [];
+
         // First get any section with chidren (easier to process later in a regular loop).
-        foreach ($allsections as $section) {
+        foreach ($allsections as $sectionnumber => $section) {
             if (!$section->uservisible) {
-                continue;
+                unset($allsections[$sectionnumber]);
             }
             if ($section->is_delegated()) {
+                // If the section is delegated we need to get the parent section and add the section to the parent section array.
                 $sectiondelegated = sectiondelegate::instance($section);
                 $parentsection = $sectiondelegated->get_parent_section();
-                // If the section is delegated we need to get the parent section and add the section to the parent section array.
                 if ($parentsection) {
-                    $sectionwithchildren[$parentsection->sectionnum][] = $section;
+                    $sectionswithparent[$parentsection->sectionnum][] = $section;
+                    unset($allsections[$sectionnumber]);
                 }
             }
         }
 
         foreach ($allsections as $section) {
-            // Ignore delegated section as they are inserted after the parent section in the menu.
-            if (!$section->uservisible || $section->is_delegated()) {
-                continue;
-            }
-            $this->add_section_menu($section, $data->currentsection, $sectionmenu, $disabledoptions);
-            if (isset($sectionwithchildren[$section->sectionnum])) {
-                foreach ($sectionwithchildren[$section->sectionnum] as $section) {
-                    if ($section->uservisible) {
-                        $this->add_section_menu($section, $data->currentsection, $sectionmenu, $disabledoptions, true);
-                    }
+            $url = course_get_url($course, $section, ['navigation' => true]);
+            $sectionmenu[$url->out(false)] = $this->format->get_section_name($section);
+            if (isset($sectionswithparent[$section->sectionnum])) {
+                foreach ($sectionswithparent[$section->sectionnum] as $childsection) {
+                    $url = course_get_url($course, $childsection, ['navigation' => true]);
+                    $indenter = '&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $sectionmenu[$url->out(false)] = $indenter . $this->format->get_section_name($childsection);
                 }
             }
         }
@@ -121,33 +120,5 @@ class sectionselector implements named_templatable, renderable {
 
         $data->selector = $output->render($select);
         return $data;
-    }
-
-    /**
-     * Create a new section menu
-     *
-     * @param \section_info $section
-     * @param int $currentsectionnum
-     * @param array $sectionmenu
-     * @param array $disabledoptions
-     * @param bool $shouldindent should indent the section (this is used for delegated sections)
-     * @return void
-     */
-    private function add_section_menu(
-        \section_info $section,
-        int $currentsectionnum,
-        array &$sectionmenu,
-        array &$disabledoptions,
-        bool $shouldindent = false,
-    ) {
-        $indenter = '&nbsp;&nbsp;&nbsp;&nbsp;';
-        $format = $this->format;
-        $course = $format->get_course();
-        $url = course_get_url($course, $section, ['navigation' => true]);
-        $urlkey = $url->out(false);
-        $sectionmenu[$urlkey] = ($shouldindent ? $indenter : '') . $format->get_section_name($section);
-        if ($section->sectionnum == $currentsectionnum) {
-            $disabledoptions[] = $urlkey;
-        }
     }
 }
