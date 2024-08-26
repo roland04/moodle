@@ -56,8 +56,8 @@ Feature: Users view subsections on course page
   Scenario: Teacher can create activities between subsections on course page
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I hover "Insert an activity or resource before 'Subsection2'" "button"
-    And I press "Insert an activity or resource before 'Subsection2'"
+    And I hover "Insert content before 'Subsection2'" "button"
+    And I press "Insert content before 'Subsection2'"
     And I click on "Activity or resource" "button" in the ".dropdown-menu.show" "css_element"
     And I click on "Add a new Assignment" "link" in the "Add an activity or resource" "dialogue"
     And I set the following fields to these values:
@@ -79,8 +79,8 @@ Feature: Users view subsections on course page
   Scenario: Teacher can create a subsection between activities
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I hover "Insert an activity or resource before 'New page'" "button"
-    And I press "Insert an activity or resource before 'New page'"
+    And I hover "Insert content before 'New page'" "button"
+    And I press "Insert content before 'New page'"
     And I click on "Subsection" "link" in the ".dropdown-menu.show" "css_element"
     Then I should see "New subsection" in the "Section 3" "section"
     And "New database" "text" should appear before "New subsection" "text"
@@ -101,8 +101,8 @@ Feature: Users view subsections on course page
   Scenario: Teacher can create an activity between activities
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I hover "Insert an activity or resource before 'New page'" "button"
-    And I press "Insert an activity or resource before 'New page'"
+    And I hover "Insert content before 'New page'" "button"
+    And I press "Insert content before 'New page'"
     And I click on "Activity or resource" "button" in the ".dropdown-menu.show" "css_element"
     And I click on "Add a new Forum" "link" in the "Add an activity or resource" "dialogue"
     And I set the field "Forum name" to "New forum"

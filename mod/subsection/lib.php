@@ -298,6 +298,6 @@ function subsection_get_coursemodule_info(stdClass $coursemodule): cached_cm_inf
  */
 function mod_subsection_get_fontawesome_icon_map() {
     return [
-        'mod_subsection:i/subsection' => 'fa-rectangle-list',
+        'mod_subsection:subsection' => 'fa-rectangle-list',
     ];
 }

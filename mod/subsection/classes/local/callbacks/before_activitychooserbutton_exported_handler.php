@@ -40,29 +40,26 @@ class before_activitychooserbutton_exported_handler {
         /** @var section_info $section */
         $section = $hook->get_section();
 
-        // Until MDL-82349 is resolved, we need to skip the site course.
-        if ($section->modinfo->get_course()->format == 'site') {
+        if (!permission::can_add_subsection($section)) {
             return;
         }
 
-        if (permission::can_add_subsection($section)) {
-            $attributes = [
-                'class' => 'dropdown-item',
-                'data-action' => 'addModule',
-                'data-modname' => 'subsection',
-                'data-sectionnum' => $section->sectionnum,
-            ];
-            if ($hook->get_cm()) {
-                $attributes['data-beforemod'] = $hook->get_cm()->id;
-            }
-
-            $hook->get_activitychooserbutton()->add_action_link(new action_link(
-                new moodle_url('#'),
-                get_string('modulename', 'mod_subsection'),
-                null,
-                $attributes,
-                new pix_icon('i/subsection', '', 'mod_subsection')
-            ));
+        $attributes = [
+            'class' => 'dropdown-item',
+            'data-action' => 'addModule',
+            'data-modname' => 'subsection',
+            'data-sectionnum' => $section->sectionnum,
+        ];
+        if ($hook->get_cm()) {
+            $attributes['data-beforemod'] = $hook->get_cm()->id;
         }
+
+        $hook->get_activitychooserbutton()->add_action_link(new action_link(
+            new moodle_url('#'),
+            get_string('modulename', 'mod_subsection'),
+            null,
+            $attributes,
+            new pix_icon('subsection', '', 'mod_subsection')
+        ));
     }
 }

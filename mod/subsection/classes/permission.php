@@ -20,7 +20,7 @@ use context_course;
 use section_info;
 
 /**
- * Class permission
+ * Class to check permissions for subsection module.
  *
  * @package    mod_subsection
  * @copyright  2024 Mikel Martín <mikel@moodle.com>
@@ -35,6 +35,10 @@ class permission {
      * @return bool
      */
     public static function can_add_subsection(section_info $section, ?int $userid = null): bool {
+        // Until MDL-82349 is resolved, we need to skip the site course.
+        if ($section->modinfo->get_course()->format == 'site') {
+            return false;
+        }
         if (!array_key_exists('subsection', \core_plugin_manager::instance()->get_enabled_plugins('mod'))) {
             return false;
         }
@@ -46,6 +50,9 @@ class permission {
         }
         $format = course_get_format($section->course);
         if ($format->get_last_section_number() >= $format->get_max_sections()) {
+            return false;
+        }
+        if (!$format->supports_components()) {
             return false;
         }
         return true;
