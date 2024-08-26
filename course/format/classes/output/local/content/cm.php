@@ -368,8 +368,7 @@ class cm implements named_templatable, renderable {
      */
     protected function add_actvitychooserbutton_data(stdClass &$data, renderer_base $output): void {
         $activitychooserbutton = new \core_course\output\activitychooserbutton($this->section, $this->mod);
-        $activitychooserbuttondata = $activitychooserbutton->export_for_template($output);
-        $data = (object)array_merge((array)$data, (array)$activitychooserbuttondata);
+        $data->activitychooserbutton = $activitychooserbutton->export_for_template($output);
     }
 
     /**
