@@ -43,7 +43,7 @@ class create_module extends external_api {
             [
                 'courseid' => new external_value(PARAM_INT, 'course id', VALUE_REQUIRED),
                 'modname' => new external_value(PARAM_ALPHANUMEXT, 'module name', VALUE_REQUIRED),
-                'targetsectionid' => new external_value(PARAM_INT, 'Optional target section id', VALUE_REQUIRED, null),
+                'targetsectionnum' => new external_value(PARAM_INT, 'target section number', VALUE_REQUIRED, null),
                 'targetcmid' => new external_value(PARAM_INT, 'Optional target cm id', VALUE_DEFAULT, null),
             ]
         );
@@ -62,34 +62,37 @@ class create_module extends external_api {
      *
      * @param int $courseid the course id
      * @param string $modname the module name
-     * @param int $targetsectionid optional target section id (for move action)
-     * @param int|null $targetcmid optional target cm id (for move action)
+     * @param int $targetsectionnum the target section number
+     * @param int|null $targetcmid optional target cm id
      * @return string Course state in JSON
      */
     public static function execute(
         int $courseid,
         string $modname,
-        int $targetsectionid,
+        int $targetsectionnum,
         ?int $targetcmid = null
     ): string {
         global $CFG;
 
         require_once($CFG->dirroot . '/course/lib.php');
 
-        $params = external_api::validate_parameters(self::execute_parameters(), [
+        [
             'courseid' => $courseid,
             'modname' => $modname,
-            'targetsectionid' => $targetsectionid,
+            'targetsectionnum' => $targetsectionnum,
+            'targetcmid' => $targetcmid,
+        ] = self::validate_parameters(self::execute_parameters(), [
+            'courseid' => $courseid,
+            'modname' => $modname,
+            'targetsectionnum' => $targetsectionnum,
             'targetcmid' => $targetcmid,
         ]);
-        $courseid = $params['courseid'];
-        $modname = $params['modname'];
-        $targetsectionid = $params['targetsectionid'];
-        $targetcmid = $params['targetcmid'];
 
         self::validate_context(context_course::instance($courseid));
 
-        if (!plugin_supports('mod', $modname, FEATURE_QUICKCREATE)) {
+        // Plugin needs to support quick creation and the course format needs to support components.
+        // Formats using YUI modules should not be able to quick-create because the front end cannot react to the change.
+        if (!plugin_supports('mod', $modname, FEATURE_QUICKCREATE) || !course_get_format($courseid)->supports_components()) {
             throw new moodle_exception("Module $modname does not support quick creation");
         }
 
@@ -122,7 +125,7 @@ class create_module extends external_api {
         $course = $courseformat->get_course();
 
         // Execute the action.
-        $actions->$action($updates, $course, $modname, $targetsectionid, $targetcmid);
+        $actions->$action($updates, $course, $modname, $targetsectionnum, $targetcmid);
 
         // Any state action mark the state cache as dirty.
         course_format::session_cache_reset($course);

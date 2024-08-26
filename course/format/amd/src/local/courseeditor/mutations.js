@@ -72,14 +72,14 @@ export default class {
      * @method _callEditWebservice
      * @param {number} courseId
      * @param {string} modName module name
-     * @param {number} targetSectionId target section id
+     * @param {number} targetSectionNum target section number
      * @param {number} targetCmId optional target cm id
      */
-        async _callAddModuleWebservice(courseId, modName, targetSectionId, targetCmId) {
+        async _callAddModuleWebservice(courseId, modName, targetSectionNum, targetCmId) {
             const args = {
                 courseid: courseId,
                 modname: modName,
-                targetsectionid: targetSectionId,
+                targetsectionnum: targetSectionNum,
             };
             if (targetCmId) {
                 args.targetcmid = targetCmId;
@@ -421,21 +421,21 @@ export default class {
      *
      * @param {StateManager} stateManager the current state manager
      * @param {string} modName the modulename to add
-     * @param {number} targetSectionId the target section id
+     * @param {number} targetSectionNum the target section number
      * @param {number} targetCmId optional the target cm id
      */
-    async addModule(stateManager, modName, targetSectionId, targetCmId) {
+    async addModule(stateManager, modName, targetSectionNum, targetCmId) {
         if (!modName) {
             throw new Error(`Mutation addModule requires moduleName`);
         }
-        if (!targetSectionId) {
-            throw new Error(`Mutation addModule requires targetSectionId`);
+        if (!targetSectionNum) {
+            throw new Error(`Mutation addModule requires targetSectionNum`);
         }
         if (!targetCmId) {
             targetCmId = 0;
         }
         const course = stateManager.get('course');
-        const updates = await this._callAddModuleWebservice(course.id, modName, targetSectionId, targetCmId);
+        const updates = await this._callAddModuleWebservice(course.id, modName, targetSectionNum, targetCmId);
         stateManager.processUpdates(updates);
     }
 
