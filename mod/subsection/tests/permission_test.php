@@ -38,6 +38,7 @@ final class permission_test extends advanced_testcase {
      * @param bool $missingcapability
      * @param bool $isdelegated
      * @param bool $maxsectionsreached
+     * @param string $format
      * @param bool $expected
      *
      * @dataProvider can_add_subsection_provider
@@ -47,13 +48,14 @@ final class permission_test extends advanced_testcase {
         bool $missingcapability,
         bool $isdelegated,
         bool $maxsectionsreached,
+        string $format,
         bool $expected
     ): void {
         global $DB;
 
         $this->resetAfterTest();
 
-        $course = $this->getDataGenerator()->create_course(['format' => 'topics', 'numsections' => 5]);
+        $course = $this->getDataGenerator()->create_course(['format' => $format, 'numsections' => 5]);
         $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
         $courseformat = course_get_format($course->id);
         $targetsection = $courseformat->get_modinfo()->get_section_info(5);
@@ -91,6 +93,7 @@ final class permission_test extends advanced_testcase {
                 'missingcapability' => false,
                 'isdelegated' => false,
                 'maxsectionsreached' => false,
+                'format' => 'topics',
                 'expected' => false,
             ],
             'User without capability' => [
@@ -98,6 +101,7 @@ final class permission_test extends advanced_testcase {
                 'missingcapability' => true,
                 'isdelegated' => false,
                 'maxsectionsreached' => false,
+                'format' => 'topics',
                 'expected' => false,
             ],
             'Max sections reached' => [
@@ -105,6 +109,7 @@ final class permission_test extends advanced_testcase {
                 'missingcapability' => false,
                 'isdelegated' => false,
                 'maxsectionsreached' => true,
+                'format' => 'topics',
                 'expected' => false,
             ],
             'Target section is a delegated section' => [
@@ -112,6 +117,15 @@ final class permission_test extends advanced_testcase {
                 'missingcapability' => false,
                 'isdelegated' => true,
                 'maxsectionsreached' => false,
+                'format' => 'topics',
+                'expected' => false,
+            ],
+            'Format does not support components' => [
+                'ismoddisabled' => false,
+                'missingcapability' => false,
+                'isdelegated' => false,
+                'maxsectionsreached' => false,
+                'format' => 'singleactivity',
                 'expected' => false,
             ],
             'Plugin enabled, with capability, max sections not reached, not inside a delegated section' => [
@@ -119,6 +133,7 @@ final class permission_test extends advanced_testcase {
                 'missingcapability' => false,
                 'isdelegated' => false,
                 'maxsectionsreached' => false,
+                'format' => 'topics',
                 'expected' => true,
             ],
         ];
