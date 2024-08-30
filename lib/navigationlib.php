@@ -2251,6 +2251,13 @@ class global_navigation extends navigation_node {
                 $activity->nodetype = navigation_node::NODETYPE_LEAF;
                 $activity->onclick = $cm->onclick;
                 $url = $cm->url;
+
+                // TODO: We need an URL for mod_subsection to appear in the navigation as a module.
+                $activity->delegatedsection = $cm->get_delegated_section_info();
+                if ($activity->delegatedsection) {
+                    $url = course_get_url($course, $activity->delegatedsection->section, ['navigation' => true]);
+                }
+
                 if (!$url) {
                     $activity->url = null;
                     $activity->display = false;
@@ -2296,30 +2303,73 @@ class global_navigation extends navigation_node {
                 }
 
                 $parentnode = $coursenode;
+                $isbreadcrumb = $this->is_section_in_breadcrumb($section, $activities);
 
-                // Set the parent node to the parent section if this is a delegated section.
-                if ($section->is_delegated()) {
-                    $parentsection = $section->get_component_instance()->get_parent_section();
-                    if ($parentsection) {
+                $parentsection = $section->get_component_instance()?->get_parent_section();
+                if ($parentsection) {
+                    if ($isbreadcrumb) {
+                        // Set the parent node to the parent section if this is a delegated section.
                         $parentnode = $coursenode->find($parentsection->id, self::TYPE_SECTION) ?: $coursenode;
+                    } else {
+                        // If this is a child section but not showing in breadcrumb, let load_section_activities handle it.
+                        continue;
                     }
                 }
 
-                $sectionname = get_section_name($course, $section);
-                $url = course_get_url($course, $section->section, array('navigation' => true));
-
-                $sectionnode = $parentnode->add($sectionname, $url, navigation_node::TYPE_SECTION,
-                    null, $section->id, new pix_icon('i/section', ''));
-                $sectionnode->nodetype = navigation_node::NODETYPE_BRANCH;
-                $sectionnode->hidden = (!$section->visible || !$section->available);
-                $sectionnode->add_attribute('data-section-name-for', $section->id);
-                if ($this->includesectionnum !== false && $this->includesectionnum == $section->section) {
-                    $this->load_section_activities($sectionnode, $section->section, $activities);
-                }
+                $this->load_section($course, $section, $parentnode, $isbreadcrumb, $activities);
                 $navigationsections[$sectionid] = $section;
             }
         }
         return $navigationsections;
+    }
+
+    /**
+     * Returns true if the section is included in the breadcrumb.
+     *
+     * @param section_info $section
+     * @param array $activities
+     * @return bool
+     */
+    protected function is_section_in_breadcrumb(section_info $section, array $activities): bool {
+        if ($this->includesectionnum !== false && $this->includesectionnum == $section->section) {
+            return true;
+        }
+
+        // TODO: Revisit this logic.
+        $modinfo = get_fast_modinfo($section->course);
+        foreach ($activities as $activity) {
+            $cm = $modinfo->cms[$activity->id];
+            $delegatedsection = $cm->get_delegated_section_info();
+            if ($delegatedsection && $this->includesectionnum == $delegatedsection->section) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Loads a section into the navigation structure.
+     *
+     * @param stdClass $course
+     * @param section_info $section
+     * @param navigation_node $parentnode
+     * @param bool $isbreadcrumb
+     * @param array $activities
+     */
+    public function load_section($course, $section, $parentnode, $isbreadcrumb, $activities) {
+        $sectionname = get_section_name($course, $section);
+        $url = course_get_url($course, $section->section, ['navigation' => true]);
+
+        $sectionnode = $parentnode->add($sectionname, $url, navigation_node::TYPE_SECTION,
+            null, $section->id, new pix_icon('i/section', ''));
+        $sectionnode->nodetype = navigation_node::NODETYPE_BRANCH;
+        $sectionnode->hidden = (!$section->visible || !$section->available);
+        $sectionnode->add_attribute('data-section-name-for', $section->id);
+
+        if ($isbreadcrumb) {
+            $this->load_section_activities($sectionnode, $section->section, $activities);
+        }
     }
 
     /**
@@ -2353,6 +2403,13 @@ class global_navigation extends navigation_node {
             if ($activity->section != $sectionnumber) {
                 continue;
             }
+
+            // If activity is a delegated section, load a section node instead of the activity one.
+            if ($activity->delegatedsection) {
+                $this->load_section($courseid, $activity->delegatedsection, $sectionnode, false, $activities);
+                continue;
+            }
+
             if ($activity->icon) {
                 $icon = new pix_icon($activity->icon, get_string('modulename', $activity->modname), $activity->iconcomponent);
             } else {
@@ -3459,6 +3516,7 @@ class global_navigation_for_ajax extends global_navigation {
                 $this->page->set_context(context_course::instance($course->id));
                 $coursenode = $this->add_course($course, false, self::COURSE_CURRENT);
                 $this->add_course_essentials($coursenode, $course);
+                // TODO: Load course sections here, passing the sectionumber.
                 $this->load_course_sections($course, $coursenode, $course->sectionnumber);
                 break;
             case self::TYPE_ACTIVITY :

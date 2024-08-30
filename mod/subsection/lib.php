@@ -208,6 +208,7 @@ function subsection_pluginfile($course, $cm, $context, $filearea, $args, $forced
 
 /**
  * Extends the global navigation tree by adding mod_subsection nodes if there is a relevant content.
+ * This function will add activities inside the subsection to the navigation tree.
  *
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
@@ -217,6 +218,46 @@ function subsection_pluginfile($course, $cm, $context, $filearea, $args, $forced
  * @param cm_info $cm
  */
 function subsection_extend_navigation($subsectionnode, $course, $module, $cm) {
+// TODO: Because we are adding delegated section modules as section nodes in navigation, we dont need this.
+//     global $CFG, $SITE;
+
+//     $delegatedsection = $cm->get_delegated_section_info();
+//     $modinfo = get_fast_modinfo($course);
+//     $showactivities = ($course->id != $SITE->id || !empty($CFG->navshowfrontpagemods));
+
+//     foreach ($modinfo->sections[$delegatedsection->section] as $cmid) {
+//         $cm = $modinfo->cms[$cmid];
+//         $displaycontext = \context_helper::get_navigation_filter_context(context_module::instance($cm->id));
+//         if ($cm->icon) {
+//             $icon = new pix_icon($cm->icon, get_string('modulename', $cm->modname), $cm->iconcomponent);
+//         } else {
+//             $icon = new pix_icon('monologo', get_string('modulename', $cm->modname), $cm->modname);
+//         }
+//         $url = $cm->url;
+//         if (!$url) {
+//             $delegatedsection = null;
+//             $display = false;
+//         } else {
+//             $url = $url->out();
+//             $display = $cm->is_visible_on_course_page() ? true : false;
+//             $nodetype = navigation_node::NODETYPE_LEAF;
+//             if (global_navigation::module_extends_navigation($cm->modname)) {
+//                 $nodetype = navigation_node::NODETYPE_BRANCH;
+//             }
+//         }
+//         $activitynode = $subsectionnode->add(
+//             format_string($cm->name, true, ['context' => $displaycontext]),
+//             $cm->url,
+//             navigation_node::TYPE_ACTIVITY,
+//             null,
+//             $cm->id,
+//             $icon,
+//         );
+//         $activitynode->title(get_string('modulename', $cm->modname));
+//         $activitynode->hidden = !$cm->visible;
+//         $activitynode->display = $showactivities && $display;
+//         $activitynode->nodetype = $nodetype;
+//     }
 }
 
 /**
