@@ -207,6 +207,7 @@ function label_supports($feature) {
         case FEATURE_BACKUP_MOODLE2:          return true;
         case FEATURE_NO_VIEW_LINK:            return true;
         case FEATURE_MOD_PURPOSE:             return MOD_PURPOSE_CONTENT;
+        case FEATURE_QUICKCREATE:             return true;
 
         default: return null;
     }
