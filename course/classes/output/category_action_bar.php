@@ -167,7 +167,7 @@ class category_action_bar extends manage_categories_action_bar {
         // Generate the action menu if there are additional options.
         if (!empty($additionaloptions)) {
             $actionmenu = new action_menu();
-            $actionmenu->set_kebab_trigger();
+            $actionmenu->set_kebab_trigger(get_string('moreactions'));
             $actionmenu->set_additional_classes('ms-auto');
             foreach ($additionaloptions['options'] as $option) {
                 $actionmenu->add(new action_menu_link_secondary(
