@@ -22,6 +22,9 @@
  * @package mod_feedback
  */
 
+use core_reportbuilder\system_report_factory;
+use mod_feedback\reportbuilder\local\systemreports\responses;
+
 require_once("../../config.php");
 require_once("lib.php");
 
@@ -44,33 +47,15 @@ require_capability('mod/feedback:viewreports', $context);
 
 $actionbar = new \mod_feedback\output\responses_action_bar($cm->id, $baseurl);
 
-if ($deleteid) {
-    // This is a request to delete a reponse.
-    require_capability('mod/feedback:deletesubmissions', $context);
-    require_sesskey();
-    $feedbackstructure = new mod_feedback_completion($feedback, $cm, 0, true, $deleteid);
-    feedback_delete_completed($feedbackstructure->get_completed(), $feedback, $cm);
-    redirect($baseurl);
-} else {
-    // Viewing list of reponses.
-    $feedbackstructure = new mod_feedback_structure($feedback, $cm, $courseid);
-}
+$feedbackstructure = new mod_feedback_structure($feedback, $cm, $courseid);
 
-$responsestable = new mod_feedback_responses_table($feedbackstructure);
-$anonresponsestable = new mod_feedback_responses_anon_table($feedbackstructure);
-
-if ($responsestable->is_downloading()) {
-    $responsestable->download();
-}
-if ($anonresponsestable->is_downloading()) {
-    $anonresponsestable->download();
-}
-
+// TODO: No idea what this is for.
 // Process course select form.
 $courseselectform = new mod_feedback_course_select_form($baseurl, $feedbackstructure, $feedback->course == SITEID);
 if ($data = $courseselectform->get_data()) {
     redirect(new moodle_url($baseurl, ['courseid' => $data->courseid]));
 }
+
 // Print the page header.
 navigation_node::override_active_url($baseurl);
 $PAGE->set_heading($course->fullname);
@@ -86,23 +71,12 @@ $renderer = $PAGE->get_renderer('mod_feedback');
 echo $renderer->main_action_bar($actionbar);
 echo $OUTPUT->heading(get_string('show_entries', 'mod_feedback'), 3);
 
+// TODO: No idea what this is for.
 // Print the list of responses.
 $courseselectform->display();
 
-// Show non-anonymous responses (always retrieve them even if current feedback is anonymous).
-$totalrows = $responsestable->get_total_responses_count();
-if (!$feedbackstructure->is_anonymous() || $totalrows) {
-    echo $OUTPUT->heading(get_string('non_anonymous_entries', 'feedback', $totalrows), 4);
-    $responsestable->display();
-}
-
-// Show anonymous responses (always retrieve them even if current feedback is not anonymous).
-$feedbackstructure->shuffle_anonym_responses();
-$totalrows = $anonresponsestable->get_total_responses_count();
-if ($feedbackstructure->is_anonymous() || $totalrows) {
-    echo $OUTPUT->heading(get_string('anonymous_entries', 'feedback', $totalrows), 4);
-    $anonresponsestable->display();
-}
+$report = system_report_factory::create(responses::class, $context);
+echo $report->output();
 
 // Finish the page.
 echo $OUTPUT->footer();
