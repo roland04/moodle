@@ -33489,11 +33489,6 @@ textarea[data-auto-rows] {
   margin-left: 0.25rem;
 }
 
-@media (min-width: 576px) {
-  .mform:not(.full-width-labels) .col-form-label .form-label-addon {
-    margin-left: auto;
-  }
-}
 [data-fieldtype=modgrade] .fitem {
   padding-bottom: 0.375rem;
 }
@@ -33523,11 +33518,6 @@ textarea[data-auto-rows] {
   flex-grow: 1;
 }
 
-@media (min-width: 768px) {
-  .mform fieldset .fcontainer.collapseable .col-form-label {
-    padding-left: 2.5rem;
-  }
-}
 .collapsemenu .collapseall {
   display: block;
 }

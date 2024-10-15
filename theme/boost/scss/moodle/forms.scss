@@ -386,12 +386,6 @@ textarea[data-auto-rows] {
     margin-left: 0.25rem;
 }
 
-@include media-breakpoint-up(sm) {
-    .mform:not(.full-width-labels) .col-form-label .form-label-addon {
-        margin-left: auto;
-    }
-}
-
 [data-fieldtype="modgrade"] .fitem {
     padding-bottom: $input-padding-y;
 }
@@ -425,12 +419,6 @@ textarea[data-auto-rows] {
 // Show editor at 100% width by default.
 [data-fieldtype="editor"] > div {
     flex-grow: 1;
-}
-
-@include media-breakpoint-up(md) {
-    .mform fieldset .fcontainer.collapseable .col-form-label {
-        padding-left: ($spacer * 2.5);
-    }
 }
 
 .collapsemenu {
