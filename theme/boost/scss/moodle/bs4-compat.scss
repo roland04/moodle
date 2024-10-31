@@ -320,6 +320,7 @@ $card-deck-margin: 30px * .5 !default;
 //
 // '.close'
 //
+
 .close {
     float: right;
     @include font-size($close-font-size);
@@ -352,4 +353,27 @@ button.close {
 // stylelint-disable-next-line selector-no-qualifying-type
 a.close.disabled {
     pointer-events: none;
+}
+
+//
+// Font utilities
+//
+
+.font-weight-light {
+    font-weight: $font-weight-light !important;
+}
+.font-weight-lighter {
+    font-weight: $font-weight-lighter !important;
+}
+.font-weight-normal {
+    font-weight: $font-weight-normal !important;
+}
+.font-weight-bold {
+    font-weight: $font-weight-bold !important;
+}
+.font-weight-bolder {
+    font-weight: $font-weight-bolder !important;
+}
+.font-italic {
+    font-style: italic !important;
 }
