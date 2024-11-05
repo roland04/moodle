@@ -25527,6 +25527,14 @@ a.close.disabled, a.disabled.btn-close {
   font-style: italic !important;
 }
 
+.rounded-sm {
+  border-radius: 0.2rem !important;
+}
+
+.rounded-lg {
+  border-radius: 0.3rem !important;
+}
+
 /**
  * Moodle variables
  *

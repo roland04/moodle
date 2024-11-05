@@ -377,3 +377,13 @@ a.close.disabled {
 .font-italic {
     font-style: italic !important;
 }
+
+//
+// Rounded sizes
+//
+.rounded-sm {
+    border-radius: $border-radius-sm !important;
+}
+.rounded-lg {
+    border-radius: $border-radius-lg !important;
+}
