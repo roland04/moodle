@@ -228,11 +228,6 @@ button.btn-close,
     border: 2px dashed $gray-800;
 }
 
-.editing .course-content .hidden.sectionname {
-    visibility: hidden;
-    display: initial;
-}
-
 .inline,
 .inline-list li {
     display: inline;
@@ -2096,10 +2091,6 @@ dd:after {
     &.inplaceeditable-autocomplete {
         display: block;
     }
-}
-
-h3.sectionname .inplaceeditable.inplaceeditingon .editinstructions {
-    margin-top: -20px;
 }
 
 /** Chart area. */
