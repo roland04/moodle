@@ -23229,13 +23229,6 @@ button.btn-close:focus:hover,
   padding: 0;
 }
 
-.section li.movehere a {
-  display: block;
-  width: 100%;
-  height: 2rem;
-  border: 2px dashed #343a40;
-}
-
 .inline,
 .inline-list li {
   display: inline;
@@ -24069,77 +24062,6 @@ tr.flagged-tag a {
   left: 50%;
 }
 
-.mod-indent-outer {
-  display: table;
-}
-
-.mod-indent {
-  display: table-cell;
-}
-
-.label .mod-indent {
-  float: left;
-  padding-top: 20px;
-}
-
-.activity.label.modtype_label .mod-indent {
-  float: none;
-}
-
-@media (min-width: 576px) {
-  /* Creates a series of .mod-indent-# rule declarations based on indent size and number of indent levels. */
-  .mod-indent-1 {
-    width: 30px;
-  }
-  .mod-indent-2 {
-    width: 60px;
-  }
-  .mod-indent-3 {
-    width: 90px;
-  }
-  .mod-indent-4 {
-    width: 120px;
-  }
-  .mod-indent-5 {
-    width: 150px;
-  }
-  .mod-indent-6 {
-    width: 180px;
-  }
-  .mod-indent-7 {
-    width: 210px;
-  }
-  .mod-indent-8 {
-    width: 240px;
-  }
-  .mod-indent-9 {
-    width: 270px;
-  }
-  .mod-indent-10 {
-    width: 300px;
-  }
-  .mod-indent-11 {
-    width: 330px;
-  }
-  .mod-indent-12 {
-    width: 360px;
-  }
-  .mod-indent-13 {
-    width: 390px;
-  }
-  .mod-indent-14 {
-    width: 420px;
-  }
-  .mod-indent-15 {
-    width: 450px;
-  }
-  .mod-indent-16 {
-    width: 480px;
-  }
-  .mod-indent-huge {
-    width: 480px;
-  }
-}
 /* Audio player size in 'block' mode (can only change width, height is hardcoded in JS) */
 .resourcecontent .mediaplugin_mp3 object {
   height: 25px;
@@ -28274,6 +28196,13 @@ table.calendartable caption {
   z-index: 5;
 }
 
+.section li.movehere a {
+  display: block;
+  width: 100%;
+  height: 2rem;
+  border: 2px dashed #343a40;
+}
+
 /* Activities */
 .activity {
   list-style: none;
@@ -29169,9 +29098,6 @@ table.calendartable caption {
     transform: rotate(359deg);
   }
 }
-.editing .course-content .stateready .section .spinner {
-  display: none;
-}
 .editing .editinprogress {
   position: relative;
 }
@@ -29222,6 +29148,78 @@ table.calendartable caption {
   margin-top: -1px;
 }
 
+/* Old indentation styles */
+.mod-indent-outer {
+  display: table;
+}
+
+.mod-indent {
+  display: table-cell;
+}
+
+.label .mod-indent {
+  float: left;
+  padding-top: 20px;
+}
+
+.activity.label.modtype_label .mod-indent {
+  float: none;
+}
+
+@media (min-width: 576px) {
+  /* Creates a series of .mod-indent-# rule declarations based on indent size and number of indent levels. */
+  .mod-indent-1 {
+    width: 30px;
+  }
+  .mod-indent-2 {
+    width: 60px;
+  }
+  .mod-indent-3 {
+    width: 90px;
+  }
+  .mod-indent-4 {
+    width: 120px;
+  }
+  .mod-indent-5 {
+    width: 150px;
+  }
+  .mod-indent-6 {
+    width: 180px;
+  }
+  .mod-indent-7 {
+    width: 210px;
+  }
+  .mod-indent-8 {
+    width: 240px;
+  }
+  .mod-indent-9 {
+    width: 270px;
+  }
+  .mod-indent-10 {
+    width: 300px;
+  }
+  .mod-indent-11 {
+    width: 330px;
+  }
+  .mod-indent-12 {
+    width: 360px;
+  }
+  .mod-indent-13 {
+    width: 390px;
+  }
+  .mod-indent-14 {
+    width: 420px;
+  }
+  .mod-indent-15 {
+    width: 450px;
+  }
+  .mod-indent-16 {
+    width: 480px;
+  }
+  .mod-indent-huge {
+    width: 480px;
+  }
+}
 /*
  * Course management page styles.
  */
@@ -38913,6 +38911,25 @@ body.behat-site .path-course-view li.activity form.togglecompletion::before,
 
 .path-course-view li.activity form.togglecompletion img {
   max-width: none; /* The width is 0 so ensure we don't end up with a relative max-width */
+}
+
+.course-content .stateready .section .spinner {
+  /* stylelint-disable declaration-no-important */
+  /* stylelint-enable */
+  display: none;
+}
+body.behat-site .course-content .stateready .section .spinner,
+.course-content .stateready .section .spinner body.behat-site.course-content .stateready .section .spinner, body.themedesignermode .course-content .stateready .section .spinner,
+.course-content .stateready .section .spinner body.themedesignermode.course-content .stateready .section .spinner {
+  outline: 3px dotted #ca3120 !important;
+  background-color: #fceeed !important;
+}
+body.behat-site .course-content .stateready .section .spinner::before,
+.course-content .stateready .section .spinner body.behat-site.course-content .stateready .section .spinner::before, body.themedesignermode .course-content .stateready .section .spinner::before,
+.course-content .stateready .section .spinner body.themedesignermode.course-content .stateready .section .spinner::before {
+  content: "Deprecated style in use" !important;
+  color: #ca3120 !important;
+  font-size: smaller !important;
 }
 
 body {
