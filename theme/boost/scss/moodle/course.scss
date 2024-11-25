@@ -547,12 +547,9 @@ span.editinstructions {
     z-index: 9999;
     border: $alert-border-width solid transparent;
     width: fit-content;
-
-    @include alert-variant(
-        shift-color($info, $alert-bg-scale),
-        shift-color($info, $alert-border-scale),
-        shift-color($info, $alert-color-scale)
-    );
+    color: shift-color($info, $alert-color-scale);
+    border-color: shift-color($info, $alert-border-scale);
+    @include gradient-bg(shift-color($info, $alert-bg-scale));
 }
 
 /* COURSES LISTINGS AND COURSE SUMMARY */
@@ -1106,7 +1103,7 @@ $divider-hover-color: $primary !default;
             @include button-variant($bg-color, $bg-color, $value);
             color: shift-color($value, $alert-color-scale);
             &:hover {
-                color: color-yiq($value);
+                color: color-contrast($value);
             }
         }
     }
@@ -1646,7 +1643,7 @@ $divider-hover-color: $primary !default;
     background-color: shift-color($primary, $alert-bg-scale);
     &:hover,
     &:focus {
-        color: color-yiq($primary);
+        color: color-contrast($primary);
         background-color: $primary;
     }
     .icon {
