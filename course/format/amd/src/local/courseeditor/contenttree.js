@@ -27,6 +27,7 @@
  */
 
 // The core/tree uses jQuery to expand all nodes.
+import Collapse from 'theme_boost/bootstrap/collapse';
 import jQuery from 'jquery';
 import Tree from 'core/tree';
 import {getList} from 'core/normalise';
@@ -61,8 +62,7 @@ export default class extends Tree {
                 return this._getVisibleItems();
             };
         }
-        // All jQuery events can be replaced when MDL-71979 is integrated.
-        this.treeRoot.on('hidden.bs.collapse shown.bs.collapse', () => {
+        this.treeRoot[0].addEventListener('hidden.bs.collapse shown.bs.collapse', () => {
             this.refreshVisibleItemsCache();
         });
         // Register a custom callback for pressing enter key.
@@ -154,10 +154,9 @@ export default class extends Tree {
         }
         collapsibleId = collapsibleId.replace('#', '');
 
-        // Bootstrap 4 uses jQuery to interact with collapsibles.
-        const collapsible = jQuery(`#${collapsibleId}`);
+        const collapsible = document.getElementById(collapsibleId);
         if (collapsible.length) {
-            jQuery(`#${collapsibleId}`).collapse('toggle');
+            new Collapse(collapsible);
         }
     }
 
