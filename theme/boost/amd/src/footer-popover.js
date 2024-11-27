@@ -21,8 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import $ from 'jquery';
-import Popover from './popover';
+import Popover from './bootstrap/popover';
 
 const SELECTORS = {
     FOOTERCONTAINER: '[data-region="footer-container-popover"]',
@@ -36,8 +35,7 @@ export const init = () => {
     const container = document.querySelector(SELECTORS.FOOTERCONTAINER);
     const footerButton = document.querySelector(SELECTORS.FOOTERBUTTON);
 
-    // All jQuery in this code can be replaced when MDL-71979 is integrated.
-    $(footerButton).popover({
+    new Popover(footerButton, {
         content: getFooterContent,
         container: container,
         html: true,
@@ -64,30 +62,30 @@ export const init = () => {
 
     document.addEventListener('click', e => {
         if (footerIsShown && !e.target.closest(SELECTORS.FOOTERCONTAINER)) {
-            $(footerButton).popover('hide');
+            Popover.getInstance(footerButton).hide();
         }
     },
     true);
 
     document.addEventListener('keydown', e => {
         if (footerIsShown && e.key === 'Escape') {
-            $(footerButton).popover('hide');
+            Popover.getInstance(footerButton).hide();
             footerButton.focus();
         }
     });
 
     document.addEventListener('focus', e => {
         if (footerIsShown && !e.target.closest(SELECTORS.FOOTERCONTAINER)) {
-            $(footerButton).popover('hide');
+            Popover.getInstance(footerButton).hide();
         }
     },
     true);
 
-    $(footerButton).on('show.bs.popover', () => {
+    footerButton.addEventListener('show.bs.popover', () => {
         footerIsShown = true;
     });
 
-    $(footerButton).on('hide.bs.popover', () => {
+    footerButton.addEventListener('hide.bs.popover', () => {
         footerIsShown = false;
     });
 };
