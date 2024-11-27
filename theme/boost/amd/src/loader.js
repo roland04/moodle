@@ -22,25 +22,25 @@
  * @since      2.9
  */
 
-import $ from 'jquery';
 import * as Aria from './aria';
-import Bootstrap from './index';
+import * as Bootstrap from './index';
 import Pending from 'core/pending';
-import {DefaultWhitelist} from './bootstrap/tools/sanitizer';
+import {DefaultAllowlist} from './bootstrap/util/sanitizer';
 import setupBootstrapPendingChecks from './pending';
 
 /**
  * Rember the last visited tabs.
  */
 const rememberTabs = () => {
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        var hash = $(e.target).attr('href');
+    const tabTriggerList = document.querySelectorAll('a[data-bs-toggle="tab"]');
+    [...tabTriggerList].map(tabTriggerEl => tabTriggerEl.addEventListener('shown.bs.tab', (e) => {
+        var hash = e.target.getAttribute('href');
         if (history.replaceState) {
             history.replaceState(null, null, hash);
         } else {
             location.hash = hash;
         }
-    });
+    }));
     const hash = window.location.hash;
     if (hash) {
         const tab = document.querySelector('[role="tablist"] [href="' + hash + '"]');
@@ -55,26 +55,28 @@ const rememberTabs = () => {
  *
  */
 const enablePopovers = () => {
-    $('body').popover({
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    const popoverConfig = {
         container: 'body',
-        selector: '[data-toggle="popover"]',
-        trigger: 'focus click',
-        whitelist: Object.assign(DefaultWhitelist, {
-            table: [],
-            thead: [],
-            tbody: [],
-            tr: [],
-            th: [],
-            td: [],
-        }),
+        trigger: 'focus',
+        allowList: Object.assign(DefaultAllowlist, {table: [], thead: [], tbody: [], tr: [], th: [], td: []}),
+    };
+    [...popoverTriggerList].map(popoverTriggerEl => new Bootstrap.Popover(popoverTriggerEl, popoverConfig));
+
+    // Enable dynamically created popovers inside modals.
+    // TODO: Create a new issue for migrating modal events from JQuery to native events.
+    document.addEventListener('core/modal:bodyRendered', (e) => {
+        const modal = e.target;
+        const popoverTriggerList = modal.querySelectorAll('[data-bs-toggle="popover"]');
+        [...popoverTriggerList].map(popoverTriggerEl => new Bootstrap.Popover(popoverTriggerEl, popoverConfig));
     });
 
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && e.target.closest('[data-toggle="popover"]')) {
-            $(e.target).popover('hide');
+        if (e.key === 'Escape' && e.target.closest('[data-bs-toggle="popover"]')) {
+            Bootstrap.Popover.getInstance(e.target).hide();
         }
-        if (e.key === 'Enter' && e.target.closest('[data-toggle="popover"]')) {
-            $(e.target).popover('show');
+        if (e.key === 'Enter' && e.target.closest('[data-bs-toggle="popover"]')) {
+            Bootstrap.Popover.getInstance(e.target).show();
         }
     });
 };
@@ -84,10 +86,8 @@ const enablePopovers = () => {
  *
  */
 const enableTooltips = () => {
-    $('body').tooltip({
-        container: 'body',
-        selector: '[data-toggle="tooltip"]',
-    });
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    [...tooltipTriggerList].map(tooltipTriggerEl => new Bootstrap.Tooltip(tooltipTriggerEl));
 };
 
 const pendingPromise = new Pending('theme_boost/loader:init');
@@ -107,33 +107,35 @@ enablePopovers();
 // Enable all tooltips.
 enableTooltips();
 
+// TODO: Refactor this on Boostrap 5.
+
 // Disables flipping the dropdowns up or dynamically repositioning them along the Y-axis (based on the viewport)
 // to prevent the dropdowns getting hidden behind the navbar or them covering the trigger element.
-$.fn.dropdown.Constructor.Default.popperConfig = {
-    modifiers: {
-        flip: {
-            enabled: false,
-        },
-        storeTopPosition: {
-            enabled: true,
-            // eslint-disable-next-line no-unused-vars
-            fn(data, options) {
-                data.storedTop = data.offsets.popper.top;
-                return data;
-            },
-            order: 299
-        },
-        restoreTopPosition: {
-            enabled: true,
-            // eslint-disable-next-line no-unused-vars
-            fn(data, options) {
-                data.offsets.popper.top = data.storedTop;
-                return data;
-            },
-            order: 301
-        }
-    },
-};
+// $.fn.dropdown.Constructor.Default.popperConfig = {
+//     modifiers: {
+//         flip: {
+//             enabled: false,
+//         },
+//         storeTopPosition: {
+//             enabled: true,
+//             // eslint-disable-next-line no-unused-vars
+//             fn(data, options) {
+//                 data.storedTop = data.offsets.popper.top;
+//                 return data;
+//             },
+//             order: 299
+//         },
+//         restoreTopPosition: {
+//             enabled: true,
+//             // eslint-disable-next-line no-unused-vars
+//             fn(data, options) {
+//                 data.offsets.popper.top = data.storedTop;
+//                 return data;
+//             },
+//             order: 301
+//         }
+//     },
+// };
 
 pendingPromise.resolve();
 
