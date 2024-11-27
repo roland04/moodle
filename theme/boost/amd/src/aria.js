@@ -22,6 +22,7 @@
  */
 
 import $ from 'jquery';
+import Tab from 'theme_boost/bootstrap/tab';
 import Pending from 'core/pending';
 import * as FocusLockManager from 'core/local/aria/focuslock';
 
@@ -486,7 +487,7 @@ const tabElementFix = () => {
         if (e.target.matches('[role="tablist"] [data-bs-toggle="tab"], [role="tablist"] [data-bs-toggle="pill"]')) {
             const tabs = e.target.closest('[role="tablist"]').querySelectorAll('[data-bs-toggle="tab"], [data-bs-toggle="pill"]');
             e.preventDefault();
-            $(e.target).tab('show');
+            Tab.getOrCreateInstance(e.target).show();
             tabs.forEach(tab => {
                 tab.tabIndex = -1;
             });
