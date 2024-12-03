@@ -38146,6 +38146,15 @@ body.behat-site.path-grade-report-grader .gradeparent th.header {
 body.behat-site.path-grade-report-grader .gradeparent tr.heading {
   top: auto;
 }
+body.behat-site .collapsing {
+  -webkit-transition: initial;
+  -moz-transition: initial;
+  transition: initial;
+}
+
+:root:has(body.behat-site) {
+  scroll-behavior: auto;
+}
 
 .phpinfo table,
 .phpinfo th,
