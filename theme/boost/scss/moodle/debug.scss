@@ -76,6 +76,11 @@ body.behat-site {
     }
 }
 
+// Remove the scroll-behavior: smooth from the root element for behat.
+:root:has(body.behat-site) {
+    scroll-behavior: auto;
+}
+
 .phpinfo table,
 .phpinfo th,
 .phpinfo h2 {
