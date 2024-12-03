@@ -38233,6 +38233,10 @@ body.behat-site.path-grade-report-grader .gradeparent tr.heading {
   top: auto;
 }
 
+:root:has(body.behat-site) {
+  scroll-behavior: auto;
+}
+
 .phpinfo table,
 .phpinfo th,
 .phpinfo h2,
