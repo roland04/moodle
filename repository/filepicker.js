@@ -1786,6 +1786,13 @@ M.core_filepicker.init = function(Y, options) {
                 scope.fpnode.addClass('repository_'+scope.options.repositories[obj.repo_id].type)
             }
             Y.one('.file-picker .fp-repo-items').focus();
+            var filepickerContent = Y.one('.file-picker .fp-repo-items');
+            require(['theme_boost/bootstrap/popover'], function(Popover) {
+                var popoverTriggerList = filepickerContent.getDOMNode().querySelectorAll('[data-bs-toggle="popover"]');
+                popoverTriggerList.forEach((popoverTriggerEl) => {
+                    new Popover(popoverTriggerEl);
+                });
+            });
 
             // display response
             if (obj.login) {
