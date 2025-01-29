@@ -13,7 +13,7 @@ Bootstrap "spinners" can be used to show the loading state in your projects. The
 For accessibility purposes, each loader here includes `role="status"` and a nested `<span class="visually-hidden">Loading...</span>`.
 
 {{< callout info >}}
-{{< partial "callout-info-prefersreducedmotion.md" >}}
+{{< partial "callouts/info-prefersreducedmotion.md" >}}
 {{< /callout >}}
 
 ## Border spinner
@@ -96,8 +96,8 @@ Use [flexbox utilities][flex], [float utilities][float], or [text alignment][tex
 
 {{< example >}}
 <div class="d-flex align-items-center">
-  <strong>Loading...</strong>
-  <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+  <strong role="status">Loading...</strong>
+  <div class="spinner-border ms-auto" aria-hidden="true"></div>
 </div>
 {{< /example >}}
 
@@ -151,31 +151,61 @@ Use spinners within buttons to indicate an action is currently processing or tak
 
 {{< example >}}
 <button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-  <span class="visually-hidden">Loading...</span>
+  <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+  <span class="visually-hidden" role="status">Loading...</span>
 </button>
 <button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-  Loading...
+  <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+  <span role="status">Loading...</span>
 </button>
 {{< /example >}}
 
 {{< example >}}
 <button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-  <span class="visually-hidden">Loading...</span>
+  <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+  <span class="visually-hidden" role="status">Loading...</span>
 </button>
 <button class="btn btn-primary" type="button" disabled>
-  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-  Loading...
+  <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+  <span role="status">Loading...</span>
 </button>
 {{< /example >}}
 
+## CSS
+
+### Variables
+
+{{< added-in "5.2.0" >}}
+
+As part of Bootstrap's evolving CSS variables approach, spinners now use local CSS variables on `.spinner-border` and `.spinner-grow` for enhanced real-time customization. Values for the CSS variables are set via Sass, so Sass customization is still supported, too.
+
+Border spinner variables:
+
+{{< scss-docs name="spinner-border-css-vars" file="scss/_spinners.scss" >}}
+
+Growing spinner variables:
+
+{{< scss-docs name="spinner-grow-css-vars" file="scss/_spinners.scss" >}}
+
+For both spinners, small spinner modifier classes are used to update the values of these CSS variables as needed. For example, the `.spinner-border-sm` class does the following:
+
+{{< scss-docs name="spinner-border-sm-css-vars" file="scss/_spinners.scss" >}}
+
+### Sass variables
+
+{{< scss-docs name="spinner-variables" file="scss/_variables.scss" >}}
+
+### Keyframes
+
+Used for creating the CSS animations for our spinners. Included in `scss/_spinners.scss`.
+
+{{< scss-docs name="spinner-border-keyframes" file="scss/_spinners.scss" >}}
+
+{{< scss-docs name="spinner-grow-keyframes" file="scss/_spinners.scss" >}}
+
 
 [color]:   {{< docsref "/utilities/colors" >}}
-[display]: {{< docsref "/utilities/display" >}}
 [flex]:    {{< docsref "/utilities/flex" >}}
 [float]:   {{< docsref "/utilities/float" >}}
 [margin]:  {{< docsref "/utilities/spacing" >}}
-[sizing]:  {{< docsref "/utilities/sizing" >}}
-[text]:    {{< docsref "/content/typography" >}}
+[text]:    {{< docsref "/utilities/text" >}}

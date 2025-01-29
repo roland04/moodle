@@ -1,24 +1,18 @@
 ---
 layout: docs
 title: Images
-description: Documentation and examples for opting images into responsive behavior (so they never become larger than their parent elements) and add lightweight styles to them—all via classes.
+description: Documentation and examples for opting images into responsive behavior (so they never become wider than their parent) and add lightweight styles to them—all via classes.
 group: content
 toc: true
 ---
 
 ## Responsive images
 
-Images in Bootstrap are made responsive with `.img-fluid`. `max-width: 100%;` and `height: auto;` are applied to the image so that it scales with the parent element.
+Images in Bootstrap are made responsive with `.img-fluid`. This applies `max-width: 100%;` and `height: auto;` to the image so that it scales with the parent width.
 
 {{< example >}}
 {{< placeholder width="100%" height="250" class="bd-placeholder-img-lg img-fluid" text="Responsive image" >}}
 {{< /example >}}
-
-{{< callout warning >}}
-##### SVG images and Internet Explorer
-
-In Internet Explorer 10 and 11, SVG images with `.img-fluid` are disproportionately sized. To fix this, add `width: 100%;` or `.w-100` where necessary. This fix improperly sizes other image formats, so Bootstrap doesn't apply it automatically.
-{{< /callout >}}
 
 ## Image thumbnails
 
@@ -36,6 +30,7 @@ Align images with the [helper float classes]({{< docsref "/utilities/float" >}})
 {{< placeholder width="200" height="200" class="rounded float-start" >}}
 {{< placeholder width="200" height="200" class="rounded float-end" >}}
 {{< /example >}}
+
 
 {{< example >}}
 {{< placeholder width="200" height="200" class="rounded mx-auto d-block" >}}
@@ -58,3 +53,11 @@ If you are using the `<picture>` element to specify multiple `<source>` elements
   <img src="..." class="img-fluid img-thumbnail" alt="...">
 </picture>
 ```
+
+## CSS
+
+### Sass variables
+
+Variables are available for image thumbnails.
+
+{{< scss-docs name="thumbnail-variables" file="scss/_variables.scss" >}}

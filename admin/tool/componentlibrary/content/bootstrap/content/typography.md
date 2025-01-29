@@ -13,7 +13,7 @@ Bootstrap sets basic global display, typography, and link styles. When more cont
 - Use a [native font stack]({{< docsref "/content/reboot#native-font-stack" >}}) that selects the best `font-family` for each OS and device.
 - For a more inclusive and accessible type scale, we use the browser's default root `font-size` (typically 16px) so visitors can customize their browser defaults as needed.
 - Use the `$font-family-base`, `$font-size-base`, and `$line-height-base` attributes as our typographic base applied to the `<body>`.
-- Set the global link color via `$link-color` and apply link underlines only on `:hover`.
+- Set the global link color via `$link-color`.
 - Use `$body-bg` to set a `background-color` on the `<body>` (`#fff` by default).
 
 These styles can be found within `_reboot.scss`, and the global variables are defined in `_variables.scss`. Make sure to set `$font-size-base` in `rem`.
@@ -22,52 +22,16 @@ These styles can be found within `_reboot.scss`, and the global variables are de
 
 All HTML headings, `<h1>` through `<h6>`, are available.
 
-<table>
-  <thead>
-    <tr>
-      <th>Heading</th>
-      <th>Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        {{< markdown >}}`<h1></h1>`{{< /markdown >}}
-      </td>
-      <td><span class="h1">h1. Bootstrap heading</span></td>
-    </tr>
-    <tr>
-      <td>
-        {{< markdown >}}`<h2></h2>`{{< /markdown >}}
-      </td>
-      <td><span class="h2">h2. Bootstrap heading</span></td>
-    </tr>
-    <tr>
-      <td>
-        {{< markdown >}}`<h3></h3>`{{< /markdown >}}
-      </td>
-      <td><span class="h3">h3. Bootstrap heading</span></td>
-    </tr>
-    <tr>
-      <td>
-        {{< markdown >}}`<h4></h4>`{{< /markdown >}}
-      </td>
-      <td><span class="h4">h4. Bootstrap heading</span></td>
-    </tr>
-    <tr>
-      <td>
-        {{< markdown >}}`<h5></h5>`{{< /markdown >}}
-      </td>
-      <td><span class="h5">h5. Bootstrap heading</span></td>
-    </tr>
-    <tr>
-      <td>
-        {{< markdown >}}`<h6></h6>`{{< /markdown >}}
-      </td>
-      <td><span class="h6">h6. Bootstrap heading</span></td>
-    </tr>
-  </tbody>
-</table>
+{{< bs-table >}}
+| Heading | Example |
+| --- | --- |
+| `<h1></h1>` | <span class="h1">h1. Bootstrap heading</span> |
+| `<h2></h2>` | <span class="h2">h2. Bootstrap heading</span> |
+| `<h3></h3>` | <span class="h3">h3. Bootstrap heading</span> |
+| `<h4></h4>` | <span class="h4">h4. Bootstrap heading</span> |
+| `<h5></h5>` | <span class="h5">h5. Bootstrap heading</span> |
+| `<h6></h6>` | <span class="h6">h6. Bootstrap heading</span> |
+{{< /bs-table >}}
 
 ```html
 <h1>h1. Bootstrap heading</h1>
@@ -96,31 +60,21 @@ Use the included utility classes to recreate the small secondary heading text fr
 {{< example >}}
 <h3>
   Fancy display heading
-  <small class="text-muted">With faded secondary text</small>
+  <small class="text-body-secondary">With faded secondary text</small>
 </h3>
 {{< /example >}}
 
 ## Display headings
 
-Traditional heading elements are designed to work best in the meat of your page content. When you need a heading to stand out, consider using a **display heading**—a larger, slightly more opinionated heading style. Keep in mind these headings are not responsive by default, but it's possible to enable [responsive font sizes](#responsive-font-sizes).
+Traditional heading elements are designed to work best in the meat of your page content. When you need a heading to stand out, consider using a **display heading**—a larger, slightly more opinionated heading style.
 
-<div class="bd-example bd-example-type">
-  <table class="table">
-    <tbody>
-      <tr>
-        <td><span class="display-1">Display 1</span></td>
-      </tr>
-      <tr>
-      <td><span class="display-2">Display 2</span></td>
-      </tr>
-      <tr>
-      <td><span class="display-3">Display 3</span></td>
-      </tr>
-      <tr>
-      <td><span class="display-4">Display 4</span></td>
-      </tr>
-    </tbody>
-  </table>
+<div class="bd-example">
+  <div class="display-1 pb-3 mb-3 border-bottom">Display 1</div>
+  <div class="display-2 pb-3 mb-3 border-bottom">Display 2</div>
+  <div class="display-3 pb-3 mb-3 border-bottom">Display 3</div>
+  <div class="display-4 pb-3 mb-3 border-bottom">Display 4</div>
+  <div class="display-5 pb-3 mb-3 border-bottom">Display 5</div>
+  <div class="display-6">Display 6</div>
 </div>
 
 ```html
@@ -128,7 +82,15 @@ Traditional heading elements are designed to work best in the meat of your page 
 <h1 class="display-2">Display 2</h1>
 <h1 class="display-3">Display 3</h1>
 <h1 class="display-4">Display 4</h1>
+<h1 class="display-5">Display 5</h1>
+<h1 class="display-6">Display 6</h1>
 ```
+
+Display headings are configured via the `$display-font-sizes` Sass map and two variables, `$display-font-weight` and `$display-line-height`.
+
+Display headings are customizable via two variables, `$display-font-family` and `$display-font-style`.
+
+{{< scss-docs name="display-headings" file="scss/_variables.scss" >}}
 
 ## Lead
 
@@ -149,19 +111,31 @@ Styling for common inline HTML5 elements.
 <p><del>This line of text is meant to be treated as deleted text.</del></p>
 <p><s>This line of text is meant to be treated as no longer accurate.</s></p>
 <p><ins>This line of text is meant to be treated as an addition to the document.</ins></p>
-<p><u>This line of text will render as underlined</u></p>
+<p><u>This line of text will render as underlined.</u></p>
 <p><small>This line of text is meant to be treated as fine print.</small></p>
 <p><strong>This line rendered as bold text.</strong></p>
 <p><em>This line rendered as italicized text.</em></p>
 {{< /example >}}
 
-`.mark` and `.small` classes are also available to apply the same styles as `<mark>` and `<small>` while avoiding any unwanted semantic implications that the tags would bring.
+Beware that those tags should be used for semantic purpose:
 
-While not shown above, feel free to use `<b>` and `<i>` in HTML5. `<b>` is meant to highlight words or phrases without conveying additional importance while `<i>` is mostly for voice, technical terms, etc.
+- `<mark>` represents text which is marked or highlighted for reference or notation purposes.
+- `<small>` represents side-comments and small print, like copyright and legal text.
+- `<s>` represents element that are no longer relevant or no longer accurate.
+- `<u>` represents a span of inline text which should be rendered in a way that indicates that it has a non-textual annotation.
+
+If you want to style your text, you should use the following classes instead:
+
+- `.mark` will apply the same styles as `<mark>`.
+- `.small` will apply the same styles as `<small>`.
+- `.text-decoration-underline` will apply the same styles as `<u>`.
+- `.text-decoration-line-through` will apply the same styles as `<s>`.
+
+While not shown above, feel free to use `<b>` and `<i>` in HTML5. `<b>` is meant to highlight words or phrases without conveying additional importance, while `<i>` is mostly for voice, technical terms, etc.
 
 ## Text utilities
 
-Change text alignment, transform, style, weight, and color with our [text utilities]({{< docsref "/utilities/text" >}}) and [color utilities]({{< docsref "/utilities/colors" >}}).
+Change text alignment, transform, style, weight, line-height, decoration and color with our [text utilities]({{< docsref "/utilities/text" >}}) and [color utilities]({{< docsref "/utilities/colors" >}}).
 
 ## Abbreviations
 
@@ -176,23 +150,27 @@ Add `.initialism` to an abbreviation for a slightly smaller font-size.
 
 ## Blockquotes
 
-For quoting blocks of content from another source within your document. Wrap `<blockquote class="blockquote">` around any <abbr title="HyperText Markup Language">HTML</abbr> as the quote.
+For quoting blocks of content from another source within your document. Wrap `<blockquote class="blockquote">` around any HTML as the quote.
 
 {{< example >}}
 <blockquote class="blockquote">
-  <p class="mb-0">A well-known quote, contained in a blockquote element.</p>
+  <p>A well-known quote, contained in a blockquote element.</p>
 </blockquote>
 {{< /example >}}
 
 ### Naming a source
 
-Add a `<footer class="blockquote-footer">` for identifying the source. Wrap the name of the source work in `<cite>`.
+The HTML spec requires that blockquote attribution be placed outside the `<blockquote>`. When providing attribution, wrap your `<blockquote>` in a `<figure>` and use a `<figcaption>` or a block level element (e.g., `<p>`) with the `.blockquote-footer` class. Be sure to wrap the name of the source work in `<cite>` as well.
 
 {{< example >}}
-<blockquote class="blockquote">
-  <p class="mb-0">A well-known quote, contained in a blockquote element.</p>
-  <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-</blockquote>
+<figure>
+  <blockquote class="blockquote">
+    <p>A well-known quote, contained in a blockquote element.</p>
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    Someone famous in <cite title="Source Title">Source Title</cite>
+  </figcaption>
+</figure>
 {{< /example >}}
 
 ### Alignment
@@ -200,17 +178,25 @@ Add a `<footer class="blockquote-footer">` for identifying the source. Wrap the 
 Use text utilities as needed to change the alignment of your blockquote.
 
 {{< example >}}
-<blockquote class="blockquote text-center">
-  <p class="mb-0">A well-known quote, contained in a blockquote element.</p>
-  <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-</blockquote>
+<figure class="text-center">
+  <blockquote class="blockquote">
+    <p>A well-known quote, contained in a blockquote element.</p>
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    Someone famous in <cite title="Source Title">Source Title</cite>
+  </figcaption>
+</figure>
 {{< /example >}}
 
 {{< example >}}
-<blockquote class="blockquote text-end">
-  <p class="mb-0">A well-known quote, contained in a blockquote element.</p>
-  <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-</blockquote>
+<figure class="text-end">
+  <blockquote class="blockquote">
+    <p>A well-known quote, contained in a blockquote element.</p>
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    Someone famous in <cite title="Source Title">Source Title</cite>
+  </figcaption>
+</figure>
 {{< /example >}}
 
 ## Lists
@@ -281,6 +267,20 @@ Align terms and descriptions horizontally by using our grid system's predefined 
 
 ## Responsive font sizes
 
-As of v4.3.0, Bootstrap ships with the option to enable responsive font sizes, allowing text to scale more naturally across device and viewport sizes. <abbr title="Responsive font sizes">RFS</abbr> can be enabled by changing the `$enable-responsive-font-sizes` Sass variable to `true` and recompiling Bootstrap.
+In Bootstrap 5, we've enabled responsive font sizes by default, allowing text to scale more naturally across device and viewport sizes. Have a look at the [RFS page]({{< docsref "/getting-started/rfs" >}}) to find out how this works.
 
-To support <abbr title="Responsive font sizes">RFS</abbr>, we use a Sass mixin to replace our normal `font-size` properties. Responsive font sizes will be compiled into `calc()` functions with a mix of `rem` and viewport units to enable the responsive scaling behavior. More about <abbr title="Responsive font sizes">RFS</abbr> and its configuration can be found on its [GitHub repository](https://github.com/twbs/rfs/tree/v8.1.0).
+## CSS
+
+### Sass variables
+
+Headings have some dedicated variables for sizing and spacing.
+
+{{< scss-docs name="headings-variables" file="scss/_variables.scss" >}}
+
+Miscellaneous typography elements covered here and in [Reboot]({{< docsref "/content/reboot" >}}) also have dedicated variables.
+
+{{< scss-docs name="type-variables" file="scss/_variables.scss" >}}
+
+### Sass mixins
+
+There are no dedicated mixins for typography, but Bootstrap does use [Responsive Font Sizing (RFS)]({{< docsref "/getting-started/rfs" >}}).

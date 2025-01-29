@@ -55,11 +55,15 @@ The component library include a selection of the documentation pages of the boot
 
 Removed docs pages were in these files and folders
 
-* admin/tool/componentlibrary/content/bootstrap/getting-started/*
 * admin/tool/componentlibrary/content/bootstrap/about/*
+* admin/tool/componentlibrary/content/bootstrap/customize/*
+* admin/tool/componentlibrary/content/bootstrap/extend/*
+* admin/tool/componentlibrary/content/bootstrap/examples/*
+* admin/tool/componentlibrary/content/bootstrap/getting-started/*
 * admin/tool/componentlibrary/content/bootstrap/migration.md
-* admin/tool/componentlibrary/content/bootstrap/extend/icons.md
-* admin/tool/componentlibrary/content/bootstrap/browser-bugs.md
+* admin/tool/componentlibrary/content/bootstrap/docsref.md
+* admin/tool/componentlibrary/content/bootstrap/docsref.md
+* admin/tool/componentlibrary/content/bootstrap/_index.html
 
 ### Updating the bootstrap docs pages
 
@@ -79,8 +83,10 @@ weight: 20
 ---
 Adding _index.md files ensures they show up as collapsable sections in the Component Library navigation
 
-Copy changed files from bootstrap/site/data/ to admin/tool/componentlibrary/hugo/site/data/
-
-Copy new files from bootstrap/site/layouts/shortcodes/ to admin/tool/componentlibrary/hugo/site/layouts/partials/. Leave changed files as is.
+Copy files from bootstrap/site/data/ to admin/tool/componentlibrary/hugo/site/data/
+Copy files from bootstrap/site/assets/ to admin/tool/componentlibrary/hugo/site/assets/
+Copy files from bootstrap/site/static/ to admin/tool/componentlibrary/hugo/site/assets/
+Copy files from bootstrap/site/layouts/shortcodes/ to admin/tool/componentlibrary/hugo/site/layouts/shortcodes/
+Copy files from bootstrap/site/layouts/partials/ to admin/tool/componentlibrary/hugo/site/layouts/partials/
 
 Try compiling the new component library pages using `grunt componentlibrary`. If anything is still missing from bootstrap you should see a message for more information.
