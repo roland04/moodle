@@ -68,7 +68,7 @@ module.exports = grunt => {
      * @returns {Object} Reference to the spawned task
      */
     const docsBuild = () => spawnNodeCall([
-        'node_modules/hugo-bin/cli.js',
+        'node_modules/hugo-bin/bin/cli.js',
         '--config', getCLPath('config.yml'),
         '--cleanDestinationDir',
     ]);
