@@ -7,6 +7,9 @@
 
 {{- $name := .Get "name" -}}
 {{- $file := .Get "file" -}}
+{{/* MDL modification start*/}}
+{{- $file := path.Join site.Params.hugo_path $file -}}
+{{/* MDL modification end*/}}
 
 {{- /* If any parameters are missing, print an error and exit */ -}}
 {{- if or (not $name) (not $file) -}}

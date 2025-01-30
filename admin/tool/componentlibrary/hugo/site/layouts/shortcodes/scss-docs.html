@@ -10,6 +10,13 @@
 
 {{- $name := .Get "name" -}}
 {{- $file := .Get "file" -}}
+{{/* MDL modification start*/}}
+{{- if strings.HasPrefix $file "site/assets/" -}}
+  {{- $file = path.Join site.Params.hugo_path $file -}}
+{{- else -}}
+  {{- $file = path.Join site.Params.bootstrap_scss_path (strings.TrimPrefix "scss" $file) -}}
+{{- end -}}
+{{/* MDL modification end*/}}
 {{- $strip_default := .Get "strip-default" | default "true" -}}
 
 {{- /* If any parameters are missing, print an error and exit */ -}}
