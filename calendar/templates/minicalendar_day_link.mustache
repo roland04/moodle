@@ -50,7 +50,7 @@
 {{#js}}
 require(['jquery'], function($) {
     require(['theme_boost/bootstrap/popover'], function() {
-        const target = document.getElementById$("calendar-day-popover-link-{{courseid}}-{{year}}-{{yday}}-{{uniqid}}");
+        const target = document.getElementById("calendar-day-popover-link-{{courseid}}-{{year}}-{{yday}}-{{uniqid}}");
         new Popover(target, {
             content: function() {
                 var source = target.next().find("> *:not('.hidden')");

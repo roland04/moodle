@@ -30,7 +30,7 @@
 import Collapse from 'theme_boost/bootstrap/collapse';
 import jQuery from 'jquery';
 import Tree from 'core/tree';
-import {getList} from 'core/normalise';
+import {getList, getFirst} from 'core/normalise';
 
 export default class extends Tree {
 
@@ -148,7 +148,7 @@ export default class extends Tree {
      * @param {JQuery} item  the jQuery object
      */
     toggleGroup(item) {
-        const toggler = item[0].querySelector(this.selectors.COLLAPSE);
+        const toggler = getFirst(item).querySelector(this.selectors.COLLAPSE);
         let collapsibleId = toggler.dataset?.target ?? toggler.getAttribute('href');
         if (!collapsibleId) {
             return;

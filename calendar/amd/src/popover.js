@@ -23,7 +23,6 @@
  */
 
 import Popover from 'theme_boost/bootstrap/popover';
-import jQuery from 'jquery';
 import * as CalendarSelectors from 'core_calendar/selectors';
 
 /**
@@ -45,13 +44,8 @@ const showPopover = target => {
             html: true,
             title: dateContainer.dataset.title,
             content: () => {
-                const source = jQuery(dateContainer).find(CalendarSelectors.elements.dateContent);
-                const content = jQuery('<div>');
-                if (source.length) {
-                    const temptContent = source.find('.hidden').clone(false);
-                    content.html(temptContent.html());
-                }
-                return content.html();
+                const source = dateContainer.querySelector(CalendarSelectors.elements.dateContent);
+                return source ? source.querySelector('.hidden').innerHTML : '';
             },
             'animation': false,
         };

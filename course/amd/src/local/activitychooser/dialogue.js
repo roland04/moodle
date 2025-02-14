@@ -30,6 +30,7 @@ import {addIconToContainer} from 'core/loadingicon';
 import * as Repository from 'core_course/local/activitychooser/repository';
 import Notification from 'core/notification';
 import {debounce} from 'core/utils';
+import {getFirst} from 'core/normalise';
 const getPlugin = pluginName => import(pluginName);
 
 /**
@@ -115,9 +116,10 @@ const manageFavouriteState = async(modalBody, caller, partialFavourite) => {
  * @param {Object} footerData Our base footer object.
  */
 const registerListenerEvents = (modal, mappedModules, partialFavourite, footerData) => {
+    const modalBody = getFirst(modal.getBody());
     const bodyClickListener = async(e) => {
         if (e.target.closest(selectors.actions.optionActions.showSummary)) {
-            const carousel = modal.getBody()[0].querySelector(selectors.regions.carousel);
+            const carousel = modalBody.querySelector(selectors.regions.carousel);
 
             const module = e.target.closest(selectors.regions.chooserOption.container);
             const moduleName = module.dataset.modname;
@@ -129,24 +131,24 @@ const registerListenerEvents = (modal, mappedModules, partialFavourite, footerDa
 
         if (e.target.closest(selectors.actions.optionActions.manageFavourite)) {
             const caller = e.target.closest(selectors.actions.optionActions.manageFavourite);
-            await manageFavouriteState(modal.getBody()[0], caller, partialFavourite);
-            const activeSectionId = modal.getBody()[0].querySelector(selectors.elements.activetab).getAttribute("href");
-            const sectionChooserOptions = modal.getBody()[0]
+            await manageFavouriteState(modalBody, caller, partialFavourite);
+            const activeSectionId = modalBody.querySelector(selectors.elements.activetab).getAttribute("href");
+            const sectionChooserOptions = modalBody
                 .querySelector(selectors.regions.getSectionChooserOptions(activeSectionId));
             const firstChooserOption = sectionChooserOptions
                 .querySelector(selectors.regions.chooserOption.container);
             toggleFocusableChooserOption(firstChooserOption, true);
-            initChooserOptionsKeyboardNavigation(modal.getBody()[0], mappedModules, sectionChooserOptions, modal);
+            initChooserOptionsKeyboardNavigation(modalBody, mappedModules, sectionChooserOptions, modal);
         }
 
         // From the help screen go back to the module overview.
         if (e.target.matches(selectors.actions.closeOption)) {
-            const carousel = modal.getBody()[0].querySelector(selectors.regions.carousel);
+            const carousel = modalBody.querySelector(selectors.regions.carousel);
 
             // Trigger the transition between 'pages'.
             Carousel.getInstance(carousel).prev();
             carousel.addEventListener('slid.bs.carousel', () => {
-                const allModules = modal.getBody()[0].querySelector(selectors.regions.modules);
+                const allModules = modalBody.querySelector(selectors.regions.modules);
                 const caller = allModules.querySelector(selectors.regions.getModuleSelector(e.target.dataset.modname));
                 caller.focus();
             });
@@ -155,7 +157,7 @@ const registerListenerEvents = (modal, mappedModules, partialFavourite, footerDa
         // The "clear search" button is triggered.
         if (e.target.closest(selectors.actions.clearSearch)) {
             // Clear the entered search query in the search bar and hide the search results container.
-            const searchInput = modal.getBody()[0].querySelector(selectors.actions.search);
+            const searchInput = modalBody.querySelector(selectors.actions.search);
             searchInput.value = "";
             searchInput.focus();
             toggleSearchResultsView(modal, mappedModules, searchInput.value);

@@ -273,9 +273,9 @@ export default class Component extends BaseComponent {
     }
 
     /**
-     * Update section collapsed state via bootstrap 4 if necessary.
+     * Update section collapsed state via bootstrap if necessary.
      *
-     * Formats that do not use bootstrap 4 must override this method in order to keep the section
+     * Formats that do not use bootstrap must override this method in order to keep the section
      * toggling working.
      *
      * @param {object} args
@@ -301,11 +301,7 @@ export default class Component extends BaseComponent {
             if (!collapsible) {
                 return;
             }
-            if (element.contentcollapsed) {
-                Collapse.getOrCreateInstance(collapsible, {toggle: false}).hide();
-            } else {
-                Collapse.getOrCreateInstance(collapsible, {toggle: false}).show();
-            }
+            Collapse.getOrCreateInstance(collapsible, {toggle: !element.contentcollapsed});
         }
 
         this._refreshAllSectionsToggler(state);

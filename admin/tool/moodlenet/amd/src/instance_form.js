@@ -34,14 +34,16 @@ define(['tool_moodlenet/validator',
         'core/templates',
         'core/notification',
         'jquery',
-        'theme_boost/bootstrap/carousel'],
+        'theme_boost/bootstrap/carousel',
+        'core/normalise'],
     function(Validator,
              Selectors,
              LoadingIcon,
              Templates,
              Notification,
              $,
-             Carousel) {
+             Carousel,
+             Normalise) {
 
     /**
      * Add the event listeners to our form.
@@ -148,16 +150,17 @@ define(['tool_moodlenet/validator',
          * @param {Object} modal The chooser modal.
          */
     var footerClickListener = function(e, footerData, modal) {
+        const modalBody = Normalise.getFirst(modal.getBody());
         if (e.target.matches(Selectors.action.showMoodleNet) || e.target.closest(Selectors.action.showMoodleNet)) {
             e.preventDefault();
-            const carousel = modal.getBody()[0].querySelector(Selectors.region.carousel);
+            const carousel = modalBody.querySelector(Selectors.region.carousel);
             const showMoodleNet = carousel.querySelector(Selectors.region.moodleNet);
 
             chooserNavigateToMnet(showMoodleNet, footerData, carousel, modal);
         }
         // From the help screen go back to the module overview.
         if (e.target.matches(Selectors.action.closeOption)) {
-            const carousel = modal.getBody()[0].querySelector(Selectors.region.carousel);
+            const carousel = modalBody.querySelector(Selectors.region.carousel);
 
             chooserNavigateFromMnet(carousel, modal, footerData);
         }
