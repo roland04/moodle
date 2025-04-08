@@ -9,4 +9,9 @@
     .container {
         width: auto;
     }
+
+    // Remove tertiary navigation in print mode.
+    .tertiary-navigation {
+        display: none;
+    }
 }
