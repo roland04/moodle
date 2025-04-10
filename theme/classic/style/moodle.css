@@ -37054,47 +37054,20 @@ img.userpicture {
   background: #222;
 }
 
+/**
+ * File tables.scss.
+ * Contains styles for tables.
+ */
 .generaltable {
-  width: 100%;
-  margin-bottom: 1rem;
-  color: var(--bs-emphasis-color);
-  background-color: var(--bs-body-bg);
+  border-top: var(--bs-border-width) solid var(--bs-border-color);
 }
 .generaltable th,
 .generaltable td {
   padding: 0.75rem;
-  vertical-align: top;
   border-top: var(--bs-border-width) solid var(--bs-border-color);
 }
-.generaltable thead th,
-.generaltable thead td {
-  vertical-align: bottom;
-  border-bottom: calc(2 * var(--bs-border-width)) solid var(--bs-border-color);
-}
-.generaltable tbody + tbody {
-  border-top: calc(2 * var(--bs-border-width)) solid var(--bs-border-color);
-}
-.generaltable.table-sm th,
-.generaltable.table-sm td {
-  padding: 0.3rem;
-}
-.generaltable tbody tr:hover.dimmed_text a:not(.menu-action) {
-  color: var(--bs-emphasis-color);
-}
-.generaltable tbody tr:hover td.sticky-column {
-  background-color: rgba(var(--bs-emphasis-color-rgb), 0.075);
-}
-.generaltable tbody td,
-.generaltable tbody th {
-  color: inherit;
-  background-color: inherit;
-}
 
-table caption {
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 42px;
-  text-align: left;
+table {
   caption-side: top;
 }
 table .sticky-column {
@@ -37114,6 +37087,42 @@ table .sticky-column {
   font-size: 3rem;
 }
 
+/**
+ * Custom styles for Bootstrap table classes.
+ */
+.table {
+  border-top: var(--bs-border-width) solid var(--bs-border-color);
+}
+.table tbody td,
+.table tbody th {
+  color: inherit;
+  background-color: inherit;
+}
+.table tbody tr:hover.dimmed_text a:not(.menu-action), .table tbody tr:hover.text-muted a:not(.menu-action) {
+  color: var(--bs-emphasis-color);
+}
+.table tbody tr:hover td.sticky-column {
+  background-color: rgba(var(--bs-emphasis-color-rgb), 0.075);
+}
+
+.table-responsive {
+  scrollbar-width: thin;
+  scrollbar-color: #6a737b #f8f9fa;
+}
+.table-responsive::-webkit-scrollbar {
+  width: 12px;
+}
+.table-responsive::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: #6a737b;
+  border-radius: 20px;
+  border: 3px solid #f8f9fa;
+}
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background-color: #495057;
+}
 .table-responsive .dropdown {
   position: static !important; /* stylelint-disable-line declaration-no-important */
 }
