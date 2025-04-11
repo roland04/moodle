@@ -24,6 +24,7 @@
 import Tab from 'theme_boost/bootstrap/tab';
 import Pending from 'core/pending';
 import * as FocusLockManager from 'core/local/aria/focuslock';
+import EventHandler from 'theme_boost/bootstrap/dom/event-handler';
 
 /**
  * Drop downs from bootstrap don't support keyboard accessibility by default.
@@ -276,7 +277,8 @@ const comboboxFix = () => {
     });
 
     // Handling keyboard events for both navigating through and selecting options.
-    document.addEventListener('keydown', e => {
+    // Add a Bootstrap keydown handler preventing default Dropdown listener stoppping the propagation.
+    EventHandler.on(document, 'keydown.bs.dropdown.data-api', '[data-bs-toggle="dropdown"]', e => {
         if (e.target.matches('[role="combobox"][aria-controls]:not([aria-haspopup=dialog])')) {
             const combobox = e.target;
             const trigger = e.key;
