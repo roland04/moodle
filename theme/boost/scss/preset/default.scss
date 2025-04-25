@@ -105,7 +105,11 @@ $enable-transitions: not $behatsite !default;
 $enable-smooth-scroll: not $behatsite !default;
 
 // Import FontAwesome.
+// TODO: Removing this is not possible because it is font awesome is used in other SCSS files.
 @import "fontawesome";
+
+// Import Bootstrap icons.
+@import "bootstrapicons/bootstrap-icons";
 
 // Import All of Bootstrap
 @import "bootstrap";

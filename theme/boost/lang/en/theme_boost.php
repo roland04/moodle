@@ -31,6 +31,7 @@ $string['brandcolor'] = 'Brand colour';
 $string['brandcolor_desc'] = 'The accent colour.';
 $string['bootswatch'] = 'Bootswatch';
 $string['bootswatch_desc'] = 'A bootswatch is a set of Bootstrap variables and css to style Bootstrap';
+$string['cachedef_bootstrap_icon_map'] = 'Mapping of icons for Bootstrap icon system';
 $string['choosereadme'] = 'Boost is a modern highly-customisable theme. This theme is intended to be used directly, or as a parent theme when creating new themes utilising Bootstrap 4.';
 $string['configtitle'] = 'Boost';
 $string['generalsettings'] = 'General settings';

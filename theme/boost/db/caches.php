@@ -14,16 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+use core_cache\store;
+
 /**
- * Boost.
+ * Theme Boost cache definitions.
  *
  * @package    theme_boost
- * @copyright  2016 Frédéric Massart
+ * @copyright  2025 Mikel Martín <mikel@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2025041401;
-$plugin->requires  = 2025040800;
-$plugin->component = 'theme_boost';
+$definitions = [
+    // Caches Bootstrap icons.
+    'bootstrap_icon_map' => [
+        'mode' => store::MODE_APPLICATION,
+        'simplekeys' => true,
+        'simpledata' => true,
+        'staticacceleration' => true,
+        'staticaccelerationsize' => 1
+    ],
+];

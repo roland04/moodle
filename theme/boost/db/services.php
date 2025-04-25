@@ -15,15 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Boost.
+ * External functions and service declaration for theme Boost
  *
  * @package    theme_boost
- * @copyright  2016 Frédéric Massart
+ * @category   webservice
+ * @copyright  2025 Mikel Martín <mikel@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2025041401;
-$plugin->requires  = 2025040800;
-$plugin->component = 'theme_boost';
+$functions = [
+    'theme_boost_load_bootstrap_icon_system_map' => [
+        'classname' => theme_boost\external\bootstrapicons\load_icons_map::class,
+        'description' => 'Load the mapping of moodle pix names to Bootstrap icon names',
+        'type' => 'read',
+        'loginrequired' => false,
+        'ajax' => true,
+    ],
+];

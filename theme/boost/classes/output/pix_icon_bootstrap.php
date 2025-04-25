@@ -14,16 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace theme_boost\output;
+
+use pix_icon_font;
+
 /**
- * Boost.
+ * Bootstrap icon subtype.
  *
- * @package    theme_boost
- * @copyright  2016 Frédéric Massart
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2025 Mikel Martín <mikel@moodle.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package theme_boost
+ * @category output
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2025041401;
-$plugin->requires  = 2025040800;
-$plugin->component = 'theme_boost';
+class pix_icon_bootstrap extends pix_icon_font {
+}
