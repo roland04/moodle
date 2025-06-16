@@ -814,6 +814,54 @@ function groups_print_course_menu($course, $urlroot, $return=false) {
     }
 }
 
+
+/**
+ * Return group menu selector for overview page.
+ *
+ * @category group
+ * @param stdClass $course course object
+ * @param mixed $urlroot return address. Accepts either a string or a moodle_url
+ * @return string
+ */
+function groups_print_overview_menu($course, $urlroot) {
+    global $USER, $OUTPUT;
+
+    $context = context_course::instance($course->id);
+    $canviewallgroups = has_capability('moodle/site:accessallgroups', $context);
+
+    $usergroups = groups_get_all_groups($course->id, $USER->id, $course->defaultgroupingid);
+
+    $allowedgroups = [];
+    $groupsmenu = [];
+
+    if ($canviewallgroups) {
+        $allowedgroups = groups_get_all_groups($course->id, 0, $course->defaultgroupingid);
+        $groupsmenu[] = get_string('allparticipants');
+    }
+
+    $activegroup = groups_get_course_group($course, true, $allowedgroups);
+    $groupsmenu += groups_sort_menu_options($allowedgroups, $usergroups);
+
+    if (empty($groupsmenu)) {
+        // No groups available.
+        return '';
+    }
+
+    $grouplabel = get_string('groups'); // TODO: Wait UX team to decide on the label.
+
+    if (count($groupsmenu) == 1) {
+        $groupname = reset($groupsmenu);
+        $output = get_string('labelvalue', (object) ['label' => $grouplabel, 'value' => $groupname]);
+        return html_writer::tag('div', $output, ['class' => 'group-overview-selector']);
+    }
+
+    $select = new single_select(new moodle_url($urlroot), 'group', $groupsmenu, $activegroup, null, 'selectgroup');
+    $select->label = $grouplabel;
+    $output = $OUTPUT->render($select);
+
+    return html_writer::tag('div', $output, ['class' => 'group-overview-selector']);
+}
+
 /**
  * Turn an array of groups into an array of menu options.
  * @param array $groups of group objects.

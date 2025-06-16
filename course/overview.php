@@ -62,6 +62,11 @@ echo $renderer->header();
 echo $renderer->heading(get_string('activities'), 2, 'h4');
 echo $renderer->paragraph(get_string('overview_info', 'course'));
 
+// TODO: Check if the group selector should be included.
+// TODO: How to handle the group selector in the overview page? coursgroup? check all groupmodes in course activities?
+$currentgroup = groups_get_course_group($course, true);
+echo groups_allgroups_course_menu($course, $PAGE->url, true, $currentgroup);
+
 echo $renderer->render($overview);
 
 echo $renderer->footer();
