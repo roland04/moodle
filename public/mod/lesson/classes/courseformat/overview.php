@@ -113,8 +113,13 @@ class overview extends \core_courseformat\activityoverviewbase {
             return null;
         }
 
-        $attemptedusers = $this->lesson->count_submitted_participants();
-        $totalusers = $this->lesson->count_all_participants();
+        $groups = [];
+        if ($this->needs_filtering_by_groups()) {
+            $groups = array_map(fn($group) => $group->id, $this->get_groups_for_filtering());
+        }
+
+        $attemptedusers = $this->lesson->count_submitted_participants($groups);
+        $totalusers = $this->lesson->count_all_participants($groups);
 
         return new overviewitem(
             name: $this->stringmanager->get_string('studentswhoattempted', 'mod_lesson'),
@@ -137,10 +142,15 @@ class overview extends \core_courseformat\activityoverviewbase {
             return null;
         }
 
-        $totalattempts = $this->lesson->count_all_submissions();
+        $groups = [];
+        if ($this->needs_filtering_by_groups()) {
+            $groups = array_map(fn($group) => $group->id, $this->get_groups_for_filtering());
+        }
+
+        $totalattempts = $this->lesson->count_all_submissions($groups);
 
         if ($this->lesson->retake) {
-            $attemptedusers = $this->lesson->count_submitted_participants();
+            $attemptedusers = $this->lesson->count_submitted_participants($groups);
 
             $overviewdialog = new overviewdialog(
                 buttoncontent: $totalattempts,
