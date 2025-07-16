@@ -27032,89 +27032,71 @@ audio.mediaplugin_html5audio {
   }
 }
 /**
- * Module chooser dialogue (moodle-core-chooserdialogue)
- *
- * This CSS belong to the chooser dialogue which should work both with, and
- * without javascript enabled
+ * Module chooser dialogue (activity chooser)
  */
-.modchooser .modal-body {
+/* Main modal dialogue styles. */
+.modchooser.modal-dialog {
+  --bs-modal-width: 1140px;
+  --bs-modal-header-border-width: 0;
+  --bs-modal-header-padding-y: 2rem;
+}
+.modchooser.modal-dialog .modal-header .modal-title {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.40625rem;
+}
+.modchooser.modal-dialog .modal-body {
   padding: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
-.modchooser .modal-body .searchresultitemscontainer-wrapper {
+.modchooser.modal-dialog .modal-body .searchresultitemscontainer-wrapper {
   min-height: 495px;
 }
-.modchooser .modal-body .carousel-item {
+.modchooser.modal-dialog .modal-body .carousel-item {
   height: 640px;
 }
-.modchooser .modal-body .carousel-item.active {
+.modchooser.modal-dialog .modal-body .carousel-item.active {
   display: flex;
 }
-.modchooser .modal-body .chooser-container {
+.modchooser.modal-dialog .modal-body .chooser-container {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
 }
-.modchooser .modal-body .loading-icon {
+.modchooser.modal-dialog .modal-body .loading-icon {
   opacity: 1;
 }
-.modchooser .modal-body .loading-icon .icon {
+.modchooser.modal-dialog .modal-body .loading-icon .icon {
   display: block;
   font-size: 3em;
   max-height: 3em;
   max-width: 3em;
 }
-.modchooser .modal-body .carousel-item .loading-icon .icon {
+.modchooser.modal-dialog .modal-body .carousel-item .loading-icon .icon {
   margin: 1em auto;
 }
-.modchooser .modal-body .searchbar {
-  width: 100%;
+.modchooser.modal-dialog .modal-body .searchbar {
+  max-width: 30rem !important; /* stylelint-disable-line declaration-no-important */
 }
-
-.modchooser .modal-footer {
+.modchooser.modal-dialog .modal-footer {
   height: 70px;
   background: var(--bs-body-bg);
 }
-.modchooser .modal-footer .moodlenet-logo .icon {
+.modchooser.modal-dialog .modal-footer .moodlenet-logo .icon {
   height: 2.5rem;
   width: 6rem;
   max-height: 2.5rem;
   max-width: 6rem;
   margin-bottom: 0.6rem;
 }
-
-.modchoosercontainer .optionscontainer,
-.modchoosercontainer .searchresultitemscontainer {
-  overflow-x: hidden;
-}
-.modchoosercontainer .optionscontainer .option,
-.modchoosercontainer .searchresultitemscontainer .option {
-  flex-basis: calc(50% - 0.5rem);
-}
-.modchoosercontainer .optionscontainer .option:hover,
-.modchoosercontainer .searchresultitemscontainer .option:hover {
-  border: 1px solid #7c7f83;
-}
-.modchoosercontainer .optionscontainer .option .optionactions .optionaction,
-.modchoosercontainer .searchresultitemscontainer .option .optionactions .optionaction {
-  cursor: pointer;
-  color: #6a737b;
-}
-.modchoosercontainer .optionscontainer .option .optionactions .optionaction i,
-.modchoosercontainer .searchresultitemscontainer .option .optionactions .optionaction i {
-  margin: 0;
-}
-.modchoosercontainer .optionscontainer .option .optioninfo a,
-.modchoosercontainer .searchresultitemscontainer .option .optioninfo a {
-  color: #495057;
-}
-.modchoosercontainer .optionscontainer .option .optioninfo a:hover,
-.modchoosercontainer .searchresultitemscontainer .option .optioninfo a:hover {
-  text-decoration: none;
+.modchooser.modal-dialog .carousel-item {
+  transition: none !important; /* stylelint-disable-line declaration-no-important */
 }
 
+/* Main container layout styles. */
 .modchoosercontainer {
   display: grid;
   width: 100%;
@@ -27143,26 +27125,83 @@ audio.mediaplugin_html5audio {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr;
   }
-  .modchoosercontainer .modchoosernav {
+}
+
+/* Navigation styles. */
+.modchoosernav {
+  --bs-nav-pills-border-radius: 50rem;
+  --bs-nav-pills-link-active-bg: #1d2125;
+  --bs-nav-link-font-size: 0.9375rem;
+}
+.modchoosernav .nav-link {
+  --bs-nav-link-color: #1d2125;
+  --bs-nav-link-hover-color: #0f6cbf;
+  --bs-nav-link-font-weight: 500;
+  --bs-nav-link-padding-y: .3rem;
+  width: fit-content;
+}
+.modchoosernav .nav-link:not(.active) {
+  --bs-nav-link-hover-color: #0f6cbf;
+}
+.modchoosernav .nav-link:not(.active):hover {
+  background-color: #e7f0f9;
+}
+@media (max-width: 767.98px) {
+  .modchoosernav {
     overflow-x: auto;
-    height: 3rem;
     white-space: nowrap;
+    background-color: #fff !important; /* stylelint-disable-line declaration-no-important */
+  }
+  .modchoosernav .nav-link {
+    border: 1px solid #dee2e6 !important; /* stylelint-disable-line declaration-no-important */
   }
 }
 
+/* Options main container styles. */
+.modchooser .modal-body .optionscontainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+}
+@media (max-width: 991.98px) {
+  .modchooser .modal-body .optionscontainer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (max-width: 575.98px) {
+  .modchooser .modal-body .optionscontainer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.modchooser .modal-body .optionscontainer .option {
+  width: fit-content;
+  height: fit-content;
+}
+.modchooser .modal-body .optionscontainer .option .optioninfo {
+  border: 2px solid transparent;
+}
+.modchooser .modal-body .optionscontainer .option.selected .optioninfo {
+  border: 2px solid #0f6cbf;
+}
+
+/* Option item styles. */
+.modchooser .modal-body .optioninfo {
+  --bs-btn-border-radius: 0.6rem;
+  text-align: initial;
+}
+.modchooser .modal-body .optioninfo:hover {
+  background-color: #f8f9fa;
+}
+
+/* Option summary styles. */
 .modchooser .modal-body .optionsummary {
   background-color: #fff;
   overflow-x: hidden;
   overflow-y: auto;
+  width: 100%;
 }
 .modchooser .modal-body .optionsummary .activitychooser-option-details {
-  min-width: 10rem;
-}
-.modchooser .modal-body .optionsummary .modchooser-detail-name {
-  margin-inline-start: -1rem;
-}
-.modchooser .modal-body .optionsummary .modchooser-detail-name .modchooser-detail-icon {
-  width: 1rem;
+  min-width: 15rem;
 }
 
 @media (max-width: 575.98px) {
@@ -27185,18 +27224,6 @@ audio.mediaplugin_html5audio {
   }
   .modchooser .modal-body .searchresultitemscontainer-wrapper {
     min-height: auto;
-  }
-}
-@media (min-width: 576px) {
-  .modchoosercontainer .optionscontainer .option,
-  .modchoosercontainer .searchresultitemscontainer .option {
-    flex-basis: calc(33.33% - 0.5rem);
-  }
-}
-@media (min-width: 992px) {
-  .modchoosercontainer .optionscontainer .option,
-  .modchoosercontainer .searchresultitemscontainer .option {
-    flex-basis: calc(25% - 0.5rem);
   }
 }
 /* Form element: listing */
@@ -27994,6 +28021,7 @@ input[disabled] {
 .clamp-2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   overflow: hidden;
 }

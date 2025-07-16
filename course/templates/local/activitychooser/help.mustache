@@ -66,18 +66,12 @@
             <div
                 class="activitychooser-option-details"
             >
-                <div class="h5">{{#str}} activitydetails, course {{/str}}</div>
                 {{#details}}
-                <div class="modchooser-detail ps-3 pt-3">
+                <div class="modchooser-detail">
                     <div
                         class="modchooser-detail-name {{!
-                        }} d-flex align-items-center text-muted icon-size-2"
+                        }} d-flex align-items-center text-muted icon-size-small"
                     >
-                        <div
-                            class="modchooser-detail-icon icon-no-margin d-flex align-items-center"
-                        >
-                            {{#pix}} {{icon}}, core {{/pix}}
-                        </div>
                         <div>
                             <small>{{label}}</small>
                         </div>
@@ -88,8 +82,7 @@
                 </div>
                 {{/details}}
             </div>
-            {{! Repsonsive dividers. }}
-            <div class="d-none d-md-block vr mx-2"></div>
+            {{! Repsonsive divider. }}
             <hr class="d-block d-md-none my-2" />
             {{! General helps text. }}
             <div

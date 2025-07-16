@@ -88,12 +88,12 @@
     data-region="chooser-container"
 >
     <div class="modchooserfilters">
-        <div class="searchcontainer mb-3 px-1">
+        <div class="searchcontainer mb-3">
             {{>core_course/local/activitychooser/search}}
         </div>
     </div>
     <div
-        class="nav nav-pills modchoosernav d-flex flex-row flex-md-column flex-nowrap gap-2"
+        class="nav nav-pills modchoosernav d-flex flex-row flex-md-column flex-nowrap gap-2 me-5"
         id="categories-{{uniqid}}"
         role="tablist"
     >
@@ -111,7 +111,7 @@
         >
             {{tabLabel}}
         </a>
-        {{#separator}}<hr>{{/separator}}
+        {{#separator}}<hr class="d-none d-md-block">{{/separator}}
         {{/tabs}}
     </div>
     <div
