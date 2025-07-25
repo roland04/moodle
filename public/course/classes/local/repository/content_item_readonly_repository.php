@@ -146,6 +146,7 @@ class content_item_readonly_repository implements content_item_readonly_reposito
             $archetype = plugin_supports('mod', $mod->name, FEATURE_MOD_ARCHETYPE, MOD_ARCHETYPE_OTHER);
             $purpose = plugin_supports('mod', $mod->name, FEATURE_MOD_PURPOSE, MOD_PURPOSE_OTHER);
             $isbranded = component_callback('mod_' . $mod->name, 'is_branded', [], false);
+            $gradable = plugin_supports('mod', $mod->name, FEATURE_GRADE_HAS_GRADE, false);
 
             $contentitem = new content_item(
                 $mod->id,
@@ -158,6 +159,7 @@ class content_item_readonly_repository implements content_item_readonly_reposito
                 'mod_' . $mod->name,
                 $purpose,
                 $isbranded,
+                $gradable
             );
 
             $modcontentitemreference = clone($contentitem);
@@ -212,6 +214,7 @@ class content_item_readonly_repository implements content_item_readonly_reposito
             $archetype = plugin_supports('mod', $mod->name, FEATURE_MOD_ARCHETYPE, MOD_ARCHETYPE_OTHER);
             $purpose = plugin_supports('mod', $mod->name, FEATURE_MOD_PURPOSE, MOD_PURPOSE_OTHER);
             $isbranded = component_callback('mod_' . $mod->name, 'is_branded', [], false);
+            $gradable = plugin_supports('mod', $mod->name, FEATURE_GRADE_HAS_GRADE, false);
 
             $icon = 'monologo';
             // Quick check for monologo icons.
@@ -232,6 +235,7 @@ class content_item_readonly_repository implements content_item_readonly_reposito
                 'mod_' . $mod->name,
                 $purpose,
                 $isbranded,
+                gradable: $gradable
             );
 
             $modcontentitemreference = clone($contentitem);
