@@ -70,7 +70,7 @@ class content_item {
         /** @var bool $branded whether or not this component is branded. */
         private bool $branded = false,
         /** @var bool $gradable whether or not this component is gradable. */
-        private bool $gradable = false
+        private bool $gradable = false,
     ) {
     }
 
