@@ -424,6 +424,12 @@ final class locallib_test extends \advanced_testcase {
         $this->getDataGenerator()->create_group_member(['userid' => $student2->id, 'groupid' => $group1->id]);
         $this->getDataGenerator()->create_group_member(['userid' => $student4->id, 'groupid' => $group2->id]);
 
+        // The following data was created for the lesson:
+        // Student 1: group 1, with 1 submission
+        // Student 2: group 1, with 2 submissions
+        // Student 3: not in a group, with 2 submissions
+        // Student 4: group 2, with no submissions
+
         $this->assertEquals(3, $lesson->count_all_submissions([$group1->id]));
         $this->assertEquals(2, $lesson->count_submitted_participants([$group1->id]));
         $this->assertEquals(2, $lesson->count_all_participants([$group1->id]));

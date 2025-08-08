@@ -259,6 +259,26 @@ final class overview_test extends \advanced_testcase {
                     'value' => 3,
                 ],
             ],
+            'Teacher (with attempts) (Separate Groups)' => [
+                'role' => 'editingteacher',
+                'groupmode' => SEPARATEGROUPS,
+                'hasentries' => true,
+                'hasretakes' => true,
+                'expected' => [
+                    'name' => get_string('totalattepmts', 'mod_lesson'),
+                    'value' => 3,
+                ],
+            ],
+            'Teacher (with attempts) (Visible Groups)' => [
+                'role' => 'editingteacher',
+                'groupmode' => VISIBLEGROUPS,
+                'hasentries' => true,
+                'hasretakes' => true,
+                'expected' => [
+                    'name' => get_string('totalattepmts', 'mod_lesson'),
+                    'value' => 3,
+                ],
+            ],
             'Teacher (with attempts without retakes)' => [
                 'role' => 'editingteacher',
                 'groupmode' => NOGROUPS,
@@ -297,6 +317,16 @@ final class overview_test extends \advanced_testcase {
                 'expected' => [
                     'name' => get_string('totalattepmts', 'mod_lesson'),
                     'value' => 2,
+                ],
+            ],
+            'Non-editing Teacher (with attempts) (Visible Groups)' => [
+                'role' => 'teacher',
+                'groupmode' => VISIBLEGROUPS,
+                'hasentries' => true,
+                'hasretakes' => true,
+                'expected' => [
+                    'name' => get_string('totalattepmts', 'mod_lesson'),
+                    'value' => 3,
                 ],
             ],
             'Student' => [

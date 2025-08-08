@@ -113,10 +113,7 @@ class overview extends \core_courseformat\activityoverviewbase {
             return null;
         }
 
-        $groups = [];
-        if ($this->needs_filtering_by_groups()) {
-            $groups = array_map(fn($group) => $group->id, $this->get_groups_for_filtering());
-        }
+        $groups = array_map(fn($group) => $group->id, $this->get_groups_for_filtering());
 
         $attemptedusers = $this->lesson->count_submitted_participants($groups);
         $totalusers = $this->lesson->count_all_participants($groups);
@@ -142,10 +139,7 @@ class overview extends \core_courseformat\activityoverviewbase {
             return null;
         }
 
-        $groups = [];
-        if ($this->needs_filtering_by_groups()) {
-            $groups = array_map(fn($group) => $group->id, $this->get_groups_for_filtering());
-        }
+        $groups = array_map(fn($group) => $group->id, $this->get_groups_for_filtering());
 
         $totalattempts = $this->lesson->count_all_submissions($groups);
 

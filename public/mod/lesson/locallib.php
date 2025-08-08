@@ -3079,6 +3079,7 @@ class lesson extends lesson_base {
     /**
      * Count the number of participants that have access to the lesson.
      *
+     * @param array $groups the groups to filter by.
      * @return int the number of users that have access to view the lesson
      */
     public function count_all_participants(array $groups): int {
