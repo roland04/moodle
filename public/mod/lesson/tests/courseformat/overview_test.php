@@ -433,6 +433,24 @@ final class overview_test extends \advanced_testcase {
                     'value' => 3,
                 ],
             ],
+            'Teacher (with attempts) (Separate Groups)' => [
+                'role' => 'editingteacher',
+                'groupmode' => SEPARATEGROUPS,
+                'hasentries' => true,
+                'expected' => [
+                    'name' => get_string('studentswhoattempted', 'mod_lesson'),
+                    'value' => 3,
+                ],
+            ],
+            'Teacher (with attempts) (Visible Groups)' => [
+                'role' => 'editingteacher',
+                'groupmode' => VISIBLEGROUPS,
+                'hasentries' => true,
+                'expected' => [
+                    'name' => get_string('studentswhoattempted', 'mod_lesson'),
+                    'value' => 3,
+                ],
+            ],
             'Teacher (without attempts)' => [
                 'role' => 'editingteacher',
                 'groupmode' => NOGROUPS,
@@ -458,6 +476,15 @@ final class overview_test extends \advanced_testcase {
                 'expected' => [
                     'name' => get_string('studentswhoattempted', 'mod_lesson'),
                     'value' => 2,
+                ],
+            ],
+            'Non-editing Teacher (with attempts) (Visible Groups)' => [
+                'role' => 'teacher',
+                'groupmode' => VISIBLEGROUPS,
+                'hasentries' => true,
+                'expected' => [
+                    'name' => get_string('studentswhoattempted', 'mod_lesson'),
+                    'value' => 3,
                 ],
             ],
             'Student' => [
