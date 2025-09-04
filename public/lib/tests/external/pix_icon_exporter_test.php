@@ -44,10 +44,16 @@ final class pix_icon_exporter_test extends \advanced_testcase {
         $this->assertObjectHasProperty('pix', $data);
         $this->assertObjectHasProperty('component', $data);
         $this->assertObjectHasProperty('extras', $data);
-        $this->assertCount(3, get_object_vars($data));
+        $this->assertObjectHasProperty('iconsystem', $data);
+        $this->assertObjectHasProperty('iconoutput', $data);
+        $this->assertObjectHasProperty('iconmap', $data);
+        $this->assertCount(6, get_object_vars($data));
 
         $this->assertEquals($pix, $data->pix);
         $this->assertEquals($component, $data->component);
+        $this->assertEquals(\core\output\icon_system_fontawesome::class, $data->iconsystem);
+        $this->assertEquals(\core\output\pix_icon_fontawesome::class, $data->iconoutput);
+        $this->assertEquals('fa fa-triangle-exclamation text-warning', $data->iconmap);
 
         $expectedattributes = [
             [
@@ -82,10 +88,16 @@ final class pix_icon_exporter_test extends \advanced_testcase {
         $this->assertObjectHasProperty('pix', $data);
         $this->assertObjectHasProperty('component', $data);
         $this->assertObjectHasProperty('extras', $data);
-        $this->assertCount(3, get_object_vars($data));
+        $this->assertObjectHasProperty('iconsystem', $data);
+        $this->assertObjectHasProperty('iconoutput', $data);
+        $this->assertObjectHasProperty('iconmap', $data);
+        $this->assertCount(6, get_object_vars($data));
 
         $this->assertEquals($pix, $data->pix);
         $this->assertEquals($component, $data->component);
+        $this->assertEquals(\core\output\icon_system_fontawesome::class, $data->iconsystem);
+        $this->assertEquals(\core\output\pix_icon_fontawesome::class, $data->iconoutput);
+        $this->assertEquals('fa fa-triangle-exclamation text-warning', $data->iconmap);
 
         $expectedattributes = [
             [

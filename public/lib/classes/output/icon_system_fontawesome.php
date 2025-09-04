@@ -598,8 +598,13 @@ class icon_system_fontawesome extends icon_system_font {
     }
 
     #[\Override]
+    public function get_icon_output_class(): string {
+        return pix_icon_fontawesome::class;
+    }
+
+    #[\Override]
     public function render_pix_icon(renderer_base $output, pix_icon $icon) {
-        $subtype = 'pix_icon_fontawesome';
+        $subtype = $this->get_icon_output_class();
         $subpix = new $subtype($icon);
 
         $data = $subpix->export_for_template($output);

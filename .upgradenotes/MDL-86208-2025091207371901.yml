@@ -1,0 +1,7 @@
+issueNumber: MDL-86208
+notes:
+  core:
+    - message: >-
+        New `get_icon_output_class` function added to `core\output\icon_system`
+        abstract class
+      type: improved

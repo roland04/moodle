@@ -114,6 +114,14 @@ abstract class icon_system {
     abstract public function render_pix_icon(renderer_base $output, pix_icon $icon);
 
     /**
+     * Overridable function to get the class name of the pix_icon subclass
+     * used to render icons for this icon system.
+     */
+    public function get_icon_output_class(): string {
+        return pix_icon::class;
+    }
+
+    /**
      * Overridable function to get a mapping of all icons.
      * Default is to do no mapping.
      */

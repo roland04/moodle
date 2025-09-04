@@ -17,6 +17,7 @@
 namespace core\external;
 
 use core\output\pix_icon;
+use core\output\icon_system;
 
 /**
  * Class pix_icon_exporter
@@ -84,6 +85,21 @@ class pix_icon_exporter extends exporter {
                 'null' => NULL_ALLOWED,
                 'description' => 'The attributes of the icon.',
             ],
+            'iconsystem' => [
+                'type' => PARAM_TEXT,
+                'null' => NULL_NOT_ALLOWED,
+                'description' => 'The icon system for the icon.',
+            ],
+            'iconoutput' => [
+                'type' => PARAM_TEXT,
+                'null' => NULL_NOT_ALLOWED,
+                'description' => 'The icon output for the icon.',
+            ],
+            'iconmap' => [
+                'type' => PARAM_TEXT,
+                'null' => NULL_ALLOWED,
+                'description' => 'The icon map for the icon.',
+            ],
         ];
     }
 
@@ -98,8 +114,31 @@ class pix_icon_exporter extends exporter {
             $attributes[] = ['name' => $name, 'value' => $value];
         }
 
+        $iconsystem = icon_system::instance();
+
         return [
             'extras' => $attributes,
+            'iconsystem' => $iconsystem::class,
+            'iconoutput' => $iconsystem->get_icon_output_class(),
+            'iconmap' => $this->get_icon_map($iconsystem, $source),
         ];
+    }
+
+    /**
+     * Get the icon map for the given icon if any.
+     *
+     * @param icon_system $iconsystem
+     * @param pix_icon $icon
+     * @return string|null
+     */
+    private function get_icon_map(icon_system $iconsystem, pix_icon $icon): ?string {
+        // Normalize component name.
+        $component = $icon->component;
+        if ($component == null || $component == 'moodle') {
+            $component = 'core';
+        }
+
+        $iconkey = $component . ':' . $icon->pix;
+        return $iconsystem->get_icon_name_map()[$iconkey] ?? null;
     }
 }
