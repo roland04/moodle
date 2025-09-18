@@ -55,3 +55,17 @@
         }
     }
 }
+
+.dropdown-toggle {
+    // Helper class to remove the caret from a dropdown toggle.
+    &.no-caret {
+        &::after {
+            display: none;
+        }
+
+        &::before {
+            display: none;
+        }
+    }
+}
+

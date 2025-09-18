@@ -1,0 +1,89 @@
+/**
+ * Styles for the notifications dropdown.
+ */
+
+/* Variables */
+
+$notifications-dropdown-width: 28rem;
+$notifications-content-height: 30rem;
+
+/* Navbar notifications dropdown */
+
+.navbar .notifications {
+
+    .notification-count {
+        padding: 2px;
+        border-radius: .25rem;
+        background-color: $danger;
+        color: $popover-count-color;
+        font-size: 11px;
+        line-height: 11px;
+        position: absolute;
+        top: $navbar-height * 0.25;
+        right: 0;
+    }
+
+    .notifications-dropdown-menu {
+        width: $notifications-dropdown-width;
+
+        &.loading {
+            .all-notifications {
+                &:empty + .empty-message {
+                    display: none;
+                }
+            }
+        }
+
+        @include media-breakpoint-down(sm) {
+            position: fixed;
+            width: 100%;
+            top: $navbar-height;
+            left: 0;
+        }
+
+        // Override default padding of dialog.
+        [data-for="dropdowndialog_content"] {
+            padding: 0 !important; /* stylelint-disable-line declaration-no-important */
+        }
+    }
+
+    .notifications-content-container {
+        height: $notifications-content-height;
+        overflow: auto;
+
+        .empty-message {
+            display: none;
+        }
+
+        .all-notifications {
+            @include visible();
+
+            height: auto;
+            overflow: hidden;
+
+            &:empty + .empty-message {
+                display: block;
+            }
+        }
+    }
+
+    .notifications-header-container {
+        .mark-all-read-button {
+            .normal-icon {
+                display: inline-block;
+            }
+            .loading-icon {
+                display: none;
+            }
+
+            &.loading {
+                .normal-icon {
+                    display: none;
+                }
+                .loading-icon {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}

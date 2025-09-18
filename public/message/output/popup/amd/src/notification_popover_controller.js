@@ -26,14 +26,15 @@
 define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
             'core/notification', 'core/custom_interaction_events', 'core/popover_region_controller',
             'message_popup/notification_repository', 'message_popup/notification_area_events',
-            'core/local/aria/focuslock',
+            'core/local/aria/focuslock', 'core/normalise',
         ],
         function($, Ajax, Templates, Str, URL, DebugNotification, CustomEvents,
-            PopoverController, NotificationRepo, NotificationAreaEvents, FocusLock) {
+            PopoverController, NotificationRepo, NotificationAreaEvents, FocusLock, Normalise) {
 
     var SELECTORS = {
         MARK_ALL_READ_BUTTON: '[data-action="mark-all-read"]',
         ALL_NOTIFICATIONS_CONTAINER: '[data-region="all-notifications"]',
+        NOTIFICATIONS_CONTENT_CONTAINER: '[data-region="notifications-content"]',
         NOTIFICATION: '[data-region="notification-content-item-container"]',
         UNREAD_NOTIFICATION: '[data-region="notification-content-item-container"].unread',
         NOTIFICATION_LINK: '[data-action="content-item-link"]',
@@ -41,6 +42,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
         COUNT_CONTAINER: '[data-region="count-container"]',
         NOTIFICATION_READ_FEEDBACK: '[data-region="notification-read-feedback"]',
         CLOSE_NOTIFICATION_POPOVER: '[data-action="close-notification-popover"]',
+        DROPDOWN_TOGGLE: '[data-bs-toggle="dropdown"]',
     };
 
     /**
@@ -57,6 +59,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
         this.unreadCount = 0;
         this.lastQueried = 0;
         this.userId = this.root.attr('data-userid');
+        this.contentContainer = this.root.find(SELECTORS.NOTIFICATIONS_CONTENT_CONTAINER);
         this.container = this.root.find(SELECTORS.ALL_NOTIFICATIONS_CONTAINER);
         this.limit = 20;
         this.offset = 0;
@@ -338,6 +341,9 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
         CustomEvents.define(this.root, [
             CustomEvents.events.activate,
         ]);
+        CustomEvents.define(this.getContentContainer(), [
+            CustomEvents.events.scrollBottom
+        ]);
 
         // Mark all notifications read if the user activates the mark all as read button.
         this.root.on(CustomEvents.events.activate, SELECTORS.MARK_ALL_READ_BUTTON, function(e, data) {
@@ -368,7 +374,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
         }.bind(this));
 
         // Update the notification information when the menu is opened.
-        this.root.on(this.events().menuOpened, function() {
+        Normalise.getFirst(this.root).querySelector(SELECTORS.DROPDOWN_TOGGLE).addEventListener('shown.bs.dropdown', function() {
             this.hideUnreadCount();
             this.updateButtonAriaLabel();
 
@@ -377,13 +383,13 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
             }
 
             // Lock focus to the popover when it is opened, it is the parent of the container.
-            const contentContainer = this.getContentContainer()[0].parentNode;
+            const contentContainer = Normalise.getFirst(this.getContentContainer()).parentNode;
             FocusLock.trapFocus(contentContainer);
 
         }.bind(this));
 
         // Update the unread notification count when the menu is closed.
-        this.root.on(this.events().menuClosed, function() {
+        Normalise.getFirst(this.root).querySelector(SELECTORS.DROPDOWN_TOGGLE).addEventListener('hidden.bs.dropdown', function() {
             this.renderUnreadCount();
             this.updateButtonAriaLabel();
             // Lock focus to the popover when it is opened, it is the parent of the container.
@@ -391,12 +397,12 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
         }.bind(this));
 
         // Set aria attributes when popover is loading.
-        this.root.on(this.events().startLoading, function() {
+        Normalise.getFirst(this.root).querySelector(SELECTORS.DROPDOWN_TOGGLE).addEventListener('show.bs.dropdown', function() {
             this.getContent().attr('aria-busy', 'true');
         }.bind(this));
 
         // Set aria attributes when popover is finished loading.
-        this.root.on(this.events().stopLoading, function() {
+        Normalise.getFirst(this.root).querySelector(SELECTORS.DROPDOWN_TOGGLE).addEventListener('shown.bs.dropdown', function() {
             this.getContent().attr('aria-busy', 'false');
         }.bind(this));
 

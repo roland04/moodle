@@ -28464,12 +28464,6 @@ blockquote {
   white-space: nowrap;
   display: inline;
 }
-.action-menu .dropdown-toggle.no-caret::after {
-  display: none;
-}
-.action-menu .dropdown-toggle.no-caret::before {
-  display: none;
-}
 .action-menu .dropdown.downleft .dropdown-subpanel-content {
   right: 0;
   left: auto;
@@ -38675,32 +38669,6 @@ body {
   display: none;
 }
 
-.navbar-nav .popover-region .icon {
-  font-weight: bolder;
-}
-
-.navbar .popover-region.collapsed .popover-region-container {
-  opacity: 0;
-  visibility: hidden;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.25s, opacity 101ms 0.25s, visibility 101ms 0.25s;
-}
-.navbar .count-container {
-  padding: 2px;
-  border-radius: 2px;
-  background-color: #ca3120;
-  color: #fff;
-  font-size: 11px;
-  line-height: 11px;
-  position: absolute;
-  top: 12.5px;
-  right: 0;
-}
-.navbar .popover-region-container {
-  top: 50px;
-}
-
 .content-item-container {
   width: 100%;
   border-bottom: 1px solid #ddd;
@@ -38784,40 +38752,6 @@ body {
   color: #fff;
 }
 
-.popover-region-notifications .popover-region-header-container .mark-all-read-button .normal-icon {
-  display: inline-block;
-}
-.popover-region-notifications .popover-region-header-container .mark-all-read-button.loading .normal-icon {
-  display: none;
-}
-.popover-region-notifications .popover-region-header-container .mark-all-read-button.loading .loading-icon {
-  display: inline-block;
-}
-.popover-region-notifications .all-notifications {
-  opacity: 1;
-  visibility: visible;
-  height: auto;
-  overflow: hidden;
-}
-.popover-region-notifications .all-notifications:empty + .empty-message {
-  display: block;
-}
-.popover-region-notifications .notification-image {
-  display: inline-block;
-  width: 8%;
-  vertical-align: top;
-}
-.popover-region-notifications .notification-image img {
-  height: 75%;
-}
-.popover-region-notifications .notification-message {
-  display: inline-block;
-  font-size: 12px;
-}
-.popover-region-notifications .popover-region-content-container.loading .all-notifications:empty + .empty-message {
-  display: none;
-}
-
 .popover-region-messages .mark-all-read-button .normal-icon {
   display: inline-block;
 }
@@ -38881,22 +38815,68 @@ body {
   display: none;
 }
 
-@media (max-width: 767px) {
-  .navbar .popover-region .popover-region-container {
-    right: -70px;
-  }
+/**
+ * Styles for the notifications dropdown.
+ */
+/* Variables */
+/* Navbar notifications dropdown */
+.navbar .notifications .notification-count {
+  padding: 2px;
+  border-radius: 0.25rem;
+  background-color: #ca3120;
+  color: #fff;
+  font-size: 11px;
+  line-height: 11px;
+  position: absolute;
+  top: 12.5px;
+  right: 0;
 }
-@media (max-width: 480px) {
-  .navbar .popover-region .popover-region-container {
+.navbar .notifications .notifications-dropdown-menu {
+  width: 28rem;
+}
+.navbar .notifications .notifications-dropdown-menu.loading .all-notifications:empty + .empty-message {
+  display: none;
+}
+@media (max-width: 575.98px) {
+  .navbar .notifications .notifications-dropdown-menu {
     position: fixed;
-    top: 46px;
-    right: 0;
+    width: 100%;
+    top: 50px;
     left: 0;
-    bottom: 0;
-    width: auto;
-    height: auto;
   }
 }
+.navbar .notifications .notifications-dropdown-menu [data-for=dropdowndialog_content] {
+  padding: 0 !important; /* stylelint-disable-line declaration-no-important */
+}
+.navbar .notifications .notifications-content-container {
+  height: 30rem;
+  overflow: auto;
+}
+.navbar .notifications .notifications-content-container .empty-message {
+  display: none;
+}
+.navbar .notifications .notifications-content-container .all-notifications {
+  opacity: 1;
+  visibility: visible;
+  height: auto;
+  overflow: hidden;
+}
+.navbar .notifications .notifications-content-container .all-notifications:empty + .empty-message {
+  display: block;
+}
+.navbar .notifications .notifications-header-container .mark-all-read-button .normal-icon {
+  display: inline-block;
+}
+.navbar .notifications .notifications-header-container .mark-all-read-button .loading-icon {
+  display: none;
+}
+.navbar .notifications .notifications-header-container .mark-all-read-button.loading .normal-icon {
+  display: none;
+}
+.navbar .notifications .notifications-header-container .mark-all-read-button.loading .loading-icon {
+  display: inline-block;
+}
+
 /**
  * Tour step must sit above all other UI components.
  * The backdrop is the lowest point in the tour.
@@ -41011,6 +40991,13 @@ div.editor_atto_toolbar button .icon {
 .dropdown-item:hover a.text-dark, .dropdown-item:focus.text-dark,
 .dropdown-item:focus a.text-dark {
   color: #fff !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.dropdown-toggle.no-caret::after {
+  display: none;
+}
+.dropdown-toggle.no-caret::before {
+  display: none;
 }
 
 /**

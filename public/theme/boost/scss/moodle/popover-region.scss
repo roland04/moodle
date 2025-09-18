@@ -174,45 +174,6 @@ $content-header-footer-height: $region-header-height + $region-footer-height;
     }
 }
 
-.navbar-nav {
-    .popover-region {
-        .icon {
-            font-weight: bolder;
-        }
-    }
-}
-
-.navbar {
-    .popover-region {
-        &.collapsed {
-            .popover-region-container {
-                @include invisible();
-
-                height: 0;
-                overflow: hidden;
-                transition: height 0.25s, opacity 101ms 0.25s, visibility 101ms 0.25s;
-            }
-        }
-    }
-
-    .count-container {
-        padding: 2px;
-        border-radius: 2px;
-        background-color: $danger;
-        color: $popover-count-color;
-        font-size: 11px;
-        line-height: 11px;
-        position: absolute;
-        top: $navbar-height * 0.25;
-        right: 0;
-    }
-
-    .popover-region-container {
-        top: $navbar-height;
-    }
-
-}
-
 .content-item-container {
     width: 100%;
     border-bottom: $standard-border;
@@ -323,61 +284,6 @@ $content-header-footer-height: $region-header-height + $region-footer-height;
     }
 }
 
-.popover-region-notifications {
-    .popover-region-header-container {
-        .mark-all-read-button {
-            .normal-icon {
-                display: inline-block;
-            }
-
-            &.loading {
-                .normal-icon {
-                    display: none;
-                }
-                .loading-icon {
-                    display: inline-block;
-                }
-            }
-        }
-    }
-
-    .all-notifications {
-        @include visible();
-
-        height: auto;
-        overflow: hidden;
-
-        &:empty + .empty-message {
-            display: block;
-        }
-    }
-
-    .notification-image {
-        display: inline-block;
-        width: 8%;
-        vertical-align: top;
-
-        img {
-            height: 75%;
-        }
-    }
-
-    .notification-message {
-        display: inline-block;
-        font-size: 12px;
-    }
-
-    .popover-region-content-container {
-        &.loading {
-            .all-notifications {
-                &:empty + .empty-message {
-                    display: none;
-                }
-            }
-        }
-    }
-}
-
 .popover-region-messages {
     .mark-all-read-button {
         .normal-icon {
@@ -470,31 +376,5 @@ $content-header-footer-height: $region-header-height + $region-footer-height;
 
     .unread-count-container {
         display: none;
-    }
-}
-
-@media (max-width: 767px) {
-    .navbar {
-        .popover-region {
-            .popover-region-container {
-                right: -70px;
-            }
-        }
-    }
-}
-
-@media (max-width: 480px) {
-    .navbar {
-        .popover-region {
-            .popover-region-container {
-                position: fixed;
-                top: 46px;
-                right: 0;
-                left: 0;
-                bottom: 0;
-                width: auto;
-                height: auto;
-            }
-        }
     }
 }
