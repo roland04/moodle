@@ -38,21 +38,24 @@
     }
 
 }}
-<div class="notification-area" data-region="notification-area" data-user-id="{{userid}}">
-    <div class="control-area" data-region="control-area">
+<div class="notification-area d-flex mt-3 border rounded" data-region="notification-area" data-user-id="{{userid}}">
+    <div class="control-area overflow-auto p-3 flex-shrink-0" data-region="control-area">
         <div class="header"></div>
-        <div class="content" data-region="content"></div>
-        <div class="empty-text">{{#str}} nonotifications, message {{/str}}</div>
+        <div class="content flex-grow-1" data-region="content"></div>
+        <div class="empty-text flex-grow-1">{{#str}} nonotifications, message {{/str}}</div>
         {{> core/loading }}
     </div>
-    <div class="content-area" data-region="content-area">
-        <div class="toggle-mode">
-            <button class="btn btn-link" data-action="toggle-mode">{{#str}} back {{/str}}</button>
+    <div class="content-area d-flex flex-column flex-grow-1 p-4" data-region="content-area">
+        <div class="toggle-mode mb-4">
+            <button class="btn btn-link p-0" data-action="toggle-mode">
+                {{#pix}} t/left, core {{/pix}}
+                {{#str}} back {{/str}}
+            </button>
         </div>
-        <div class="header" data-region="header"></div>
-        <div class="content" data-region="content"></div>
+        <div class="header pb-3 border-bottom" data-region="header"></div>
+        <div class="content p-3 overflow-auto" data-region="content"></div>
         <div class="empty-text">{{#str}} selectnotificationtoview, message {{/str}}</div>
-        <div class="footer" data-region="footer"></div>
+        <div class="footer mt-auto pt-3 border-top fw-bold" data-region="footer"></div>
     </div>
 </div>
 {{#js}}

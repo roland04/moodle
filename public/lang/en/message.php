@@ -273,6 +273,7 @@ $string['unsentmessagenotification'] = 'You have an unsent message. It will be l
 $string['useentertosend'] = 'Use enter to send';
 $string['usercantbemessaged'] = 'You can\'t message this user due to their message preferences. Try adding them as a contact.';
 $string['userwouldliketocontactyou'] = '{$a} would like to contact you';
+$string['viewallnotifications'] = 'View all notifications';
 $string['viewfullnotification'] = 'View full notification';
 $string['viewmessageswith'] = 'View messages with {$a}';
 $string['viewnotificationresource'] = 'Go to: {$a}';

@@ -319,7 +319,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
         return NotificationRepo.markAllAsRead(request)
             .then(function() {
                 this.unreadCount = 0;
-                this.root.find(SELECTORS.UNREAD_NOTIFICATION).removeClass('unread');
+                $(document).find(SELECTORS.UNREAD_NOTIFICATION).removeClass('unread');
 
                 // Set the ARIA live region's contents with the feedback.
                 const readFeedback = this.root.get(0).querySelector(SELECTORS.NOTIFICATION_READ_FEEDBACK);

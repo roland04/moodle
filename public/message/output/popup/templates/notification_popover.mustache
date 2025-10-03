@@ -42,7 +42,7 @@
 {{< core/local/dropdown/dialog }}
     {{$ dropdownclasses}}nav-item notifications{{/ dropdownclasses }}
     {{$ extras }}data-region="notifications" data-userid="{{userid}}"{{/ extras }}
-    {{$ buttonclasses }}nav-link dropdown-toggle no-caret icon-no-margin{{/ buttonclasses }}
+    {{$ buttonclasses }}nav-link dropdown-toggle notifications-dropdown-toggle no-caret icon-no-margin{{/ buttonclasses }}
     {{$ autoclose }}outside{{/ autoclose }}
     {{$ buttoncontent }}
         {{#pix}} i/notifications, core {{/pix}}
@@ -56,7 +56,7 @@
             {{unreadcount}}
         </div>
     {{/ buttoncontent }}
-    {{$ dialogclasses }} dropdown-menu-end notifications-dropdown-menu {{/dialogclasses }}
+    {{$ dialogclasses }}dropdown-menu-end notifications-dropdown-menu{{/dialogclasses }}
     {{$ dialogcontent }}
         {{! Notifications heading and actions }}
         <div class="d-flex align-items-center justify-content-between notifications-header-container border-bottom ps-3 pe-2 pb-2">
@@ -64,7 +64,7 @@
                 {{#str}} notifications, message {{/str}}
             </span>
             <div class="notifications-header-actions" data-region="notifications-header-actions">
-                <a class="mark-all-read-button btn btn-sm btn-link m-0 p-0 icon-no-margin"
+                <a class="mark-all-read-button btn btn-sm btn-icon me-1 icon-no-margin"
                 href="#"
                 title="{{#str}} markallread {{/str}}"
                 data-action="mark-all-read"
@@ -79,22 +79,21 @@
                     <a href="{{{ . }}}"
                     title="{{#str}} notificationpreferences, message {{/str}}"
                     aria-label="{{#str}} notificationpreferences, message {{/str}}"
-                    class="btn btn-sm btn-link m-0 p-0 icon-no-margin" >
+                    class="btn btn-sm btn-icon m-0 p-0 icon-no-margin" >
                         {{#pix}} i/settings, core {{/pix}}</a>
                 {{/ urls.preferences }}
             </div>
         </div>
 
         {{! Notifications content }}
-        <div class="notifications-content-container" data-region="notifications-content">
+        <div class="notifications-content-container p-2" data-region="notifications-content">
             <div class="all-notifications"
                 data-region="all-notifications"
                 role="log"
                 aria-busy="false"
                 aria-atomic="false"
-                aria-relevant="additions">
-            </div>
-            <div class="empty-message" tabindex="0" data-region="empty-message">
+                aria-relevant="additions"></div>
+            <div class="empty-message mt-3" tabindex="0" data-region="empty-message">
                 {{#str}} nonotifications, message {{/str}}
             </div>
         </div>
@@ -102,7 +101,7 @@
         {{! See all link }}
         {{#urls.seeall}}
         <div class="d-flex justify-content-center pt-2 border-top">
-            <a href="{{{.}}}" class="text-center">{{#str}} seeall, message {{/str}}</a>
+            <a href="{{{.}}}" class="text-center">{{#str}} viewallnotifications, message {{/str}}</a>
         </div>
         {{/urls.seeall}}
     {{/ dialogcontent }}

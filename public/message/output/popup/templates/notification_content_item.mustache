@@ -49,34 +49,45 @@
     }
 
 }}
-<div class="content-item-container notification {{^read}}unread{{/read}}"
+<div class="content-item-container notification position-relative rounded {{^read}}unread{{/read}}"
     data-region="notification-content-item-container"
     data-id="{{id}}"
     role="listitem">
+    <div class="notification-wrapper d-flex justify-content-between">
+        <div class="notification-content-item-container">
+            {{#contexturl}}
+            <a class="text-body text-decoration-none stretched-link" href="{{{.}}}" data-action="content-item-link"
+            {{/contexturl}}
+            {{^contexturl}}
+            <div class="" tabindex="0"
+            {{/contexturl}}
+                {{#read}}aria-label="{{subject}}"{{/read}}
+                {{^read}}aria-label="{{#str}} unreadnotification, message, {{subject}} {{/str}}"{{/read}}>
 
-    {{#contexturl}}
-    <a class="context-link" href="{{{.}}}" data-action="content-item-link"
-    {{/contexturl}}
-    {{^contexturl}}
-    <div tabindex="0"
-    {{/contexturl}}
-        {{#read}}aria-label="{{subject}}"{{/read}}
-        {{^read}}aria-label="{{#str}} unreadnotification, message, {{subject}} {{/str}}"{{/read}}>
+                <div class="content-item-body">
+                    <div class="notification-message">{{shortenedsubject}}</div>
+                </div>
+                <div class="content-item-footer text-muted">
+                    <div class="timestamp">{{timecreatedpretty}}</div>
+                </div>
 
-        <div class="content-item-body">
-            <div class="notification-message">{{shortenedsubject}}</div>
+                {{#viewmoreurl}}
+                    <a href="{{{.}}}" class="view-more position-relative z-3" data-action="view-more">{{#str}} viewfullnotification, message {{/str}}</a>
+                {{/viewmoreurl}}
+            {{#contexturl}}
+            </a>
+            {{/contexturl}}
+            {{^contexturl}}
+            </div>
+            {{/contexturl}}
         </div>
-        <div class="content-item-footer">
-            <div class="timestamp">{{timecreatedpretty}}</div>
+        <div class="notification-unread-indicator-container d-flex justify-content-center align-items-center">
+            <div class="notification-unread-indicator text-primary icon-size-2 icon-no-margin"
+                data-region="notification-unread-indicator"
+            >
+                {{#pix}} i/unread, core {{/pix}}
+                <span class="visually-hidden">{{#str}} unreadnotification, message, {{subject}} {{/str}}</span>
+            </div>
         </div>
-
-        {{#viewmoreurl}}
-            <a href="{{{.}}}" class="view-more" data-action="view-more">{{#str}} viewfullnotification, message {{/str}}</a>
-        {{/viewmoreurl}}
-    {{#contexturl}}
-    </a>
-    {{/contexturl}}
-    {{^contexturl}}
     </div>
-    {{/contexturl}}
 </div>

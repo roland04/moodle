@@ -6,11 +6,14 @@
 
 $notifications-dropdown-width: 28rem;
 $notifications-content-height: 30rem;
+$notification-area-height: 600px;
+$notification-control-area-width: 25rem;
 
 /* Navbar notifications dropdown */
 
 .navbar .notifications {
 
+    // Notification count badge styling.
     .notification-count {
         padding: 2px;
         border-radius: .25rem;
@@ -21,6 +24,13 @@ $notifications-content-height: 30rem;
         position: absolute;
         top: $navbar-height * 0.25;
         right: 0;
+    }
+
+    .notifications-dropdown-toggle {
+        border: $border-width $border-style transparent;
+        &.show {
+            border: $border-width $border-style $black;
+        }
     }
 
     .notifications-dropdown-menu {
@@ -51,22 +61,23 @@ $notifications-content-height: 30rem;
         height: $notifications-content-height;
         overflow: auto;
 
-        .empty-message {
-            display: none;
-        }
-
         .all-notifications {
-            @include visible();
-
             height: auto;
             overflow: hidden;
+            @include visible();
+        }
 
-            &:empty + .empty-message {
-                display: block;
-            }
+        // Empty message when there are no notifications.
+        .empty-message {
+            display: none;
+            justify-self: center;
+        }
+        .all-notifications:empty + .empty-message {
+            display: block;
         }
     }
 
+    // Header with "Mark all as read" button icon states.
     .notifications-header-container {
         .mark-all-read-button {
             .normal-icon {
@@ -83,6 +94,178 @@ $notifications-content-height: 30rem;
                 .loading-icon {
                     display: inline-block;
                 }
+            }
+        }
+    }
+}
+
+/* Individual notification item */
+
+.notification {
+    font-size: $font-size-sm;
+    color: $body-color;
+    overflow: hidden;
+    padding: 0 map-get($spacers, 2);
+
+    &:hover {
+        background-color: $gray-100;
+    }
+
+    .notification-wrapper {
+        width: 100%;
+        padding: map-get($spacers, 2) 0;
+        border-left: .25rem solid transparent;
+        border-bottom: $border-width $border-style $border-color;
+
+        // Fix focus outline for div with tabindex.
+        .notification-content-item-container > div[tabindex]:focus-visible {
+            outline: none;
+        }
+    }
+
+    .content-item-footer,
+    .view-more {
+        font-size: 80%;
+    }
+
+    // Unread indicator (small dot) styling.
+    .notification-unread-indicator-container {
+        width: 2rem;
+        .notification-unread-indicator {
+            display: none;
+        }
+    }
+
+    // Unread state styling
+    &.unread {
+        .notification-unread-indicator {
+            display: block;
+        }
+        .content-item-body {
+            font-weight: $font-weight-bold;
+        }
+    }
+
+    // Selected state styling
+    &.selected {
+        background-color: $primary-light-background;
+        .notification-wrapper {
+            border-left: .25rem solid $primary;
+        }
+    }
+
+    // Remove surrounding borders when hovered or selected.
+    &:hover,
+    &.selected {
+        .notification-wrapper {
+            border-bottom: $border-width $border-style transparent;
+        }
+    }
+    &:has(+ .notification:hover),
+    &:has(+ .notification.selected) {
+        .notification-wrapper {
+            border-bottom: $border-width $border-style transparent;
+        }
+    }
+}
+
+/* Notification details page */
+
+.notification-area {
+    height: $notification-area-height;
+
+    .control-area {
+        display: flex;
+        width: $notification-control-area-width;
+        border-right: $border-width $border-style $border-color;
+
+        // Specific styles for the notifications in the notifications page.
+        .notification {
+            padding: 0;
+            cursor: pointer;
+
+            .notification-wrapper {
+                width: 100%;
+                padding: map-get($spacers, 3);
+            }
+        }
+
+        // Loading state indicator.
+        .loading-icon {
+            display: none;
+        }
+        &.loading {
+            .loading-icon {
+                display: block;
+                text-align: center;
+                box-sizing: border-box;
+                padding: 5px;
+            }
+            .content:empty + .empty-text {
+                display: none;
+            }
+        }
+
+        // Empty message when there are no notifications.
+        .empty-text {
+            display: none;
+            margin: auto;
+            font-size: $font-size-lg;
+        }
+        .content:empty + .empty-text {
+            display: block;
+        }
+    }
+
+    .content-area {
+        .toggle-mode {
+            display: none;
+        }
+
+        // Empty message when there are no notifications.
+        .empty-text {
+            display: none;
+            margin: auto;
+            font-size: $font-size-lg;
+        }
+        .content:empty + .empty-text {
+            display: block;
+        }
+
+        .header:empty,
+        .content:empty,
+        .footer:empty {
+            display: none;
+        }
+    }
+
+    /* Responsive behavior */
+
+    @include media-breakpoint-down(md) {
+        position: relative;
+        overflow: hidden;
+        height: 500px;
+
+        .control-area {
+            border-right: none;
+            width: 100%;
+        }
+
+        .content-area {
+            width: 100%;
+            display: none;
+
+            .toggle-mode {
+                display: block;
+            }
+        }
+
+        &.show-content-area {
+            .control-area {
+                display: none;
+            }
+            .content-area {
+                display: block;
             }
         }
     }
