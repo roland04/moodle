@@ -367,12 +367,6 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str', 'core/url',
             e.stopPropagation();
         }.bind(this));
 
-        this.root.on(CustomEvents.events.activate, SELECTORS.CLOSE_NOTIFICATION_POPOVER, function(e) {
-            e.preventDefault();
-            $(this.root).trigger(CustomEvents.events.escape);
-            e.stopPropagation();
-        }.bind(this));
-
         // Update the notification information when the menu is opened.
         Normalise.getFirst(this.root).querySelector(SELECTORS.DROPDOWN_TOGGLE).addEventListener('shown.bs.dropdown', function() {
             this.hideUnreadCount();
