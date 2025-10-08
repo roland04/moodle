@@ -77,7 +77,10 @@
         role="button"
         id="{{#buttonid}}{{buttonid}}{{/buttonid}}{{^buttonid}}dropdownDialog{{uniqid}}{{/buttonid}}"
         data-bs-toggle="dropdown"
-        data-bs-auto-close="{{#autoclose}}{{autoclose}}{{/autoclose}}{{^autoclose}}true{{/autoclose}}"
+        data-bs-auto-close="{{$ autoclose }} {{!
+                }} {{#autoclose}}{{autoclose}}{{/autoclose}} {{!
+                }} {{^autoclose}}true{{/autoclose}} {{!
+            }} {{/ autoclose }}"
         aria-haspopup="true"
         aria-expanded="false"
         data-for="dropdowndialog_button"
