@@ -64,7 +64,14 @@ $context = [
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('notifications', 'message'));
+$heading = $OUTPUT->heading(get_string('notifications', 'message'));
+if (has_capability('moodle/user:editownmessageprofile', context_system::instance())) {
+    $preferencesbutton = html_writer::link(
+        new moodle_url('/message/notificationpreferences.php'),
+        get_string('notificationpreferences', 'message'), ['class' => 'btn btn-link']
+    );
+}
+echo $OUTPUT->container($heading . $preferencesbutton ?? '', 'd-flex justify-content-between align-items-center');
 
 // Display a message if the notifications have not been migrated yet.
 if (!get_user_preferences('core_message_migrate_data', false, $userid)) {
