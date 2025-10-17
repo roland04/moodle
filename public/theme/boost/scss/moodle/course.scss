@@ -695,7 +695,8 @@ $divider-hover-color: $primary !default;
 
 /* Move activity and Move section modals */
 
-.move-activity-tree {
+.move-activity-tree,
+.move-section-tree {
     .collapse-list-item {
         position: relative;
         border: 2px solid transparent;
