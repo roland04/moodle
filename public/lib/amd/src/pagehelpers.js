@@ -42,7 +42,20 @@ const Classes = {
 };
 
 /**
- * Check fi the current page is a Behat site.
+ * Check if an element is visible.
+ *
+ * Uses offsetParent as a performant way to detect elements hidden via display:none (e.g. Bootstrap's d-none class).
+ * Hidden elements have  a null offsetParent. However, fixed-position elements also have a null offsetParent even when visible,
+ * so we check for that explicitly.
+ *
+ * @param {HTMLElement} element
+ * @returns {boolean}
+ * @private
+ */
+const isVisible = (element) => element.offsetParent !== null || getComputedStyle(element).position === 'fixed';
+
+/**
+ * Check if the current page is a Behat site.
  * @returns {boolean} true if the current page is a Behat site.
  */
 export const isBehatSite = () => {
@@ -95,7 +108,12 @@ export const isLarge = () => {
  */
 export const firstFocusableElement = (container) => {
     const containerElement = container || document;
-    return containerElement.querySelector(Selectors.focusable);
+    for (const candidate of containerElement.querySelectorAll(Selectors.focusable)) {
+        if (isVisible(candidate)) {
+            return candidate;
+        }
+    }
+    return null;
 };
 
 /**
@@ -105,8 +123,12 @@ export const firstFocusableElement = (container) => {
  */
 export const lastFocusableElement = (container) => {
     const containerElement = container || document;
-    const focusableElements = containerElement.querySelectorAll(Selectors.focusable);
-    return focusableElements[focusableElements.length - 1] ?? null;
+    for (const candidate of containerElement.querySelectorAll(Selectors.focusable)) {
+        if (isVisible(candidate)) {
+            return candidate;
+        }
+    }
+    return null;
 };
 
 /**
@@ -116,7 +138,7 @@ export const lastFocusableElement = (container) => {
  */
 export const focusableElements = (container) => {
     const containerElement = container || document;
-    return containerElement.querySelectorAll(Selectors.focusable);
+    return [...containerElement.querySelectorAll(Selectors.focusable)].filter(isVisible);
 };
 
 /**
