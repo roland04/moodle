@@ -146,9 +146,21 @@ class SubPanel {
             this.menuItem.addEventListener('mouseout', this._menuItemHoverOutHandler.bind(this));
         }
         // Subpanel content events.
-        this.panelContent.addEventListener('keydown', this._panelContentKeyHandler.bind(this));
+        this._bindPanelContentKeyHandler();
 
         this.element.dataset.subPanelInitialized = true;
+    }
+
+    /**
+     * Bind the panel content keydown event handler on document via Bootstrap's EventHandler.
+     *
+     * Using EventHandler (capture phase) fires before Bootstrap's own dropdown handler,
+     * allowing stopPropagation() to prevent Bootstrap from crashing on .dropdown-menu
+     * elements inside nested subpanels that have no [data-bs-toggle] toggle.
+     */
+    _bindPanelContentKeyHandler() {
+        const panelContentSelector = `#${this.element.id} > .dropdown-menu`;
+        EventHandler.on(document, 'keydown', panelContentSelector, this._panelContentKeyHandler.bind(this));
     }
 
     /**
@@ -213,10 +225,11 @@ class SubPanel {
      * @param {Event} event
      */
     _menuItemClickHandler(event) {
-        // Avoid dropdowns being closed after clicking a subemnu.
-        // This won't be needed with BS5 (data-bs-auto-close handles it).
+        // Prevent click on empty href and only toggle the subpanel visibility.
+        if (this.menuItem.getAttribute('href') === '#' || this.menuItem.getAttribute('href') === '') {
+            event.preventDefault();
+        }
         event.stopPropagation();
-        event.preventDefault();
         if (this._needSmallSpaceBehaviour()) {
             this.setVisibility(!this.getVisibility());
         }
@@ -265,7 +278,8 @@ class SubPanel {
         if (event.key === 'ArrowRight' || event.key === 'ArrowLeft' || (event.key === 'Tab' && !event.shiftKey)) {
             focusPanel = true;
         }
-        if ((event.key === 'Enter' || event.key === ' ')) {
+        // Enter is not handled here so links inside multilevel menus follow their href (if any).
+        if (event.key === ' ') {
             focusPanel = true;
         }
         // In extra small screen the panel is shown below the item.
@@ -278,7 +292,43 @@ class SubPanel {
             this.setVisibility(true);
             this._focusPanelContent();
         }
+    }
 
+    /**
+     * Check if a horizontal arrow key event should open a nested subpanel.
+     *
+     * When the event target is inside a nested subpanel, the arrow pointing
+     * toward the nested panel's opening direction should propagate (return true),
+     * so the nested subpanel handler can process it.
+     *
+     * @param {Event} event The keyboard event.
+     * @returns {Boolean} true if the event should propagate to the nested subpanel.
+     * @private
+     */
+    _isNestedSubPanelOpening(event) {
+        const targetSubPanel = event.target.closest(Selectors.subPanel);
+        if (!targetSubPanel || targetSubPanel === this.element) {
+            return false;
+        }
+        const isNestedDropEnd = targetSubPanel.classList.contains(Classes.dropRight);
+        return (isNestedDropEnd && event.key === 'ArrowRight')
+            || (!isNestedDropEnd && event.key === 'ArrowLeft');
+    }
+
+    /**
+     * Close any nested subpanel that the event target belongs to.
+     *
+     * This ensures the nested content doesn't interfere with the focus search
+     * when navigating with ArrowUp/ArrowDown.
+     *
+     * @param {Event} event The keyboard event.
+     * @private
+     */
+    _closeNestedSubPanel(event) {
+        const nestedSubPanel = event.target.closest(Selectors.subPanel);
+        if (nestedSubPanel && nestedSubPanel !== this.element) {
+            new SubPanel(nestedSubPanel).setVisibility(false);
+        }
     }
 
     /**
@@ -287,45 +337,67 @@ class SubPanel {
      * @private
      */
     _panelContentKeyHandler(event) {
+        // Skip events from within nested subpanel content. Those are handled
+        // by the nested subpanel's own handler.
+        if (event.target.closest(Selectors.subPanelContent) !== this.panelContent) {
+            return;
+        }
         // In extra small devices the panel is displayed under the menu item
         // so the arrow up/down switch between subpanel and the menu item.
         const canLoop = !this._needSmallSpaceBehaviour();
         let isBrowsingSubPanel = false;
         let newFocus = null;
-        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-            newFocus = this.menuItem;
-        }
-        // Acording to WCAG Esc and Tab are similar to arrow navigation but they
-        // force the subpanel to be closed.
-        if (event.key === 'Escape' || (event.key === 'Tab' && event.shiftKey)) {
-            newFocus = this.menuItem;
-            this.setVisibility(false);
-            this.showPreviewOnFocus = false;
-        }
-        if (event.key === 'ArrowUp') {
-            newFocus = previousFocusableElement(this.panelContent, canLoop);
-            isBrowsingSubPanel = true;
-        }
-        if (event.key === 'ArrowDown') {
-            newFocus = nextFocusableElement(this.panelContent, canLoop);
-            isBrowsingSubPanel = true;
-        }
-        if (event.key === 'Home') {
-            newFocus = firstFocusableElement(this.panelContent);
-            isBrowsingSubPanel = true;
-        }
-        if (event.key === 'End') {
-            newFocus = lastFocusableElement(this.panelContent);
-            isBrowsingSubPanel = true;
+
+        switch (event.key) {
+            case 'ArrowRight':
+            case 'ArrowLeft':
+                if (!this._isNestedSubPanelOpening(event)) {
+                    newFocus = this.menuItem;
+                }
+                break;
+            case 'Escape':
+                newFocus = this.menuItem;
+                this.setVisibility(false);
+                this.showPreviewOnFocus = false;
+                break;
+            case 'Tab':
+                // According to WCAG Shift+Tab is similar to Escape.
+                if (event.shiftKey) {
+                    newFocus = this.menuItem;
+                    this.setVisibility(false);
+                    this.showPreviewOnFocus = false;
+                }
+                break;
+            case 'ArrowUp':
+            case 'ArrowDown':
+                this._closeNestedSubPanel(event);
+                isBrowsingSubPanel = true;
+                newFocus = event.key === 'ArrowUp'
+                    ? previousFocusableElement(this.panelContent, canLoop)
+                    : nextFocusableElement(this.panelContent, canLoop);
+                break;
+            case 'Home':
+                newFocus = firstFocusableElement(this.panelContent);
+                isBrowsingSubPanel = true;
+                break;
+            case 'End':
+                newFocus = lastFocusableElement(this.panelContent);
+                isBrowsingSubPanel = true;
+                break;
         }
         // If the user cannot loop and arrive to the start/end of the subpanel
         // we focus on the menu item.
         if (newFocus === null && isBrowsingSubPanel && !canLoop) {
             newFocus = this.menuItem;
         }
-        if (newFocus !== null) {
+        // Always stop propagation for subpanel browsing keys to prevent
+        // Bootstrap's dropdown handler from processing them on .dropdown-menu
+        // elements that have no associated [data-bs-toggle] toggle.
+        if (newFocus !== null || isBrowsingSubPanel) {
             event.stopPropagation();
             event.preventDefault();
+        }
+        if (newFocus !== null) {
             newFocus.focus();
         }
     }
@@ -378,8 +450,12 @@ class SubPanel {
             if (dropdownSubPanel === this.element) {
                 return;
             }
-            const subPanel = new SubPanel(dropdownSubPanel);
-            subPanel.setVisibility(false);
+            // Don't hide subpanels that contain the currently focused element
+            // (e.g. nested subpanels the user is interacting with).
+            if (dropdownSubPanel.contains(document.activeElement)) {
+                return;
+            }
+            new SubPanel(dropdownSubPanel).setVisibility(false);
         });
     }
 
