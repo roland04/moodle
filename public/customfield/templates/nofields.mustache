@@ -34,8 +34,11 @@
 
   Example context (json):
   {
+    "validationonly": true
   }
 }}
+{{#validationonly}}<table><tbody>{{/validationonly}}
+
 <tr class="nofields">
   <td colspan="4">
     <div class="nofields alert alert-info m-0">
@@ -43,3 +46,5 @@
     </div>
   </td>
 </tr>
+
+{{#validationonly}}</tbody></table>{{/validationonly}}
