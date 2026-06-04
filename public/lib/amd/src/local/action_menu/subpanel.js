@@ -218,7 +218,9 @@ class SubPanel {
             this.showPreviewOnFocus = true;
             return;
         }
-        this.setVisibility(true);
+        if (!this.getVisibility()) {
+            this.setVisibility(true);
+        }
     }
 
     /**
