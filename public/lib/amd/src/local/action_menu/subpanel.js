@@ -279,7 +279,10 @@ class SubPanel {
         // Keys to move focus to the panel.
         let focusPanel = false;
 
-        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft' || (event.key === 'Tab' && !event.shiftKey)) {
+        if (this._isOpeningArrowFor(this.element, event)) {
+            focusPanel = true;
+        }
+        if (event.key === 'Tab' && !event.shiftKey) {
             focusPanel = true;
         }
         if (event.key === ' ') {
@@ -306,24 +309,46 @@ class SubPanel {
     }
 
     /**
-     * Check if a horizontal arrow key event should open a nested subpanel.
+     * Check whether a horizontal arrow event points in the given subpanel's opening direction.
      *
-     * When the event target is inside a nested subpanel, the arrow pointing
-     * toward the nested panel's opening direction should propagate (return true),
-     * so the nested subpanel handler can process it.
+     * Small-space mode uses .dropdown (neither dropend nor dropstart): any horizontal
+     * arrow is treated as opening, preserving the legacy behaviour.
      *
-     * @param {Event} event The keyboard event.
-     * @returns {Boolean} true if the event should propagate to the nested subpanel.
+     * @param {HTMLElement} subPanel The subpanel element to check against.
+     * @param {KeyboardEvent} event The keyboard event.
+     * @returns {Boolean} true if the arrow points in the subpanel's opening direction.
      * @private
      */
-    _isNestedSubPanelOpening(event) {
+    _isOpeningArrowFor(subPanel, event) {
+        if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
+            return false;
+        }
+        const opensRight = subPanel.classList.contains(Classes.dropRight);
+        const opensLeft = subPanel.classList.contains(Classes.dropLeft);
+        // Small-space mode (no dropend/dropstart) has no horizontal direction:
+        // Treat any horizontal arrow as opening to preserve legacy behaviour.
+        if (!opensRight && !opensLeft) {
+            return true;
+        }
+        return (opensRight && event.key === 'ArrowRight') || (opensLeft && event.key === 'ArrowLeft');
+    }
+
+    /**
+     * Check whether a horizontal arrow event opens a nested subpanel inside this panel.
+     *
+     * Used by `_panelContentKeyHandler` to leave the event for the nested subpanel's
+     * own handler to open it, instead of moving focus back to this panel's menu item.
+     *
+     * @param {KeyboardEvent} event The keyboard event.
+     * @returns {Boolean} true if the arrow opens a nested subpanel.
+     * @private
+     */
+    _isNestedOpeningArrow(event) {
         const targetSubPanel = event.target.closest(Selectors.subPanel);
         if (!targetSubPanel || targetSubPanel === this.element) {
             return false;
         }
-        const isNestedDropEnd = targetSubPanel.classList.contains(Classes.dropRight);
-        return (isNestedDropEnd && event.key === 'ArrowRight')
-            || (!isNestedDropEnd && event.key === 'ArrowLeft');
+        return this._isOpeningArrowFor(targetSubPanel, event);
     }
 
     /**
@@ -362,7 +387,8 @@ class SubPanel {
         switch (event.key) {
             case 'ArrowRight':
             case 'ArrowLeft':
-                if (!this._isNestedSubPanelOpening(event)) {
+                if (!this._isNestedOpeningArrow(event)) {
+                    this._closeNestedSubPanel(event);
                     newFocus = this.menuItem;
                 }
                 break;
