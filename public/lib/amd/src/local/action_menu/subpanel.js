@@ -323,8 +323,11 @@ class SubPanel {
         if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
             return false;
         }
-        const opensRight = subPanel.classList.contains(Classes.dropRight);
-        const opensLeft = subPanel.classList.contains(Classes.dropLeft);
+        const [leftClass, rightClass] = document.documentElement.dir === 'rtl'
+            ? [Classes.dropRight, Classes.dropLeft]
+            : [Classes.dropLeft, Classes.dropRight];
+        const opensRight = subPanel.classList.contains(rightClass);
+        const opensLeft = subPanel.classList.contains(leftClass);
         // Small-space mode (no dropend/dropstart) has no horizontal direction:
         // Treat any horizontal arrow as opening to preserve legacy behaviour.
         if (!opensRight && !opensLeft) {
