@@ -249,6 +249,30 @@ select {
             font-weight: inherit;
         }
     }
+
+    // Indent nested discussions.
+    .indent {
+        margin-left: 5rem;
+
+        @include media-breakpoint-down(md) {
+            margin-left: 3.5rem;
+        }
+
+        @include media-breakpoint-down(sm) {
+            margin-left: 2rem;
+        }
+    }
+
+    // Highlight the selected post by adding a blue border to the left of the post.
+    :target > .forumpost::before {
+        content: "";
+        position: absolute;
+        top: $border-radius-xl/2;
+        bottom: $border-radius-xl/2;
+        left: 0;
+        width: 3px;
+        background: $primary;
+    }
 }
 
 .discussion-settings-container {

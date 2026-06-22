@@ -328,7 +328,7 @@ if (!$isnestedv2displaymode) {
         echo $OUTPUT->heading(format_string($forum->get_name()), 2);
     }
     $headinglevel = $PAGE->activityheader->get_heading_level();
-    echo $OUTPUT->heading(format_string($discussion->get_name()), $headinglevel, 'discussionname');
+    echo $OUTPUT->heading(format_string($discussion->get_name()), $headinglevel, 'discussionname pb-4 mb-5 border-bottom');
 }
 
 $rendererfactory = mod_forum\local\container::get_renderer_factory();
