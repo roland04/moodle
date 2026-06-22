@@ -1,0 +1,8 @@
+issueNumber: MDL-88602
+notes:
+  mod_forum:
+    - message: >-
+        The method `discussion::get_discussion_navigation_buttons()` visibility
+        has been changed from private to public, allowing it to be accessed
+        externally.
+      type: changed
