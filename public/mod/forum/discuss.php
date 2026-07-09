@@ -344,7 +344,7 @@ if (!$isnestedv2displaymode) {
     $headinglevel = $PAGE->activityheader->get_heading_level();
 
     // Output discussion name and discussion navigation buttons.
-    echo $OUTPUT->container_start('discussionheader d-flex align-items-center pb-3 mb-5 border-bottom');
+    echo $OUTPUT->container_start('discussionheader d-flex align-items-end pb-3 mb-5 border-bottom');
     echo $OUTPUT->heading(format_string($discussion->get_name()), $headinglevel, 'discussionname me-auto');
     echo $OUTPUT->render_from_template(
         'mod_forum/forum_discussion_navigation',

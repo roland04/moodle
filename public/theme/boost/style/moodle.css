@@ -38514,6 +38514,9 @@ select {
 .path-mod-forum .discussion-list .topic {
   font-weight: inherit;
 }
+.path-mod-forum .forumpost .authorsubheading a {
+  text-decoration: underline;
+}
 .path-mod-forum .indent {
   margin-left: 5rem;
 }

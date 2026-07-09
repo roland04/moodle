@@ -250,6 +250,12 @@ select {
         }
     }
 
+    .forumpost {
+        .authorsubheading a {
+            text-decoration: underline;
+        }
+    }
+
     // Indent nested discussions.
     .indent {
         margin-left: 5rem;
